@@ -1,0 +1,15 @@
+format: 1
+title: Sample Directorate
+lenient_comparison: true
+special_notes: [As per Protocol 67, Team Leader for Operation]
+outcomes:
+  - code: a
+    kind: allocated
+    label: Allocated to analyst
+  - code: r
+    kind: refused
+    label: Refused & returned
+  - code: Operation Waymaker
+    kind: project
+    label: Operation Waymaker
+    project: operation-waymaker

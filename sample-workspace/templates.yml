@@ -1,0 +1,15 @@
+templates:
+  - name: IS_DUPLICATE
+    description: The matter is already registered under another case.
+  - name: INCOMPLETE_FORM
+    description: The referral form is missing information we need to proceed.
+  - name: UNAUTHORISED_ENTITY_REV23
+    description: The referrer is not authorised to refer (revision 23 of the referral rules).
+  - name: INSUFFICIENT_FUNDS
+    description: There is no budget to take the matter on this financial year.
+  - name: OUT_OF_SCOPE
+    description: The matter is outside our remit.
+  - name: CODENAME_JUNO
+    description: Returned under the Juno arrangement.
+  - name: CODENAME_NEPTUNE
+    description: Returned under the Neptune arrangement.

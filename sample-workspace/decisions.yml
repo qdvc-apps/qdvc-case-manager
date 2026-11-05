@@ -1,0 +1,29 @@
+QD-26-00903:
+  shortlist: [AJB, MO]
+  note: Check MO's November load first
+  updated: 2026-11-04
+QD-26-00904:
+  shortlist: [KM, EN]
+  outcome: a
+  analyst: EN
+  note: Cyber incident response
+  supervisor: M. Okafor
+  date: 2026-11-05
+  order: 2
+  updated: 2026-11-05
+QD-26-00905:
+  outcome: a
+  analyst: DW
+  note: As per Protocol 67
+  supervisor: D. Lindqvist
+  date: 2026-11-02
+  order: 1
+  updated: 2026-11-02
+QD-26-00906:
+  outcome: r
+  analyst: ""
+  note: OUT_OF_SCOPE
+  supervisor: M. Okafor
+  date: 2026-11-05
+  order: 3
+  updated: 2026-11-05

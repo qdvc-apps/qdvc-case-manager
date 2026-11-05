@@ -1,0 +1,11 @@
+name: Operation Waymaker
+badge: WAY
+colour: indigo
+leader: KM
+leader_title: Team Leader
+worksheet: operation-waymaker.csv
+case_id_column: Case
+outcome_codes: [Operation Waymaker]
+note_keywords: [Waymaker]
+original_filename: Waymaker tracker v7.csv
+imported_at: 2026-11-03

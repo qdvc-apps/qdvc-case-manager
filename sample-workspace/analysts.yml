@@ -1,0 +1,44 @@
+analysts:
+  - shorthand: AJB
+    name: Alice J. Brown
+    active: true
+    aliases: [AB]
+    expertise: Forensic accounting; procurement fraud; supplier due diligence; invoice and payment irregularities; Excel and ACL data analytics; interviews with finance staff
+  - shorthand: KM
+    name: Kofi Mensah
+    active: true
+    expertise: Data breaches; cyber incident response; email and device forensics; information governance; GDPR and records management; Team Leader for Operation Waymaker
+  - shorthand: PRS
+    name: Priya R. Sharma
+    active: true
+    expertise: Grant compliance; research funding conditions; public sector grants; financial reconciliations; charity and not-for-profit governance
+  - shorthand: TO
+    name: Tomás Ortega
+    active: true
+    expertise: Workplace conduct; bullying and harassment; witness interviews; HR policy; whistleblowing and protected disclosures; trauma-informed practice
+  - shorthand: HL
+    name: Hannah Lindqvist
+    active: true
+    expertise: Environmental compliance; licensing and permits; site inspections; waste and emissions reporting; regulatory enforcement
+  - shorthand: DW
+    name: Daniel Wu
+    active: true
+    expertise: Procurement processes; contract management; conflicts of interest; supplier due diligence; asset disposal; travel and expenses
+  - shorthand: MO
+    name: Mariam Okonjo
+    active: true
+    expertise: Data analytics; payroll irregularities; duplicate payments; expenses and corporate cards; Power BI dashboards; statistical sampling
+  - shorthand: SF
+    name: Sean Fitzgerald
+    active: true
+    expertise: Licensing and permits; planning and land use; complaints handling; local government; community liaison; Protocol 67 reviews
+  - shorthand: EN
+    name: Eleni Nikolaidou
+    active: true
+    expertise: Cyber incident response; phishing and social engineering; information governance; device forensics; staff awareness training
+    notes: Joined in March 2026.
+  - shorthand: RG
+    name: Rachel Green
+    active: false
+    expertise: Workplace conduct; recruitment irregularities; HR policy; conflicts of interest
+    notes: Left in June 2026; kept for history.

@@ -1,0 +1,918 @@
+CSE_REF_NO,CSE_TTL_TXT,CSE_GNR_CD,CSE_REG_DT,CSE_SRC_SYS,CSE_PRTY,CSE_REGION,LST_UPD_TS
+QD-25-00001,Unlicensed activity at Northgate Depot,Licensing,01/05/2025,Phone,High,North,18/05/2025
+QD-25-00002,Grant milestone shortfall at Westfield Library,Grant Compliance,01/05/2025,Referral,High,East,18/05/2025
+QD-25-00003,Unexplained payments from the Central Archive,Financial Irregularity,01/05/2025,Phone,Low,East,07/05/2025
+QD-25-00004,Unlicensed activity at Kingsway Works,Licensing,02/05/2025,Phone,Low,East,21/05/2025
+QD-25-00005,Invoice discrepancy at St Anne's Hall,Financial Irregularity,02/05/2025,Phone,Medium,South,02/05/2025
+QD-25-00006,Petty cash shortfall at St Anne's Hall,Financial Irregularity,02/05/2025,Phone,Medium,West,10/05/2025
+QD-25-00007,Protected disclosure from Oakfield Station,Workplace Conduct,02/05/2025,Email,High,East,06/05/2025
+QD-25-00008,Contract variation dispute at Fairview School,Procurement,05/05/2025,Email,High,North,17/05/2025
+QD-25-00009,Contract variation dispute at Fairview School,Procurement,05/05/2025,Web,High,South,23/05/2025
+QD-25-00010,Grant milestone shortfall at Marlow House,Grant Compliance,05/05/2025,Referral,High,West,06/05/2025
+QD-25-00011,Permit breach at Oakfield Station,Environmental,06/05/2025,Phone,High,West,16/05/2025
+QD-25-00012,Petty cash shortfall at the Eastern Laboratory,Financial Irregularity,06/05/2025,Phone,Medium,West,16/05/2025
+QD-25-00013,Waste disposal complaint at Marlow House,Environmental,06/05/2025,Phone,High,East,15/05/2025
+QD-25-00014,Misdirected email from Northgate Depot,Data Breach,07/05/2025,Web,Medium,South,13/05/2025
+QD-25-00015,Invoice discrepancy at Northgate Depot,Financial Irregularity,07/05/2025,Web,High,East,08/05/2025
+QD-25-00016,Permit breach at the Eastern Laboratory,Environmental,08/05/2025,Web,Medium,East,22/05/2025
+QD-25-00017,Emissions reporting gap at the Port Authority,Environmental,09/05/2025,Email,High,East,19/05/2025
+QD-25-00018,Invoice discrepancy at Harbour Office,Financial Irregularity,09/05/2025,Email,Low,North,24/05/2025
+QD-25-00019,Funding condition breach at Fairview School,Grant Compliance,09/05/2025,Web,High,North,15/05/2025
+QD-25-00020,Emissions reporting gap at Mill Lane Yard,Environmental,09/05/2025,Web,High,South,10/05/2025
+QD-25-00021,Supplier conflict of interest at Kingsway Works,Procurement,12/05/2025,Web,Medium,East,13/05/2025
+QD-25-00022,Waste disposal complaint at Kingsway Works,Environmental,13/05/2025,Web,High,East,29/05/2025
+QD-25-00023,Lost laptop at Marlow House,Data Breach,13/05/2025,Email,Low,South,15/05/2025
+QD-25-00024,Waste disposal complaint at Riverside Campus,Environmental,13/05/2025,Email,Low,West,28/05/2025
+QD-25-00025,Permit breach at the Central Archive,Environmental,14/05/2025,Web,High,West,16/05/2025
+QD-25-00026,Unlicensed activity at Westfield Library,Licensing,14/05/2025,Referral,High,North,21/05/2025
+QD-25-00027,Grant milestone shortfall at Mill Lane Yard,Grant Compliance,15/05/2025,Referral,Medium,West,22/05/2025
+QD-25-00028,Planning complaint about Northgate Depot,Licensing,15/05/2025,Web,Low,South,22/05/2025
+QD-25-00029,Recruitment concern at Fairview School,Workplace Conduct,15/05/2025,Web,Medium,North,31/05/2025
+QD-25-00030,Unexplained payments from Westfield Library,Financial Irregularity,16/05/2025,Phone,High,West,25/05/2025
+QD-25-00031,Unauthorised access to records at the Central Archive,Data Breach,19/05/2025,Phone,Medium,East,28/05/2025
+QD-25-00032,Tender irregularity at Westfield Library,Procurement,19/05/2025,Web,Low,North,04/06/2025
+QD-25-00033,Invoice discrepancy at Harbour Office,Financial Irregularity,20/05/2025,Referral,High,West,22/05/2025
+QD-25-00034,Recruitment concern at Westfield Library,Workplace Conduct,20/05/2025,Phone,High,East,29/05/2025
+QD-25-00035,Harassment allegation at Northgate Depot,Workplace Conduct,21/05/2025,Web,Medium,West,08/06/2025
+QD-25-00036,Duplicate supplier payments at St Anne's Hall,Financial Irregularity,21/05/2025,Email,Low,East,29/05/2025
+QD-25-00037,Licence condition breach at the Regional Hub,Licensing,22/05/2025,Phone,Low,South,25/05/2025
+QD-25-00038,Recruitment concern at Elm Street Clinic,Workplace Conduct,22/05/2025,Email,Low,South,01/06/2025
+QD-25-00039,Contract variation dispute at the Eastern Laboratory,Procurement,22/05/2025,Phone,High,East,09/06/2025
+QD-25-00040,Emissions reporting gap at Northgate Depot,Environmental,23/05/2025,Web,Medium,South,08/06/2025
+QD-25-00041,Unlicensed activity at St Anne's Hall,Licensing,23/05/2025,Referral,Medium,North,08/06/2025
+QD-25-00042,Funding condition breach at the Eastern Laboratory,Grant Compliance,23/05/2025,Referral,High,South,11/06/2025
+QD-25-00043,Petty cash shortfall at the Eastern Laboratory,Financial Irregularity,26/05/2025,Web,Medium,South,08/06/2025
+QD-25-00044,Ransomware incident at Northgate Depot,Data Breach,27/05/2025,Email,Medium,East,07/06/2025
+QD-25-00045,Misdirected email from Oakfield Station,Data Breach,27/05/2025,Phone,Low,East,11/06/2025
+QD-25-00046,Duplicate supplier payments at Westfield Library,Financial Irregularity,27/05/2025,Phone,Medium,East,31/05/2025
+QD-25-00047,Recruitment concern at Marlow House,Workplace Conduct,27/05/2025,Web,Low,West,04/06/2025
+QD-25-00048,Recruitment concern at Riverside Campus,Workplace Conduct,28/05/2025,Referral,Low,South,11/06/2025
+QD-25-00049,Planning complaint about Fairview School,Licensing,29/05/2025,Web,Medium,East,12/06/2025
+QD-25-00050,Lost laptop at Northgate Depot,Data Breach,29/05/2025,Referral,Low,East,16/06/2025
+QD-25-00051,Unlicensed activity at Mill Lane Yard,Licensing,30/05/2025,Web,Low,North,17/06/2025
+QD-25-00052,Planning complaint about Kingsway Works,Licensing,30/05/2025,Phone,Medium,East,09/06/2025
+QD-25-00053,Contract variation dispute at St Anne's Hall,Procurement,02/06/2025,Phone,High,East,05/06/2025
+QD-25-00054,Single-source award at Harbour Office,Procurement,02/06/2025,Email,Low,East,02/06/2025
+QD-25-00055,Permit breach at St Anne's Hall,Environmental,03/06/2025,Web,High,North,14/06/2025
+QD-25-00056,Invoice discrepancy at Kingsway Works,Financial Irregularity,04/06/2025,Web,Medium,South,12/06/2025
+QD-25-00057,Ineligible expenditure at Fairview School,Grant Compliance,04/06/2025,Email,Low,North,19/06/2025
+QD-25-00058,Lost laptop at Riverside Campus,Data Breach,04/06/2025,Phone,Low,East,14/06/2025
+QD-25-00059,Petty cash shortfall at Riverside Campus,Financial Irregularity,05/06/2025,Referral,Low,East,05/06/2025
+QD-25-00060,Contract variation dispute at Kingsway Works,Procurement,05/06/2025,Phone,High,South,11/06/2025
+QD-25-00061,Licence condition breach at Elm Street Clinic,Licensing,05/06/2025,Referral,High,North,14/06/2025
+QD-25-00062,Lost laptop at the Eastern Laboratory,Data Breach,06/06/2025,Email,Medium,South,13/06/2025
+QD-25-00063,Protected disclosure from the Port Authority,Workplace Conduct,06/06/2025,Web,High,East,17/06/2025
+QD-25-00064,Tender irregularity at Westfield Library,Procurement,06/06/2025,Web,High,North,17/06/2025
+QD-25-00065,Licence condition breach at Kingsway Works,Licensing,06/06/2025,Web,High,West,15/06/2025
+QD-25-00066,Funding condition breach at Northgate Depot,Grant Compliance,09/06/2025,Referral,Medium,South,25/06/2025
+QD-25-00067,Misdirected email from the Regional Hub,Data Breach,09/06/2025,Email,High,North,21/06/2025
+QD-25-00068,Licence condition breach at Riverside Campus,Licensing,10/06/2025,Phone,High,North,12/06/2025
+QD-25-00069,Permit breach at the Eastern Laboratory,Environmental,10/06/2025,Email,High,South,12/06/2025
+QD-25-00070,Ineligible expenditure at Mill Lane Yard,Grant Compliance,11/06/2025,Phone,Low,North,15/06/2025
+QD-25-00071,Misdirected email from Fairview School,Data Breach,11/06/2025,Referral,Medium,South,29/06/2025
+QD-25-00072,Unexplained payments from Northgate Depot,Financial Irregularity,12/06/2025,Referral,Low,West,23/06/2025
+QD-25-00073,Planning complaint about the Central Archive,Licensing,12/06/2025,Email,Low,West,15/06/2025
+QD-25-00074,Petty cash shortfall at Northgate Depot,Financial Irregularity,13/06/2025,Referral,High,North,01/07/2025
+QD-25-00075,Emissions reporting gap at the Regional Hub,Environmental,13/06/2025,Email,High,North,21/06/2025
+QD-25-00076,Ineligible expenditure at the Port Authority,Grant Compliance,13/06/2025,Referral,Low,North,26/06/2025
+QD-25-00077,Grant milestone shortfall at Elm Street Clinic,Grant Compliance,16/06/2025,Phone,High,South,28/06/2025
+QD-25-00078,Unexplained payments from Fairview School,Financial Irregularity,16/06/2025,Referral,Medium,North,25/06/2025
+QD-25-00079,Tender irregularity at the Central Archive,Procurement,17/06/2025,Referral,Medium,South,02/07/2025
+QD-25-00080,Permit breach at the Port Authority,Environmental,17/06/2025,Web,High,South,01/07/2025
+QD-25-00081,Waste disposal complaint at Northgate Depot,Environmental,18/06/2025,Email,Medium,West,18/06/2025
+QD-25-00082,Bullying complaint at Oakfield Station,Workplace Conduct,18/06/2025,Referral,Medium,South,18/06/2025
+QD-25-00083,Permit breach at Kingsway Works,Environmental,19/06/2025,Referral,Medium,North,02/07/2025
+QD-25-00084,Invoice discrepancy at the Regional Hub,Financial Irregularity,19/06/2025,Phone,High,East,27/06/2025
+QD-25-00085,Waste disposal complaint at the Eastern Laboratory,Environmental,19/06/2025,Web,High,South,01/07/2025
+QD-25-00086,Contract variation dispute at Westfield Library,Procurement,20/06/2025,Email,High,East,01/07/2025
+QD-25-00087,Ineligible expenditure at Northgate Depot,Grant Compliance,23/06/2025,Referral,Low,South,09/07/2025
+QD-25-00088,Protected disclosure from St Anne's Hall,Workplace Conduct,24/06/2025,Phone,Medium,North,12/07/2025
+QD-25-00089,Ineligible expenditure at Elm Street Clinic,Grant Compliance,24/06/2025,Referral,High,East,26/06/2025
+QD-25-00090,Invoice discrepancy at Kingsway Works,Financial Irregularity,24/06/2025,Referral,High,North,01/07/2025
+QD-25-00091,Invoice discrepancy at Kingsway Works,Financial Irregularity,25/06/2025,Referral,High,South,26/06/2025
+QD-25-00092,Ransomware incident at Fairview School,Data Breach,26/06/2025,Web,High,West,06/07/2025
+QD-25-00093,Ransomware incident at Kingsway Works,Data Breach,26/06/2025,Referral,High,West,01/07/2025
+QD-25-00094,Recruitment concern at the Regional Hub,Workplace Conduct,27/06/2025,Email,High,West,07/07/2025
+QD-25-00095,Ineligible expenditure at St Anne's Hall,Grant Compliance,27/06/2025,Phone,Low,East,11/07/2025
+QD-25-00096,Waste disposal complaint at Harbour Office,Environmental,27/06/2025,Web,High,North,27/06/2025
+QD-25-00097,Ineligible expenditure at St Anne's Hall,Grant Compliance,30/06/2025,Referral,Low,North,10/07/2025
+QD-25-00098,Unexplained payments from the Port Authority,Financial Irregularity,30/06/2025,Email,Medium,West,16/07/2025
+QD-25-00099,Waste disposal complaint at the Port Authority,Environmental,30/06/2025,Email,Low,West,06/07/2025
+QD-25-00100,Supplier conflict of interest at Harbour Office,Procurement,01/07/2025,Referral,Low,North,01/07/2025
+QD-25-00101,Funding condition breach at Mill Lane Yard,Grant Compliance,02/07/2025,Phone,High,West,17/07/2025
+QD-25-00102,Tender irregularity at Northgate Depot,Procurement,02/07/2025,Email,High,South,19/07/2025
+QD-25-00103,Bullying complaint at Mill Lane Yard,Workplace Conduct,03/07/2025,Phone,Medium,East,09/07/2025
+QD-25-00104,Recruitment concern at Riverside Campus,Workplace Conduct,04/07/2025,Email,High,South,16/07/2025
+QD-25-00105,Supplier conflict of interest at Elm Street Clinic,Procurement,04/07/2025,Web,Low,West,22/07/2025
+QD-25-00106,Unauthorised access to records at Kingsway Works,Data Breach,04/07/2025,Referral,High,West,16/07/2025
+QD-25-00107,Licence condition breach at Harbour Office,Licensing,04/07/2025,Web,High,East,11/07/2025
+QD-25-00108,Emissions reporting gap at Mill Lane Yard,Environmental,07/07/2025,Phone,High,North,11/07/2025
+QD-25-00109,Ransomware incident at Westfield Library,Data Breach,07/07/2025,Referral,High,East,19/07/2025
+QD-25-00110,Funding condition breach at Riverside Campus,Grant Compliance,08/07/2025,Email,Low,West,13/07/2025
+QD-25-00111,Permit breach at the Port Authority,Environmental,09/07/2025,Referral,High,North,25/07/2025
+QD-25-00112,Lost laptop at the Port Authority,Data Breach,09/07/2025,Referral,Medium,East,28/07/2025
+QD-25-00113,Unauthorised access to records at St Anne's Hall,Data Breach,09/07/2025,Referral,Medium,West,16/07/2025
+QD-25-00114,Licence condition breach at Mill Lane Yard,Licensing,09/07/2025,Phone,Low,East,23/07/2025
+QD-25-00115,Recruitment concern at Elm Street Clinic,Workplace Conduct,10/07/2025,Referral,High,East,24/07/2025
+QD-25-00116,Planning complaint about the Eastern Laboratory,Licensing,10/07/2025,Phone,Low,East,20/07/2025
+QD-25-00117,Petty cash shortfall at the Regional Hub,Financial Irregularity,10/07/2025,Referral,Medium,South,12/07/2025
+QD-25-00118,Misdirected email from the Regional Hub,Data Breach,11/07/2025,Web,Low,West,27/07/2025
+QD-25-00119,Recruitment concern at the Central Archive,Workplace Conduct,11/07/2025,Email,Medium,North,26/07/2025
+QD-25-00120,Unlicensed activity at Marlow House,Licensing,11/07/2025,Web,Low,West,17/07/2025
+QD-25-00121,Tender irregularity at St Anne's Hall,Procurement,14/07/2025,Web,Low,East,17/07/2025
+QD-25-00122,Ransomware incident at the Regional Hub,Data Breach,14/07/2025,Referral,Low,West,29/07/2025
+QD-25-00123,Bullying complaint at Fairview School,Workplace Conduct,14/07/2025,Phone,Medium,East,20/07/2025
+QD-25-00124,Licence condition breach at Marlow House,Licensing,15/07/2025,Phone,High,East,17/07/2025
+QD-25-00125,Grant milestone shortfall at Oakfield Station,Grant Compliance,15/07/2025,Phone,Low,North,24/07/2025
+QD-25-00126,Bullying complaint at the Central Archive,Workplace Conduct,16/07/2025,Phone,Low,South,18/07/2025
+QD-25-00127,Waste disposal complaint at Fairview School,Environmental,16/07/2025,Email,High,North,01/08/2025
+QD-25-00128,Permit breach at Northgate Depot,Environmental,17/07/2025,Referral,Low,East,17/07/2025
+QD-25-00129,Misdirected email from Westfield Library,Data Breach,17/07/2025,Email,Low,South,23/07/2025
+QD-25-00130,Ineligible expenditure at the Regional Hub,Grant Compliance,17/07/2025,Email,Low,West,27/07/2025
+QD-25-00131,Harassment allegation at the Central Archive,Workplace Conduct,18/07/2025,Phone,Medium,South,18/07/2025
+QD-25-00132,Recruitment concern at the Central Archive,Workplace Conduct,18/07/2025,Email,Medium,East,26/07/2025
+QD-25-00133,Single-source award at Northgate Depot,Procurement,18/07/2025,Referral,Medium,East,29/07/2025
+QD-25-00134,Permit breach at the Central Archive,Environmental,21/07/2025,Email,Medium,West,21/07/2025
+QD-25-00135,Ineligible expenditure at Kingsway Works,Grant Compliance,21/07/2025,Email,Low,North,30/07/2025
+QD-25-00136,Ransomware incident at Mill Lane Yard,Data Breach,22/07/2025,Email,Medium,South,27/07/2025
+QD-25-00137,Permit breach at Riverside Campus,Environmental,22/07/2025,Web,Medium,North,08/08/2025
+QD-25-00138,Planning complaint about the Eastern Laboratory,Licensing,22/07/2025,Web,High,South,09/08/2025
+QD-25-00139,Emissions reporting gap at Westfield Library,Environmental,23/07/2025,Email,Medium,East,11/08/2025
+QD-25-00140,Protected disclosure from the Regional Hub,Workplace Conduct,23/07/2025,Email,High,West,27/07/2025
+QD-25-00141,Funding condition breach at the Regional Hub,Grant Compliance,23/07/2025,Email,Medium,East,10/08/2025
+QD-25-00142,Bullying complaint at Fairview School,Workplace Conduct,23/07/2025,Referral,Low,East,30/07/2025
+QD-25-00143,Contract variation dispute at Harbour Office,Procurement,24/07/2025,Referral,High,East,08/08/2025
+QD-25-00144,Lost laptop at Oakfield Station,Data Breach,25/07/2025,Web,Medium,North,25/07/2025
+QD-25-00145,Funding condition breach at Northgate Depot,Grant Compliance,25/07/2025,Referral,High,South,25/07/2025
+QD-25-00146,Misdirected email from Riverside Campus,Data Breach,25/07/2025,Email,High,East,29/07/2025
+QD-25-00147,Protected disclosure from Riverside Campus,Workplace Conduct,25/07/2025,Phone,High,West,30/07/2025
+QD-25-00148,Planning complaint about Elm Street Clinic,Licensing,28/07/2025,Email,Low,North,06/08/2025
+QD-25-00149,Planning complaint about the Regional Hub,Licensing,28/07/2025,Referral,High,East,13/08/2025
+QD-25-00150,Contract variation dispute at Marlow House,Procurement,29/07/2025,Referral,Medium,West,09/08/2025
+QD-25-00151,Petty cash shortfall at Fairview School,Financial Irregularity,30/07/2025,Web,High,West,17/08/2025
+QD-25-00152,Contract variation dispute at Fairview School,Procurement,30/07/2025,Phone,High,East,06/08/2025
+QD-25-00153,Permit breach at Westfield Library,Environmental,30/07/2025,Referral,Low,West,12/08/2025
+QD-25-00154,Invoice discrepancy at Elm Street Clinic,Financial Irregularity,30/07/2025,Email,Low,West,18/08/2025
+QD-25-00155,Emissions reporting gap at Northgate Depot,Environmental,31/07/2025,Email,Medium,North,18/08/2025
+QD-25-00156,Unexplained payments from the Eastern Laboratory,Financial Irregularity,31/07/2025,Email,Medium,West,07/08/2025
+QD-25-00157,Unlicensed activity at the Regional Hub,Licensing,01/08/2025,Web,Medium,North,04/08/2025
+QD-25-00158,Petty cash shortfall at Mill Lane Yard,Financial Irregularity,04/08/2025,Web,Low,South,05/08/2025
+QD-25-00159,Licence condition breach at the Port Authority,Licensing,04/08/2025,Web,Low,South,05/08/2025
+QD-25-00160,Harassment allegation at Fairview School,Workplace Conduct,05/08/2025,Phone,Medium,North,23/08/2025
+QD-25-00161,Funding condition breach at Northgate Depot,Grant Compliance,06/08/2025,Email,Low,North,09/08/2025
+QD-25-00162,Emissions reporting gap at Harbour Office,Environmental,06/08/2025,Referral,High,North,21/08/2025
+QD-25-00163,Duplicate supplier payments at the Eastern Laboratory,Financial Irregularity,07/08/2025,Web,Low,North,26/08/2025
+QD-25-00164,Invoice discrepancy at Westfield Library,Financial Irregularity,07/08/2025,Web,Medium,West,14/08/2025
+QD-25-00165,Licence condition breach at Marlow House,Licensing,07/08/2025,Web,Low,North,17/08/2025
+QD-25-00166,Licence condition breach at Marlow House,Licensing,08/08/2025,Phone,Low,South,16/08/2025
+QD-25-00167,Planning complaint about Riverside Campus,Licensing,08/08/2025,Email,Medium,West,22/08/2025
+QD-25-00168,Bullying complaint at Harbour Office,Workplace Conduct,08/08/2025,Email,High,West,15/08/2025
+QD-25-00169,Planning complaint about Mill Lane Yard,Licensing,08/08/2025,Web,Low,North,25/08/2025
+QD-25-00170,Supplier conflict of interest at Elm Street Clinic,Procurement,11/08/2025,Web,Medium,South,28/08/2025
+QD-25-00171,Emissions reporting gap at the Eastern Laboratory,Environmental,11/08/2025,Email,Low,West,16/08/2025
+QD-25-00172,Ransomware incident at the Eastern Laboratory,Data Breach,11/08/2025,Phone,High,South,18/08/2025
+QD-25-00173,Ineligible expenditure at the Eastern Laboratory,Grant Compliance,12/08/2025,Web,High,West,17/08/2025
+QD-25-00174,Licence condition breach at Mill Lane Yard,Licensing,12/08/2025,Referral,Low,East,17/08/2025
+QD-25-00175,Licence condition breach at Mill Lane Yard,Licensing,13/08/2025,Referral,Low,East,30/08/2025
+QD-25-00176,Funding condition breach at Kingsway Works,Grant Compliance,13/08/2025,Phone,Medium,East,18/08/2025
+QD-25-00177,Funding condition breach at Kingsway Works,Grant Compliance,13/08/2025,Email,High,East,28/08/2025
+QD-25-00178,Funding condition breach at the Eastern Laboratory,Grant Compliance,13/08/2025,Web,Low,North,20/08/2025
+QD-25-00179,Permit breach at Fairview School,Environmental,14/08/2025,Phone,Low,North,15/08/2025
+QD-25-00180,Unlicensed activity at St Anne's Hall,Licensing,14/08/2025,Referral,Low,South,17/08/2025
+QD-25-00181,Unauthorised access to records at Marlow House,Data Breach,15/08/2025,Email,High,East,26/08/2025
+QD-25-00182,Bullying complaint at St Anne's Hall,Workplace Conduct,18/08/2025,Referral,Medium,West,22/08/2025
+QD-25-00183,Unauthorised access to records at Marlow House,Data Breach,18/08/2025,Phone,High,East,18/08/2025
+QD-25-00184,Harassment allegation at the Central Archive,Workplace Conduct,18/08/2025,Referral,High,North,25/08/2025
+QD-25-00185,Lost laptop at the Central Archive,Data Breach,19/08/2025,Email,Low,North,01/09/2025
+QD-25-00186,Misdirected email from Marlow House,Data Breach,20/08/2025,Phone,Low,North,06/09/2025
+QD-25-00187,Single-source award at Oakfield Station,Procurement,20/08/2025,Web,Medium,West,29/08/2025
+QD-25-00188,Contract variation dispute at Elm Street Clinic,Procurement,20/08/2025,Email,Low,South,24/08/2025
+QD-25-00189,Bullying complaint at St Anne's Hall,Workplace Conduct,21/08/2025,Email,Medium,West,09/09/2025
+QD-25-00190,Grant milestone shortfall at Fairview School,Grant Compliance,22/08/2025,Web,High,East,22/08/2025
+QD-25-00191,Unauthorised access to records at Marlow House,Data Breach,25/08/2025,Referral,High,West,12/09/2025
+QD-25-00192,Unlicensed activity at Harbour Office,Licensing,25/08/2025,Web,Low,North,08/09/2025
+QD-25-00193,Unlicensed activity at Westfield Library,Licensing,26/08/2025,Web,High,East,29/08/2025
+QD-25-00194,Permit breach at Marlow House,Environmental,27/08/2025,Referral,Low,South,10/09/2025
+QD-25-00195,Unexplained payments from Marlow House,Financial Irregularity,27/08/2025,Email,High,West,09/09/2025
+QD-25-00196,Duplicate supplier payments at Kingsway Works,Financial Irregularity,28/08/2025,Phone,High,West,16/09/2025
+QD-25-00197,Contract variation dispute at Mill Lane Yard,Procurement,28/08/2025,Referral,High,South,02/09/2025
+QD-25-00198,Petty cash shortfall at Oakfield Station,Financial Irregularity,29/08/2025,Referral,Medium,North,06/09/2025
+QD-25-00199,Ineligible expenditure at the Central Archive,Grant Compliance,29/08/2025,Phone,High,East,01/09/2025
+QD-25-00200,Emissions reporting gap at the Port Authority,Environmental,01/09/2025,Email,Medium,North,02/09/2025
+QD-25-00201,Unlicensed activity at Mill Lane Yard,Licensing,01/09/2025,Web,High,West,12/09/2025
+QD-25-00202,Licence condition breach at Marlow House,Licensing,02/09/2025,Email,Medium,West,18/09/2025
+QD-25-00203,Ineligible expenditure at the Central Archive,Grant Compliance,02/09/2025,Phone,Medium,East,16/09/2025
+QD-25-00204,Supplier conflict of interest at Mill Lane Yard,Procurement,03/09/2025,Email,High,West,04/09/2025
+QD-25-00205,Permit breach at the Regional Hub,Environmental,03/09/2025,Phone,High,North,18/09/2025
+QD-25-00206,Licence condition breach at St Anne's Hall,Licensing,03/09/2025,Phone,Medium,North,21/09/2025
+QD-25-00207,Funding condition breach at Elm Street Clinic,Grant Compliance,04/09/2025,Web,High,East,16/09/2025
+QD-25-00208,Unlicensed activity at Northgate Depot,Licensing,05/09/2025,Web,High,East,09/09/2025
+QD-25-00209,Misdirected email from Kingsway Works,Data Breach,08/09/2025,Phone,Medium,North,10/09/2025
+QD-25-00210,Supplier conflict of interest at Oakfield Station,Procurement,09/09/2025,Email,High,East,15/09/2025
+QD-25-00211,Funding condition breach at Northgate Depot,Grant Compliance,09/09/2025,Email,Low,East,12/09/2025
+QD-25-00212,Recruitment concern at the Central Archive,Workplace Conduct,09/09/2025,Email,Medium,South,14/09/2025
+QD-25-00213,Harassment allegation at Harbour Office,Workplace Conduct,10/09/2025,Email,Medium,North,14/09/2025
+QD-25-00214,Protected disclosure from Riverside Campus,Workplace Conduct,10/09/2025,Web,Low,South,28/09/2025
+QD-25-00215,Harassment allegation at the Port Authority,Workplace Conduct,11/09/2025,Email,Low,North,19/09/2025
+QD-25-00216,Unexplained payments from Northgate Depot,Financial Irregularity,11/09/2025,Referral,Low,East,18/09/2025
+QD-25-00217,Grant milestone shortfall at the Eastern Laboratory,Grant Compliance,12/09/2025,Email,High,West,28/09/2025
+QD-25-00218,Supplier conflict of interest at Riverside Campus,Procurement,15/09/2025,Referral,Medium,North,04/10/2025
+QD-25-00219,Harassment allegation at Westfield Library,Workplace Conduct,15/09/2025,Email,High,East,04/10/2025
+QD-25-00220,Duplicate supplier payments at the Eastern Laboratory,Financial Irregularity,15/09/2025,Referral,Low,East,19/09/2025
+QD-25-00221,Single-source award at Fairview School,Procurement,16/09/2025,Email,Medium,North,23/09/2025
+QD-25-00222,Planning complaint about Oakfield Station,Licensing,16/09/2025,Phone,Medium,North,18/09/2025
+QD-25-00223,Contract variation dispute at Fairview School,Procurement,16/09/2025,Referral,Low,South,04/10/2025
+QD-25-00224,Unlicensed activity at St Anne's Hall,Licensing,17/09/2025,Referral,Medium,East,25/09/2025
+QD-25-00225,Protected disclosure from Oakfield Station,Workplace Conduct,17/09/2025,Web,Medium,East,05/10/2025
+QD-25-00226,Single-source award at Kingsway Works,Procurement,18/09/2025,Web,High,West,25/09/2025
+QD-25-00227,Unexplained payments from Riverside Campus,Financial Irregularity,19/09/2025,Web,Medium,North,02/10/2025
+QD-25-00228,Harassment allegation at Oakfield Station,Workplace Conduct,19/09/2025,Web,Medium,South,08/10/2025
+QD-25-00229,Lost laptop at Elm Street Clinic,Data Breach,22/09/2025,Phone,Medium,North,30/09/2025
+QD-25-00230,Waste disposal complaint at St Anne's Hall,Environmental,22/09/2025,Phone,High,North,01/10/2025
+QD-25-00231,Duplicate supplier payments at the Regional Hub,Financial Irregularity,23/09/2025,Email,High,West,10/10/2025
+QD-25-00232,Recruitment concern at Westfield Library,Workplace Conduct,24/09/2025,Referral,High,North,08/10/2025
+QD-25-00233,Waste disposal complaint at Harbour Office,Environmental,24/09/2025,Referral,High,North,30/09/2025
+QD-25-00234,Single-source award at Elm Street Clinic,Procurement,24/09/2025,Email,Medium,South,04/10/2025
+QD-25-00235,Unauthorised access to records at Northgate Depot,Data Breach,25/09/2025,Phone,High,West,29/09/2025
+QD-25-00236,Single-source award at the Port Authority,Procurement,25/09/2025,Phone,Medium,South,08/10/2025
+QD-25-00237,Single-source award at Kingsway Works,Procurement,26/09/2025,Referral,Medium,North,02/10/2025
+QD-25-00238,Recruitment concern at Riverside Campus,Workplace Conduct,26/09/2025,Referral,Low,East,06/10/2025
+QD-25-00239,Tender irregularity at Mill Lane Yard,Procurement,29/09/2025,Referral,Medium,North,30/09/2025
+QD-25-00240,Ineligible expenditure at Marlow House,Grant Compliance,29/09/2025,Email,Medium,South,03/10/2025
+QD-25-00241,Ransomware incident at Kingsway Works,Data Breach,30/09/2025,Email,Low,East,04/10/2025
+QD-25-00242,Ineligible expenditure at Westfield Library,Grant Compliance,30/09/2025,Email,High,East,19/10/2025
+QD-25-00243,Invoice discrepancy at St Anne's Hall,Financial Irregularity,01/10/2025,Referral,Medium,North,13/10/2025
+QD-25-00244,Misdirected email from the Port Authority,Data Breach,01/10/2025,Email,High,South,05/10/2025
+QD-25-00245,Harassment allegation at Oakfield Station,Workplace Conduct,02/10/2025,Phone,Low,North,03/10/2025
+QD-25-00246,Harassment allegation at the Regional Hub,Workplace Conduct,02/10/2025,Web,Medium,East,07/10/2025
+QD-25-00247,Tender irregularity at Northgate Depot,Procurement,02/10/2025,Web,Medium,South,21/10/2025
+QD-25-00248,Emissions reporting gap at Riverside Campus,Environmental,03/10/2025,Referral,Low,North,05/10/2025
+QD-25-00249,Permit breach at Riverside Campus,Environmental,03/10/2025,Referral,High,North,07/10/2025
+QD-25-00250,Permit breach at Harbour Office,Environmental,06/10/2025,Email,High,West,12/10/2025
+QD-25-00251,Unauthorised access to records at Fairview School,Data Breach,06/10/2025,Email,Medium,East,16/10/2025
+QD-25-00252,Unlicensed activity at Marlow House,Licensing,06/10/2025,Email,Medium,South,22/10/2025
+QD-25-00253,Contract variation dispute at Fairview School,Procurement,07/10/2025,Phone,High,South,16/10/2025
+QD-25-00254,Grant milestone shortfall at Mill Lane Yard,Grant Compliance,08/10/2025,Email,High,South,23/10/2025
+QD-25-00255,Funding condition breach at Westfield Library,Grant Compliance,09/10/2025,Email,Medium,East,22/10/2025
+QD-25-00256,Invoice discrepancy at the Regional Hub,Financial Irregularity,09/10/2025,Referral,Low,West,10/10/2025
+QD-25-00257,Tender irregularity at Harbour Office,Procurement,09/10/2025,Phone,High,East,13/10/2025
+QD-25-00258,Single-source award at the Port Authority,Procurement,09/10/2025,Referral,High,North,13/10/2025
+QD-25-00259,Tender irregularity at Harbour Office,Procurement,10/10/2025,Web,High,West,25/10/2025
+QD-25-00260,Lost laptop at the Eastern Laboratory,Data Breach,10/10/2025,Web,Low,North,25/10/2025
+QD-25-00261,Contract variation dispute at the Central Archive,Procurement,13/10/2025,Phone,Low,North,01/11/2025
+QD-25-00262,Invoice discrepancy at the Port Authority,Financial Irregularity,13/10/2025,Referral,High,North,16/10/2025
+QD-25-00263,Petty cash shortfall at Westfield Library,Financial Irregularity,13/10/2025,Referral,High,North,27/10/2025
+QD-25-00264,Bullying complaint at St Anne's Hall,Workplace Conduct,14/10/2025,Email,Medium,North,30/10/2025
+QD-25-00265,Ransomware incident at Elm Street Clinic,Data Breach,15/10/2025,Phone,Medium,South,01/11/2025
+QD-25-00266,Petty cash shortfall at the Eastern Laboratory,Financial Irregularity,15/10/2025,Referral,Medium,East,01/11/2025
+QD-25-00267,Unauthorised access to records at St Anne's Hall,Data Breach,16/10/2025,Web,High,West,26/10/2025
+QD-25-00268,Grant milestone shortfall at Westfield Library,Grant Compliance,16/10/2025,Referral,High,West,20/10/2025
+QD-25-00269,Duplicate supplier payments at Westfield Library,Financial Irregularity,16/10/2025,Email,Medium,North,19/10/2025
+QD-25-00270,Protected disclosure from the Port Authority,Workplace Conduct,16/10/2025,Email,Medium,East,31/10/2025
+QD-25-00271,Unexplained payments from Riverside Campus,Financial Irregularity,17/10/2025,Email,High,East,21/10/2025
+QD-25-00272,Supplier conflict of interest at Harbour Office,Procurement,17/10/2025,Referral,High,West,27/10/2025
+QD-25-00273,Unauthorised access to records at St Anne's Hall,Data Breach,20/10/2025,Email,Low,South,04/11/2025
+QD-25-00274,Harassment allegation at Fairview School,Workplace Conduct,20/10/2025,Web,Medium,South,02/11/2025
+QD-25-00275,Waste disposal complaint at Mill Lane Yard,Environmental,21/10/2025,Web,Medium,North,09/11/2025
+QD-25-00276,Unauthorised access to records at Kingsway Works,Data Breach,21/10/2025,Phone,Low,East,22/10/2025
+QD-25-00277,Ineligible expenditure at Riverside Campus,Grant Compliance,22/10/2025,Referral,Medium,North,07/11/2025
+QD-25-00278,Planning complaint about Mill Lane Yard,Licensing,23/10/2025,Referral,Medium,North,28/10/2025
+QD-25-00279,Funding condition breach at Westfield Library,Grant Compliance,24/10/2025,Phone,High,South,09/11/2025
+QD-25-00280,Ineligible expenditure at the Regional Hub,Grant Compliance,27/10/2025,Phone,Medium,East,09/11/2025
+QD-25-00281,Unauthorised access to records at the Central Archive,Data Breach,27/10/2025,Referral,Low,West,04/11/2025
+QD-25-00282,Ransomware incident at Elm Street Clinic,Data Breach,28/10/2025,Phone,Medium,South,05/11/2025
+QD-25-00283,Supplier conflict of interest at St Anne's Hall,Procurement,28/10/2025,Email,Medium,West,11/11/2025
+QD-25-00284,Ransomware incident at Harbour Office,Data Breach,28/10/2025,Email,Medium,West,15/11/2025
+QD-25-00285,Emissions reporting gap at Kingsway Works,Environmental,29/10/2025,Email,Medium,South,05/11/2025
+QD-25-00286,Petty cash shortfall at Elm Street Clinic,Financial Irregularity,29/10/2025,Referral,High,East,14/11/2025
+QD-25-00287,Invoice discrepancy at the Central Archive,Financial Irregularity,30/10/2025,Email,High,North,30/10/2025
+QD-25-00288,Planning complaint about Riverside Campus,Licensing,30/10/2025,Email,Medium,West,16/11/2025
+QD-25-00289,Unauthorised access to records at Oakfield Station,Data Breach,31/10/2025,Email,High,South,31/10/2025
+QD-25-00290,Lost laptop at Mill Lane Yard,Data Breach,31/10/2025,Referral,Low,East,16/11/2025
+QD-25-00291,Permit breach at Riverside Campus,Environmental,03/11/2025,Referral,Low,North,22/11/2025
+QD-25-00292,Emissions reporting gap at Fairview School,Environmental,03/11/2025,Phone,Low,South,21/11/2025
+QD-25-00293,Protected disclosure from Mill Lane Yard,Workplace Conduct,03/11/2025,Web,Medium,North,19/11/2025
+QD-25-00294,Licence condition breach at the Regional Hub,Licensing,03/11/2025,Web,Medium,South,13/11/2025
+QD-25-00295,Single-source award at Harbour Office,Procurement,04/11/2025,Referral,Low,West,16/11/2025
+QD-25-00296,Unexplained payments from Westfield Library,Financial Irregularity,04/11/2025,Email,Low,North,04/11/2025
+QD-25-00297,Permit breach at Elm Street Clinic,Environmental,04/11/2025,Referral,Low,West,22/11/2025
+QD-25-00298,Tender irregularity at Mill Lane Yard,Procurement,05/11/2025,Referral,Medium,North,18/11/2025
+QD-25-00299,Funding condition breach at Marlow House,Grant Compliance,05/11/2025,Referral,Low,East,09/11/2025
+QD-25-00300,Single-source award at Fairview School,Procurement,05/11/2025,Email,High,North,10/11/2025
+QD-25-00301,Ineligible expenditure at the Regional Hub,Grant Compliance,06/11/2025,Email,Medium,South,09/11/2025
+QD-25-00302,Harassment allegation at Fairview School,Workplace Conduct,06/11/2025,Referral,Low,North,18/11/2025
+QD-25-00303,Misdirected email from Westfield Library,Data Breach,06/11/2025,Phone,Low,North,16/11/2025
+QD-25-00304,Harassment allegation at the Eastern Laboratory,Workplace Conduct,06/11/2025,Phone,Medium,South,19/11/2025
+QD-25-00305,Ineligible expenditure at Mill Lane Yard,Grant Compliance,07/11/2025,Referral,Low,West,18/11/2025
+QD-25-00306,Duplicate supplier payments at Elm Street Clinic,Financial Irregularity,07/11/2025,Email,High,South,15/11/2025
+QD-25-00307,Ineligible expenditure at Marlow House,Grant Compliance,10/11/2025,Phone,Medium,North,12/11/2025
+QD-25-00308,Funding condition breach at St Anne's Hall,Grant Compliance,10/11/2025,Web,High,South,16/11/2025
+QD-25-00309,Unexplained payments from Elm Street Clinic,Financial Irregularity,11/11/2025,Email,Medium,South,16/11/2025
+QD-25-00310,Grant milestone shortfall at the Eastern Laboratory,Grant Compliance,11/11/2025,Phone,Medium,West,25/11/2025
+QD-25-00311,Unauthorised access to records at the Eastern Laboratory,Data Breach,11/11/2025,Web,Low,North,18/11/2025
+QD-25-00312,Permit breach at Northgate Depot,Environmental,12/11/2025,Phone,Medium,West,19/11/2025
+QD-25-00313,Ineligible expenditure at Marlow House,Grant Compliance,12/11/2025,Referral,High,North,16/11/2025
+QD-25-00314,Bullying complaint at the Central Archive,Workplace Conduct,13/11/2025,Email,Low,North,15/11/2025
+QD-25-00315,Recruitment concern at Mill Lane Yard,Workplace Conduct,14/11/2025,Email,Medium,West,15/11/2025
+QD-25-00316,Ineligible expenditure at Mill Lane Yard,Grant Compliance,14/11/2025,Web,High,South,26/11/2025
+QD-25-00317,Unexplained payments from Westfield Library,Financial Irregularity,17/11/2025,Email,High,North,18/11/2025
+QD-25-00318,Unexplained payments from the Central Archive,Financial Irregularity,17/11/2025,Email,High,East,04/12/2025
+QD-25-00319,Unexplained payments from Oakfield Station,Financial Irregularity,17/11/2025,Referral,Medium,East,01/12/2025
+QD-25-00320,Ransomware incident at the Eastern Laboratory,Data Breach,18/11/2025,Phone,Low,West,04/12/2025
+QD-25-00321,Ineligible expenditure at Harbour Office,Grant Compliance,18/11/2025,Phone,Low,East,22/11/2025
+QD-25-00322,Planning complaint about Elm Street Clinic,Licensing,18/11/2025,Referral,High,West,24/11/2025
+QD-25-00323,Recruitment concern at Harbour Office,Workplace Conduct,19/11/2025,Web,Low,West,30/11/2025
+QD-25-00324,Bullying complaint at Riverside Campus,Workplace Conduct,19/11/2025,Web,Low,South,27/11/2025
+QD-25-00325,Emissions reporting gap at St Anne's Hall,Environmental,19/11/2025,Web,Low,North,25/11/2025
+QD-25-00326,Petty cash shortfall at the Regional Hub,Financial Irregularity,20/11/2025,Referral,High,East,30/11/2025
+QD-25-00327,Licence condition breach at Oakfield Station,Licensing,20/11/2025,Phone,Medium,North,26/11/2025
+QD-25-00328,Ransomware incident at Harbour Office,Data Breach,20/11/2025,Email,Medium,East,26/11/2025
+QD-25-00329,Unauthorised access to records at Oakfield Station,Data Breach,21/11/2025,Web,Medium,West,22/11/2025
+QD-25-00330,Invoice discrepancy at Northgate Depot,Financial Irregularity,21/11/2025,Web,High,North,07/12/2025
+QD-25-00331,Misdirected email from Northgate Depot,Data Breach,21/11/2025,Email,Medium,West,30/11/2025
+QD-25-00332,Misdirected email from Kingsway Works,Data Breach,24/11/2025,Email,Medium,North,29/11/2025
+QD-25-00333,Contract variation dispute at Mill Lane Yard,Procurement,24/11/2025,Email,Medium,North,12/12/2025
+QD-25-00334,Waste disposal complaint at St Anne's Hall,Environmental,24/11/2025,Referral,High,South,06/12/2025
+QD-25-00335,Funding condition breach at the Regional Hub,Grant Compliance,25/11/2025,Phone,Low,East,26/11/2025
+QD-25-00336,Supplier conflict of interest at Oakfield Station,Procurement,26/11/2025,Email,Medium,South,06/12/2025
+QD-25-00337,Contract variation dispute at Kingsway Works,Procurement,27/11/2025,Phone,High,South,30/11/2025
+QD-25-00338,Ransomware incident at Oakfield Station,Data Breach,27/11/2025,Email,High,East,02/12/2025
+QD-25-00339,Misdirected email from Marlow House,Data Breach,28/11/2025,Email,High,East,13/12/2025
+QD-25-00340,Planning complaint about Oakfield Station,Licensing,28/11/2025,Web,Low,South,10/12/2025
+QD-25-00341,Permit breach at the Eastern Laboratory,Environmental,01/12/2025,Phone,Low,South,13/12/2025
+QD-25-00342,Licence condition breach at the Regional Hub,Licensing,01/12/2025,Web,Medium,North,10/12/2025
+QD-25-00343,Unauthorised access to records at Northgate Depot,Data Breach,02/12/2025,Referral,Low,East,14/12/2025
+QD-25-00344,Duplicate supplier payments at the Eastern Laboratory,Financial Irregularity,02/12/2025,Email,Low,East,04/12/2025
+QD-25-00345,Misdirected email from Harbour Office,Data Breach,02/12/2025,Web,Medium,East,06/12/2025
+QD-25-00346,Emissions reporting gap at Marlow House,Environmental,03/12/2025,Email,Low,West,21/12/2025
+QD-25-00347,Waste disposal complaint at the Central Archive,Environmental,04/12/2025,Email,Medium,North,07/12/2025
+QD-25-00348,Emissions reporting gap at the Central Archive,Environmental,04/12/2025,Phone,Medium,East,21/12/2025
+QD-25-00349,Duplicate supplier payments at Mill Lane Yard,Financial Irregularity,04/12/2025,Referral,Medium,East,07/12/2025
+QD-25-00350,Petty cash shortfall at the Port Authority,Financial Irregularity,05/12/2025,Referral,High,East,17/12/2025
+QD-25-00351,Duplicate supplier payments at St Anne's Hall,Financial Irregularity,08/12/2025,Email,Medium,East,10/12/2025
+QD-25-00352,Grant milestone shortfall at Marlow House,Grant Compliance,09/12/2025,Email,Medium,South,10/12/2025
+QD-25-00353,Protected disclosure from Fairview School,Workplace Conduct,09/12/2025,Email,Medium,South,17/12/2025
+QD-25-00354,Emissions reporting gap at Kingsway Works,Environmental,10/12/2025,Phone,High,South,26/12/2025
+QD-25-00355,Single-source award at the Central Archive,Procurement,10/12/2025,Email,Medium,South,17/12/2025
+QD-25-00356,Misdirected email from the Regional Hub,Data Breach,11/12/2025,Email,High,West,23/12/2025
+QD-25-00357,Ineligible expenditure at Marlow House,Grant Compliance,11/12/2025,Email,High,North,17/12/2025
+QD-25-00358,Emissions reporting gap at the Eastern Laboratory,Environmental,12/12/2025,Referral,Low,East,26/12/2025
+QD-25-00359,Unauthorised access to records at St Anne's Hall,Data Breach,12/12/2025,Phone,High,West,20/12/2025
+QD-25-00360,Recruitment concern at Mill Lane Yard,Workplace Conduct,12/12/2025,Email,Low,North,28/12/2025
+QD-25-00361,Petty cash shortfall at the Eastern Laboratory,Financial Irregularity,15/12/2025,Phone,Low,West,02/01/2026
+QD-25-00362,Ineligible expenditure at Marlow House,Grant Compliance,15/12/2025,Phone,High,South,27/12/2025
+QD-25-00363,Petty cash shortfall at the Eastern Laboratory,Financial Irregularity,16/12/2025,Phone,Low,East,16/12/2025
+QD-25-00364,Funding condition breach at the Port Authority,Grant Compliance,16/12/2025,Web,High,South,21/12/2025
+QD-25-00365,Permit breach at Elm Street Clinic,Environmental,16/12/2025,Phone,High,South,24/12/2025
+QD-25-00366,Invoice discrepancy at the Port Authority,Financial Irregularity,16/12/2025,Phone,Low,East,24/12/2025
+QD-25-00367,Unexplained payments from Fairview School,Financial Irregularity,17/12/2025,Phone,High,West,30/12/2025
+QD-25-00368,Recruitment concern at Mill Lane Yard,Workplace Conduct,17/12/2025,Referral,High,East,22/12/2025
+QD-25-00369,Emissions reporting gap at Fairview School,Environmental,17/12/2025,Email,Medium,South,03/01/2026
+QD-25-00370,Waste disposal complaint at Marlow House,Environmental,17/12/2025,Web,High,West,29/12/2025
+QD-25-00371,Planning complaint about Mill Lane Yard,Licensing,18/12/2025,Email,Medium,North,05/01/2026
+QD-25-00372,Harassment allegation at Elm Street Clinic,Workplace Conduct,18/12/2025,Referral,Low,North,02/01/2026
+QD-25-00373,Permit breach at St Anne's Hall,Environmental,18/12/2025,Phone,High,North,02/01/2026
+QD-25-00374,Tender irregularity at Westfield Library,Procurement,19/12/2025,Referral,Medium,South,22/12/2025
+QD-25-00375,Contract variation dispute at the Central Archive,Procurement,19/12/2025,Phone,Medium,East,19/12/2025
+QD-25-00376,Grant milestone shortfall at Harbour Office,Grant Compliance,22/12/2025,Referral,Medium,North,02/01/2026
+QD-25-00377,Bullying complaint at Riverside Campus,Workplace Conduct,22/12/2025,Email,Low,East,09/01/2026
+QD-25-00378,Ransomware incident at the Port Authority,Data Breach,22/12/2025,Web,High,South,28/12/2025
+QD-25-00379,Contract variation dispute at Westfield Library,Procurement,23/12/2025,Email,Low,South,23/12/2025
+QD-25-00380,Tender irregularity at St Anne's Hall,Procurement,23/12/2025,Email,High,West,27/12/2025
+QD-25-00381,Planning complaint about Northgate Depot,Licensing,24/12/2025,Web,High,East,11/01/2026
+QD-25-00382,Protected disclosure from Marlow House,Workplace Conduct,24/12/2025,Referral,Medium,North,26/12/2025
+QD-25-00383,Contract variation dispute at Kingsway Works,Procurement,24/12/2025,Web,Low,West,11/01/2026
+QD-25-00384,Permit breach at Riverside Campus,Environmental,25/12/2025,Web,Medium,North,29/12/2025
+QD-25-00385,Waste disposal complaint at the Central Archive,Environmental,25/12/2025,Web,Low,East,30/12/2025
+QD-25-00386,Emissions reporting gap at Mill Lane Yard,Environmental,26/12/2025,Phone,High,East,12/01/2026
+QD-25-00387,Ransomware incident at Mill Lane Yard,Data Breach,29/12/2025,Referral,Low,North,16/01/2026
+QD-25-00388,Recruitment concern at Marlow House,Workplace Conduct,29/12/2025,Phone,Medium,East,11/01/2026
+QD-25-00389,Tender irregularity at Oakfield Station,Procurement,30/12/2025,Email,Low,North,03/01/2026
+QD-25-00390,Waste disposal complaint at the Eastern Laboratory,Environmental,30/12/2025,Web,Low,North,11/01/2026
+QD-25-00391,Bullying complaint at Marlow House,Workplace Conduct,31/12/2025,Referral,High,North,18/01/2026
+QD-26-00392,Bullying complaint at Kingsway Works,Workplace Conduct,01/01/2026,Web,High,West,16/01/2026
+QD-26-00393,Supplier conflict of interest at Elm Street Clinic,Procurement,01/01/2026,Web,Low,North,08/01/2026
+QD-26-00394,Invoice discrepancy at Fairview School,Financial Irregularity,01/01/2026,Phone,Medium,East,20/01/2026
+QD-26-00395,Unexplained payments from Mill Lane Yard,Financial Irregularity,02/01/2026,Phone,High,South,09/01/2026
+QD-26-00396,Unexplained payments from Marlow House,Financial Irregularity,05/01/2026,Referral,Low,West,11/01/2026
+QD-26-00397,Ransomware incident at the Eastern Laboratory,Data Breach,06/01/2026,Phone,Medium,North,13/01/2026
+QD-26-00398,Supplier conflict of interest at Riverside Campus,Procurement,06/01/2026,Phone,High,South,09/01/2026
+QD-26-00399,Recruitment concern at the Port Authority,Workplace Conduct,07/01/2026,Web,Medium,South,11/01/2026
+QD-26-00400,Unexplained payments from Harbour Office,Financial Irregularity,07/01/2026,Email,Low,East,11/01/2026
+QD-26-00401,Planning complaint about Northgate Depot,Licensing,08/01/2026,Phone,Low,East,08/01/2026
+QD-26-00402,Unexplained payments from Harbour Office,Financial Irregularity,08/01/2026,Web,High,West,16/01/2026
+QD-26-00403,Unexplained payments from Harbour Office,Financial Irregularity,08/01/2026,Phone,Low,South,17/01/2026
+QD-26-00404,Protected disclosure from Elm Street Clinic,Workplace Conduct,09/01/2026,Phone,High,West,19/01/2026
+QD-26-00405,Ransomware incident at Northgate Depot,Data Breach,09/01/2026,Web,High,South,11/01/2026
+QD-26-00406,Waste disposal complaint at Fairview School,Environmental,12/01/2026,Referral,High,North,22/01/2026
+QD-26-00407,Harassment allegation at Kingsway Works,Workplace Conduct,12/01/2026,Phone,Medium,East,27/01/2026
+QD-26-00408,Unauthorised access to records at the Port Authority,Data Breach,13/01/2026,Referral,High,North,20/01/2026
+QD-26-00409,Planning complaint about Harbour Office,Licensing,14/01/2026,Email,Medium,North,24/01/2026
+QD-26-00410,Funding condition breach at the Eastern Laboratory,Grant Compliance,14/01/2026,Email,Low,East,21/01/2026
+QD-26-00411,Unlicensed activity at Mill Lane Yard,Licensing,15/01/2026,Referral,Low,West,19/01/2026
+QD-26-00412,Single-source award at Oakfield Station,Procurement,16/01/2026,Phone,High,West,27/01/2026
+QD-26-00413,Ransomware incident at Mill Lane Yard,Data Breach,16/01/2026,Email,Medium,North,18/01/2026
+QD-26-00414,Invoice discrepancy at St Anne's Hall,Financial Irregularity,19/01/2026,Referral,High,East,03/02/2026
+QD-26-00415,Planning complaint about the Eastern Laboratory,Licensing,19/01/2026,Email,Low,East,29/01/2026
+QD-26-00416,Planning complaint about the Port Authority,Licensing,19/01/2026,Referral,Medium,North,27/01/2026
+QD-26-00417,Duplicate supplier payments at Kingsway Works,Financial Irregularity,19/01/2026,Email,High,East,29/01/2026
+QD-26-00418,Tender irregularity at the Central Archive,Procurement,20/01/2026,Phone,Low,West,30/01/2026
+QD-26-00419,Grant milestone shortfall at Northgate Depot,Grant Compliance,20/01/2026,Phone,Low,South,26/01/2026
+QD-26-00420,Unexplained payments from Harbour Office,Financial Irregularity,20/01/2026,Email,Medium,East,06/02/2026
+QD-26-00421,Grant milestone shortfall at the Port Authority,Grant Compliance,21/01/2026,Email,Low,South,02/02/2026
+QD-26-00422,Protected disclosure from the Eastern Laboratory,Workplace Conduct,21/01/2026,Web,Low,North,04/02/2026
+QD-26-00423,Ineligible expenditure at Westfield Library,Grant Compliance,22/01/2026,Referral,High,North,22/01/2026
+QD-26-00424,Unauthorised access to records at the Central Archive,Data Breach,22/01/2026,Referral,High,East,09/02/2026
+QD-26-00425,Misdirected email from Kingsway Works,Data Breach,23/01/2026,Referral,Medium,South,27/01/2026
+QD-26-00426,Planning complaint about Mill Lane Yard,Licensing,23/01/2026,Phone,Medium,South,02/02/2026
+QD-26-00427,Bullying complaint at Riverside Campus,Workplace Conduct,26/01/2026,Phone,Low,North,09/02/2026
+QD-26-00428,Recruitment concern at Oakfield Station,Workplace Conduct,26/01/2026,Email,Low,North,31/01/2026
+QD-26-00429,Planning complaint about Northgate Depot,Licensing,27/01/2026,Referral,High,North,11/02/2026
+QD-26-00430,Funding condition breach at Marlow House,Grant Compliance,27/01/2026,Referral,Medium,East,14/02/2026
+QD-26-00431,Permit breach at Kingsway Works,Environmental,27/01/2026,Referral,Low,North,12/02/2026
+QD-26-00432,Petty cash shortfall at Harbour Office,Financial Irregularity,28/01/2026,Email,Medium,East,07/02/2026
+QD-26-00433,Grant milestone shortfall at Riverside Campus,Grant Compliance,28/01/2026,Phone,Medium,South,09/02/2026
+QD-26-00434,Unlicensed activity at St Anne's Hall,Licensing,28/01/2026,Email,Medium,East,04/02/2026
+QD-26-00435,Funding condition breach at Fairview School,Grant Compliance,29/01/2026,Referral,Low,West,02/02/2026
+QD-26-00436,Waste disposal complaint at Kingsway Works,Environmental,29/01/2026,Email,Medium,South,02/02/2026
+QD-26-00437,Misdirected email from Mill Lane Yard,Data Breach,29/01/2026,Email,Low,West,11/02/2026
+QD-26-00438,Lost laptop at the Eastern Laboratory,Data Breach,29/01/2026,Phone,High,North,11/02/2026
+QD-26-00439,Harassment allegation at Marlow House,Workplace Conduct,30/01/2026,Phone,Medium,East,30/01/2026
+QD-26-00440,Ineligible expenditure at Marlow House,Grant Compliance,30/01/2026,Referral,Medium,East,10/02/2026
+QD-26-00441,Licence condition breach at the Port Authority,Licensing,02/02/2026,Referral,Low,South,10/02/2026
+QD-26-00442,Unlicensed activity at Westfield Library,Licensing,03/02/2026,Referral,High,South,10/02/2026
+QD-26-00443,Licence condition breach at the Eastern Laboratory,Licensing,03/02/2026,Email,Medium,West,09/02/2026
+QD-26-00444,Unexplained payments from the Regional Hub,Financial Irregularity,03/02/2026,Referral,High,South,15/02/2026
+QD-26-00445,Grant milestone shortfall at Westfield Library,Grant Compliance,04/02/2026,Referral,Medium,East,10/02/2026
+QD-26-00446,Protected disclosure from Northgate Depot,Workplace Conduct,04/02/2026,Web,Medium,North,14/02/2026
+QD-26-00447,Unlicensed activity at the Regional Hub,Licensing,05/02/2026,Referral,High,East,19/02/2026
+QD-26-00448,Waste disposal complaint at Mill Lane Yard,Environmental,06/02/2026,Email,Low,East,06/02/2026
+QD-26-00449,Licence condition breach at Kingsway Works,Licensing,06/02/2026,Email,High,West,15/02/2026
+QD-26-00450,Invoice discrepancy at the Regional Hub,Financial Irregularity,06/02/2026,Phone,High,North,23/02/2026
+QD-26-00451,Licence condition breach at the Port Authority,Licensing,09/02/2026,Web,Medium,East,16/02/2026
+QD-26-00452,Supplier conflict of interest at the Central Archive,Procurement,09/02/2026,Web,High,West,26/02/2026
+QD-26-00453,Supplier conflict of interest at Mill Lane Yard,Procurement,09/02/2026,Phone,Medium,East,23/02/2026
+QD-26-00454,Contract variation dispute at Oakfield Station,Procurement,10/02/2026,Phone,Medium,North,23/02/2026
+QD-26-00455,Licence condition breach at Northgate Depot,Licensing,10/02/2026,Referral,Medium,West,25/02/2026
+QD-26-00456,Ransomware incident at Harbour Office,Data Breach,10/02/2026,Email,Low,West,28/02/2026
+QD-26-00457,Permit breach at Marlow House,Environmental,10/02/2026,Web,Low,South,26/02/2026
+QD-26-00458,Recruitment concern at Harbour Office,Workplace Conduct,11/02/2026,Web,Low,North,26/02/2026
+QD-26-00459,Unlicensed activity at Harbour Office,Licensing,11/02/2026,Web,High,East,15/02/2026
+QD-26-00460,Waste disposal complaint at the Eastern Laboratory,Environmental,12/02/2026,Referral,High,South,15/02/2026
+QD-26-00461,Contract variation dispute at the Eastern Laboratory,Procurement,12/02/2026,Web,High,West,02/03/2026
+QD-26-00462,Recruitment concern at Northgate Depot,Workplace Conduct,13/02/2026,Web,Low,South,24/02/2026
+QD-26-00463,Supplier conflict of interest at Oakfield Station,Procurement,13/02/2026,Web,Medium,East,17/02/2026
+QD-26-00464,Permit breach at Kingsway Works,Environmental,16/02/2026,Email,High,West,06/03/2026
+QD-26-00465,Waste disposal complaint at Northgate Depot,Environmental,16/02/2026,Referral,Medium,South,01/03/2026
+QD-26-00466,Planning complaint about Northgate Depot,Licensing,17/02/2026,Referral,High,North,17/02/2026
+QD-26-00467,Protected disclosure from St Anne's Hall,Workplace Conduct,18/02/2026,Phone,Medium,South,28/02/2026
+QD-26-00468,Single-source award at the Central Archive,Procurement,18/02/2026,Phone,Medium,East,20/02/2026
+QD-26-00469,Misdirected email from the Eastern Laboratory,Data Breach,18/02/2026,Phone,High,West,08/03/2026
+QD-26-00470,Unexplained payments from Northgate Depot,Financial Irregularity,18/02/2026,Email,High,North,19/02/2026
+QD-26-00471,Invoice discrepancy at Oakfield Station,Financial Irregularity,19/02/2026,Referral,Medium,East,08/03/2026
+QD-26-00472,Unlicensed activity at Riverside Campus,Licensing,19/02/2026,Email,Medium,North,06/03/2026
+QD-26-00473,Protected disclosure from Mill Lane Yard,Workplace Conduct,20/02/2026,Referral,High,North,21/02/2026
+QD-26-00474,Planning complaint about the Port Authority,Licensing,23/02/2026,Phone,Medium,South,26/02/2026
+QD-26-00475,Licence condition breach at the Central Archive,Licensing,24/02/2026,Referral,Low,West,27/02/2026
+QD-26-00476,Single-source award at Marlow House,Procurement,24/02/2026,Web,High,West,05/03/2026
+QD-26-00477,Tender irregularity at Marlow House,Procurement,25/02/2026,Phone,Medium,South,13/03/2026
+QD-26-00478,Unexplained payments from Fairview School,Financial Irregularity,25/02/2026,Phone,High,East,26/02/2026
+QD-26-00479,Planning complaint about the Central Archive,Licensing,25/02/2026,Referral,Medium,South,04/03/2026
+QD-26-00480,Petty cash shortfall at St Anne's Hall,Financial Irregularity,26/02/2026,Email,Medium,South,14/03/2026
+QD-26-00481,Planning complaint about Marlow House,Licensing,27/02/2026,Referral,Low,West,13/03/2026
+QD-26-00482,Unauthorised access to records at Elm Street Clinic,Data Breach,27/02/2026,Referral,High,South,02/03/2026
+QD-26-00483,Harassment allegation at the Eastern Laboratory,Workplace Conduct,02/03/2026,Referral,High,West,05/03/2026
+QD-26-00484,Invoice discrepancy at Fairview School,Financial Irregularity,02/03/2026,Referral,High,South,20/03/2026
+QD-26-00485,Licence condition breach at Westfield Library,Licensing,02/03/2026,Phone,Low,North,07/03/2026
+QD-26-00486,Single-source award at the Eastern Laboratory,Procurement,02/03/2026,Web,Medium,East,09/03/2026
+QD-26-00487,Unexplained payments from the Eastern Laboratory,Financial Irregularity,03/03/2026,Phone,High,East,11/03/2026
+QD-26-00488,Ransomware incident at Riverside Campus,Data Breach,03/03/2026,Web,Low,South,13/03/2026
+QD-26-00489,Single-source award at Mill Lane Yard,Procurement,04/03/2026,Referral,High,East,16/03/2026
+QD-26-00490,Waste disposal complaint at Elm Street Clinic,Environmental,04/03/2026,Web,High,West,16/03/2026
+QD-26-00491,Grant milestone shortfall at Kingsway Works,Grant Compliance,04/03/2026,Email,Low,East,22/03/2026
+QD-26-00492,Duplicate supplier payments at Harbour Office,Financial Irregularity,05/03/2026,Phone,High,East,10/03/2026
+QD-26-00493,Bullying complaint at the Central Archive,Workplace Conduct,05/03/2026,Phone,High,East,18/03/2026
+QD-26-00494,Ransomware incident at the Regional Hub,Data Breach,06/03/2026,Web,Medium,West,10/03/2026
+QD-26-00495,Misdirected email from Northgate Depot,Data Breach,06/03/2026,Email,Medium,West,19/03/2026
+QD-26-00496,Recruitment concern at Riverside Campus,Workplace Conduct,06/03/2026,Phone,Low,East,10/03/2026
+QD-26-00497,Permit breach at the Central Archive,Environmental,06/03/2026,Phone,Medium,East,09/03/2026
+QD-26-00498,Planning complaint about Marlow House,Licensing,09/03/2026,Email,High,West,22/03/2026
+QD-26-00499,Protected disclosure from St Anne's Hall,Workplace Conduct,09/03/2026,Referral,Low,North,16/03/2026
+QD-26-00500,Unauthorised access to records at Westfield Library,Data Breach,09/03/2026,Email,Low,North,09/03/2026
+QD-26-00501,Contract variation dispute at Harbour Office,Procurement,10/03/2026,Phone,High,North,20/03/2026
+QD-26-00502,Invoice discrepancy at Kingsway Works,Financial Irregularity,10/03/2026,Email,High,East,22/03/2026
+QD-26-00503,Recruitment concern at Oakfield Station,Workplace Conduct,11/03/2026,Web,Low,North,18/03/2026
+QD-26-00504,Unlicensed activity at Elm Street Clinic,Licensing,12/03/2026,Referral,Low,West,28/03/2026
+QD-26-00505,Unlicensed activity at the Regional Hub,Licensing,12/03/2026,Web,High,North,16/03/2026
+QD-26-00506,Permit breach at Fairview School,Environmental,12/03/2026,Phone,High,North,12/03/2026
+QD-26-00507,Contract variation dispute at St Anne's Hall,Procurement,12/03/2026,Referral,High,East,29/03/2026
+QD-26-00508,Permit breach at the Eastern Laboratory,Environmental,13/03/2026,Email,Low,East,01/04/2026
+QD-26-00509,Recruitment concern at the Central Archive,Workplace Conduct,13/03/2026,Web,Low,South,26/03/2026
+QD-26-00510,Funding condition breach at Riverside Campus,Grant Compliance,13/03/2026,Email,Medium,South,18/03/2026
+QD-26-00511,Supplier conflict of interest at Riverside Campus,Procurement,16/03/2026,Phone,High,East,01/04/2026
+QD-26-00512,Grant milestone shortfall at the Eastern Laboratory,Grant Compliance,16/03/2026,Phone,High,West,02/04/2026
+QD-26-00513,Planning complaint about Elm Street Clinic,Licensing,16/03/2026,Email,Medium,South,23/03/2026
+QD-26-00514,Permit breach at St Anne's Hall,Environmental,17/03/2026,Referral,High,West,03/04/2026
+QD-26-00515,Ransomware incident at Marlow House,Data Breach,17/03/2026,Referral,High,North,30/03/2026
+QD-26-00516,Duplicate supplier payments at Fairview School,Financial Irregularity,17/03/2026,Web,Medium,East,05/04/2026
+QD-26-00517,Emissions reporting gap at the Port Authority,Environmental,18/03/2026,Referral,High,East,25/03/2026
+QD-26-00518,Tender irregularity at Elm Street Clinic,Procurement,19/03/2026,Referral,Medium,East,27/03/2026
+QD-26-00519,Permit breach at the Port Authority,Environmental,19/03/2026,Referral,High,South,01/04/2026
+QD-26-00520,Tender irregularity at Westfield Library,Procurement,20/03/2026,Email,Low,North,25/03/2026
+QD-26-00521,Planning complaint about the Eastern Laboratory,Licensing,20/03/2026,Web,High,South,07/04/2026
+QD-26-00522,Waste disposal complaint at Harbour Office,Environmental,20/03/2026,Phone,Low,West,24/03/2026
+QD-26-00523,Planning complaint about Northgate Depot,Licensing,23/03/2026,Email,Low,North,03/04/2026
+QD-26-00524,Unlicensed activity at Westfield Library,Licensing,23/03/2026,Web,Medium,South,31/03/2026
+QD-26-00525,Ransomware incident at Northgate Depot,Data Breach,23/03/2026,Phone,Medium,West,26/03/2026
+QD-26-00526,Waste disposal complaint at the Regional Hub,Environmental,24/03/2026,Referral,High,North,03/04/2026
+QD-26-00527,Invoice discrepancy at the Eastern Laboratory,Financial Irregularity,24/03/2026,Email,Medium,North,28/03/2026
+QD-26-00528,Planning complaint about the Port Authority,Licensing,24/03/2026,Referral,Medium,East,09/04/2026
+QD-26-00529,Unlicensed activity at the Central Archive,Licensing,25/03/2026,Referral,High,North,02/04/2026
+QD-26-00530,Invoice discrepancy at Mill Lane Yard,Financial Irregularity,25/03/2026,Web,Medium,East,11/04/2026
+QD-26-00531,Misdirected email from the Eastern Laboratory,Data Breach,26/03/2026,Phone,High,North,05/04/2026
+QD-26-00532,Unexplained payments from the Regional Hub,Financial Irregularity,26/03/2026,Email,High,North,14/04/2026
+QD-26-00533,Grant milestone shortfall at Northgate Depot,Grant Compliance,26/03/2026,Referral,High,South,31/03/2026
+QD-26-00534,Supplier conflict of interest at Harbour Office,Procurement,27/03/2026,Web,Low,East,12/04/2026
+QD-26-00535,Licence condition breach at Riverside Campus,Licensing,27/03/2026,Referral,High,East,27/03/2026
+QD-26-00536,Ineligible expenditure at Elm Street Clinic,Grant Compliance,27/03/2026,Web,High,East,08/04/2026
+QD-26-00537,Harassment allegation at the Eastern Laboratory,Workplace Conduct,30/03/2026,Phone,Medium,North,07/04/2026
+QD-26-00538,Unexplained payments from the Eastern Laboratory,Financial Irregularity,30/03/2026,Referral,Low,East,10/04/2026
+QD-26-00539,Petty cash shortfall at Kingsway Works,Financial Irregularity,31/03/2026,Web,High,West,19/04/2026
+QD-26-00540,Ineligible expenditure at Elm Street Clinic,Grant Compliance,31/03/2026,Email,Medium,West,02/04/2026
+QD-26-00541,Petty cash shortfall at Riverside Campus,Financial Irregularity,31/03/2026,Phone,Medium,South,17/04/2026
+QD-26-00542,Permit breach at St Anne's Hall,Environmental,01/04/2026,Phone,Low,West,11/04/2026
+QD-26-00543,Ransomware incident at Kingsway Works,Data Breach,01/04/2026,Referral,Low,East,14/04/2026
+QD-26-00544,Waste disposal complaint at Marlow House,Environmental,02/04/2026,Phone,High,South,20/04/2026
+QD-26-00545,Funding condition breach at the Eastern Laboratory,Grant Compliance,02/04/2026,Referral,High,North,02/04/2026
+QD-26-00546,Invoice discrepancy at the Central Archive,Financial Irregularity,02/04/2026,Email,Low,East,02/04/2026
+QD-26-00547,Bullying complaint at Marlow House,Workplace Conduct,03/04/2026,Phone,Medium,East,04/04/2026
+QD-26-00548,Unlicensed activity at the Regional Hub,Licensing,03/04/2026,Phone,Low,West,21/04/2026
+QD-26-00549,Petty cash shortfall at Harbour Office,Financial Irregularity,03/04/2026,Web,Medium,South,20/04/2026
+QD-26-00550,Funding condition breach at St Anne's Hall,Grant Compliance,06/04/2026,Referral,Low,North,08/04/2026
+QD-26-00551,Ransomware incident at Elm Street Clinic,Data Breach,06/04/2026,Email,Low,West,21/04/2026
+QD-26-00552,Unlicensed activity at Oakfield Station,Licensing,06/04/2026,Referral,High,East,11/04/2026
+QD-26-00553,Waste disposal complaint at Fairview School,Environmental,07/04/2026,Email,Low,North,26/04/2026
+QD-26-00554,Single-source award at St Anne's Hall,Procurement,07/04/2026,Web,High,West,23/04/2026
+QD-26-00555,Protected disclosure from the Eastern Laboratory,Workplace Conduct,08/04/2026,Phone,Low,West,24/04/2026
+QD-26-00556,Tender irregularity at the Port Authority,Procurement,08/04/2026,Web,Medium,East,13/04/2026
+QD-26-00557,Protected disclosure from Northgate Depot,Workplace Conduct,09/04/2026,Email,Medium,East,24/04/2026
+QD-26-00558,Supplier conflict of interest at Harbour Office,Procurement,09/04/2026,Phone,Medium,East,15/04/2026
+QD-26-00559,Unexplained payments from the Port Authority,Financial Irregularity,09/04/2026,Email,High,West,12/04/2026
+QD-26-00560,Funding condition breach at Fairview School,Grant Compliance,10/04/2026,Phone,High,North,18/04/2026
+QD-26-00561,Unauthorised access to records at Riverside Campus,Data Breach,10/04/2026,Email,High,North,20/04/2026
+QD-26-00562,Ransomware incident at Oakfield Station,Data Breach,10/04/2026,Referral,Low,East,14/04/2026
+QD-26-00563,Ineligible expenditure at Marlow House,Grant Compliance,10/04/2026,Web,Low,East,23/04/2026
+QD-26-00564,Grant milestone shortfall at the Regional Hub,Grant Compliance,13/04/2026,Email,Medium,East,15/04/2026
+QD-26-00565,Unexplained payments from Northgate Depot,Financial Irregularity,14/04/2026,Web,Medium,North,19/04/2026
+QD-26-00566,Supplier conflict of interest at Fairview School,Procurement,14/04/2026,Referral,Medium,South,01/05/2026
+QD-26-00567,Unexplained payments from Oakfield Station,Financial Irregularity,14/04/2026,Web,High,West,30/04/2026
+QD-26-00568,Unlicensed activity at the Regional Hub,Licensing,15/04/2026,Phone,High,South,21/04/2026
+QD-26-00569,Funding condition breach at the Port Authority,Grant Compliance,15/04/2026,Email,Low,East,28/04/2026
+QD-26-00570,Emissions reporting gap at the Regional Hub,Environmental,16/04/2026,Web,High,East,21/04/2026
+QD-26-00571,Recruitment concern at Westfield Library,Workplace Conduct,17/04/2026,Email,Low,North,17/04/2026
+QD-26-00572,Planning complaint about Oakfield Station,Licensing,17/04/2026,Referral,Low,West,20/04/2026
+QD-26-00573,Funding condition breach at Marlow House,Grant Compliance,17/04/2026,Phone,Medium,North,27/04/2026
+QD-26-00574,Ransomware incident at the Port Authority,Data Breach,20/04/2026,Email,Medium,South,28/04/2026
+QD-26-00575,Lost laptop at Northgate Depot,Data Breach,20/04/2026,Email,Medium,North,04/05/2026
+QD-26-00576,Misdirected email from the Central Archive,Data Breach,20/04/2026,Phone,Low,South,06/05/2026
+QD-26-00577,Licence condition breach at Fairview School,Licensing,21/04/2026,Email,Medium,East,10/05/2026
+QD-26-00578,Recruitment concern at the Eastern Laboratory,Workplace Conduct,22/04/2026,Referral,High,North,29/04/2026
+QD-26-00579,Supplier conflict of interest at St Anne's Hall,Procurement,22/04/2026,Web,Low,South,07/05/2026
+QD-26-00580,Emissions reporting gap at the Regional Hub,Environmental,22/04/2026,Phone,Low,South,30/04/2026
+QD-26-00581,Contract variation dispute at the Eastern Laboratory,Procurement,22/04/2026,Web,High,East,23/04/2026
+QD-26-00582,Unlicensed activity at Northgate Depot,Licensing,23/04/2026,Referral,Medium,South,01/05/2026
+QD-26-00583,Planning complaint about Fairview School,Licensing,23/04/2026,Web,Medium,West,09/05/2026
+QD-26-00584,Lost laptop at Oakfield Station,Data Breach,23/04/2026,Email,High,North,25/04/2026
+QD-26-00585,Protected disclosure from Elm Street Clinic,Workplace Conduct,24/04/2026,Email,High,West,05/05/2026
+QD-26-00586,Protected disclosure from Westfield Library,Workplace Conduct,24/04/2026,Web,Medium,West,29/04/2026
+QD-26-00587,Funding condition breach at Riverside Campus,Grant Compliance,27/04/2026,Phone,High,North,04/05/2026
+QD-26-00588,Tender irregularity at the Central Archive,Procurement,27/04/2026,Email,Low,West,13/05/2026
+QD-26-00589,Bullying complaint at Mill Lane Yard,Workplace Conduct,28/04/2026,Phone,Medium,South,28/04/2026
+QD-26-00590,Invoice discrepancy at Marlow House,Financial Irregularity,28/04/2026,Email,High,North,16/05/2026
+QD-26-00591,Funding condition breach at Northgate Depot,Grant Compliance,28/04/2026,Referral,High,East,08/05/2026
+QD-26-00592,Ineligible expenditure at Kingsway Works,Grant Compliance,29/04/2026,Email,Medium,East,08/05/2026
+QD-26-00593,Tender irregularity at Mill Lane Yard,Procurement,29/04/2026,Web,Medium,West,29/04/2026
+QD-26-00594,Harassment allegation at Oakfield Station,Workplace Conduct,30/04/2026,Web,Medium,North,19/05/2026
+QD-26-00595,Permit breach at Mill Lane Yard,Environmental,30/04/2026,Referral,High,West,07/05/2026
+QD-26-00596,Grant milestone shortfall at Harbour Office,Grant Compliance,30/04/2026,Referral,High,North,11/05/2026
+QD-26-00597,Tender irregularity at the Port Authority,Procurement,01/05/2026,Web,High,North,15/05/2026
+QD-26-00598,Lost laptop at Harbour Office,Data Breach,01/05/2026,Phone,Low,South,08/05/2026
+QD-26-00599,Recruitment concern at St Anne's Hall,Workplace Conduct,01/05/2026,Web,Low,South,04/05/2026
+QD-26-00600,Harassment allegation at Fairview School,Workplace Conduct,01/05/2026,Email,High,South,04/05/2026
+QD-26-00601,Planning complaint about Fairview School,Licensing,04/05/2026,Web,High,West,11/05/2026
+QD-26-00602,Contract variation dispute at Oakfield Station,Procurement,04/05/2026,Referral,Low,North,08/05/2026
+QD-26-00603,Ransomware incident at Fairview School,Data Breach,05/05/2026,Email,Medium,South,24/05/2026
+QD-26-00604,Contract variation dispute at Riverside Campus,Procurement,06/05/2026,Referral,Medium,East,09/05/2026
+QD-26-00605,Harassment allegation at the Central Archive,Workplace Conduct,06/05/2026,Email,Low,West,24/05/2026
+QD-26-00606,Funding condition breach at Elm Street Clinic,Grant Compliance,07/05/2026,Phone,Low,West,20/05/2026
+QD-26-00607,Permit breach at Fairview School,Environmental,07/05/2026,Web,High,West,16/05/2026
+QD-26-00608,Harassment allegation at Harbour Office,Workplace Conduct,07/05/2026,Phone,Low,South,24/05/2026
+QD-26-00609,Ineligible expenditure at the Eastern Laboratory,Grant Compliance,08/05/2026,Email,Low,South,13/05/2026
+QD-26-00610,Ineligible expenditure at Kingsway Works,Grant Compliance,08/05/2026,Referral,High,North,14/05/2026
+QD-26-00611,Licence condition breach at Northgate Depot,Licensing,08/05/2026,Web,Medium,West,09/05/2026
+QD-26-00612,Single-source award at St Anne's Hall,Procurement,08/05/2026,Phone,Medium,South,10/05/2026
+QD-26-00613,Tender irregularity at the Regional Hub,Procurement,11/05/2026,Email,High,East,12/05/2026
+QD-26-00614,Single-source award at Oakfield Station,Procurement,12/05/2026,Web,Medium,South,22/05/2026
+QD-26-00615,Licence condition breach at St Anne's Hall,Licensing,12/05/2026,Web,High,South,22/05/2026
+QD-26-00616,Licence condition breach at Marlow House,Licensing,13/05/2026,Web,Medium,East,19/05/2026
+QD-26-00617,Protected disclosure from Riverside Campus,Workplace Conduct,13/05/2026,Phone,High,North,24/05/2026
+QD-26-00618,Waste disposal complaint at the Central Archive,Environmental,13/05/2026,Web,Medium,East,27/05/2026
+QD-26-00619,Single-source award at Elm Street Clinic,Procurement,14/05/2026,Phone,Medium,West,22/05/2026
+QD-26-00620,Unlicensed activity at Riverside Campus,Licensing,14/05/2026,Email,High,East,29/05/2026
+QD-26-00621,Lost laptop at Fairview School,Data Breach,14/05/2026,Email,High,East,01/06/2026
+QD-26-00622,Duplicate supplier payments at Elm Street Clinic,Financial Irregularity,15/05/2026,Referral,Low,East,18/05/2026
+QD-26-00623,Grant milestone shortfall at Riverside Campus,Grant Compliance,15/05/2026,Email,Low,South,15/05/2026
+QD-26-00624,Protected disclosure from the Regional Hub,Workplace Conduct,18/05/2026,Email,Low,West,23/05/2026
+QD-26-00625,Unauthorised access to records at the Regional Hub,Data Breach,18/05/2026,Referral,Medium,East,01/06/2026
+QD-26-00626,Duplicate supplier payments at Riverside Campus,Financial Irregularity,18/05/2026,Email,Low,North,02/06/2026
+QD-26-00627,Unlicensed activity at Mill Lane Yard,Licensing,18/05/2026,Email,Low,North,25/05/2026
+QD-26-00628,Licence condition breach at Elm Street Clinic,Licensing,19/05/2026,Web,High,South,26/05/2026
+QD-26-00629,Ineligible expenditure at Northgate Depot,Grant Compliance,19/05/2026,Referral,Low,North,24/05/2026
+QD-26-00630,Single-source award at Elm Street Clinic,Procurement,19/05/2026,Referral,Medium,North,06/06/2026
+QD-26-00631,Emissions reporting gap at Oakfield Station,Environmental,20/05/2026,Referral,High,West,23/05/2026
+QD-26-00632,Emissions reporting gap at the Regional Hub,Environmental,20/05/2026,Phone,High,South,31/05/2026
+QD-26-00633,Duplicate supplier payments at Fairview School,Financial Irregularity,20/05/2026,Web,High,East,08/06/2026
+QD-26-00634,Harassment allegation at Fairview School,Workplace Conduct,21/05/2026,Phone,Low,South,07/06/2026
+QD-26-00635,Invoice discrepancy at St Anne's Hall,Financial Irregularity,21/05/2026,Phone,High,West,08/06/2026
+QD-26-00636,Bullying complaint at Marlow House,Workplace Conduct,21/05/2026,Phone,Low,North,05/06/2026
+QD-26-00637,Supplier conflict of interest at St Anne's Hall,Procurement,22/05/2026,Phone,Medium,South,23/05/2026
+QD-26-00638,Contract variation dispute at the Regional Hub,Procurement,25/05/2026,Email,Medium,North,02/06/2026
+QD-26-00639,Planning complaint about Riverside Campus,Licensing,25/05/2026,Phone,High,East,10/06/2026
+QD-26-00640,Unauthorised access to records at the Eastern Laboratory,Data Breach,25/05/2026,Email,High,South,02/06/2026
+QD-26-00641,Grant milestone shortfall at Northgate Depot,Grant Compliance,26/05/2026,Phone,High,East,30/05/2026
+QD-26-00642,Tender irregularity at Northgate Depot,Procurement,26/05/2026,Referral,High,East,08/06/2026
+QD-26-00643,Funding condition breach at Northgate Depot,Grant Compliance,27/05/2026,Web,Medium,West,12/06/2026
+QD-26-00644,Lost laptop at the Regional Hub,Data Breach,28/05/2026,Phone,Medium,West,05/06/2026
+QD-26-00645,Lost laptop at Riverside Campus,Data Breach,29/05/2026,Web,High,West,06/06/2026
+QD-26-00646,Unexplained payments from the Port Authority,Financial Irregularity,29/05/2026,Phone,Medium,West,08/06/2026
+QD-26-00647,Single-source award at the Eastern Laboratory,Procurement,29/05/2026,Web,High,West,08/06/2026
+QD-26-00648,Funding condition breach at Marlow House,Grant Compliance,01/06/2026,Phone,Medium,North,07/06/2026
+QD-26-00649,Funding condition breach at Northgate Depot,Grant Compliance,01/06/2026,Referral,Medium,South,19/06/2026
+QD-26-00650,Grant milestone shortfall at the Regional Hub,Grant Compliance,02/06/2026,Phone,Low,West,08/06/2026
+QD-26-00651,Invoice discrepancy at Mill Lane Yard,Financial Irregularity,02/06/2026,Phone,Low,West,06/06/2026
+QD-26-00652,Single-source award at the Central Archive,Procurement,03/06/2026,Email,Medium,West,13/06/2026
+QD-26-00653,Ransomware incident at Elm Street Clinic,Data Breach,03/06/2026,Email,Low,North,13/06/2026
+QD-26-00654,Misdirected email from Fairview School,Data Breach,03/06/2026,Phone,High,East,17/06/2026
+QD-26-00655,Invoice discrepancy at the Eastern Laboratory,Financial Irregularity,04/06/2026,Referral,Medium,North,15/06/2026
+QD-26-00656,Lost laptop at Riverside Campus,Data Breach,04/06/2026,Web,High,West,09/06/2026
+QD-26-00657,Waste disposal complaint at Oakfield Station,Environmental,05/06/2026,Web,High,West,08/06/2026
+QD-26-00658,Waste disposal complaint at the Port Authority,Environmental,05/06/2026,Email,High,West,18/06/2026
+QD-26-00659,Harassment allegation at Northgate Depot,Workplace Conduct,08/06/2026,Email,Low,North,17/06/2026
+QD-26-00660,Bullying complaint at the Regional Hub,Workplace Conduct,08/06/2026,Phone,Low,North,16/06/2026
+QD-26-00661,Supplier conflict of interest at Kingsway Works,Procurement,08/06/2026,Phone,Medium,East,27/06/2026
+QD-26-00662,Emissions reporting gap at the Eastern Laboratory,Environmental,09/06/2026,Email,High,West,12/06/2026
+QD-26-00663,Single-source award at Kingsway Works,Procurement,09/06/2026,Referral,High,North,23/06/2026
+QD-26-00664,Permit breach at the Port Authority,Environmental,10/06/2026,Phone,High,North,28/06/2026
+QD-26-00665,Lost laptop at Elm Street Clinic,Data Breach,11/06/2026,Email,Medium,West,20/06/2026
+QD-26-00666,Contract variation dispute at Marlow House,Procurement,12/06/2026,Phone,Low,East,26/06/2026
+QD-26-00667,Misdirected email from Riverside Campus,Data Breach,12/06/2026,Referral,High,North,29/06/2026
+QD-26-00668,Duplicate supplier payments at Fairview School,Financial Irregularity,15/06/2026,Referral,Low,East,26/06/2026
+QD-26-00669,Unauthorised access to records at Oakfield Station,Data Breach,16/06/2026,Web,High,East,21/06/2026
+QD-26-00670,Recruitment concern at Northgate Depot,Workplace Conduct,16/06/2026,Email,High,North,01/07/2026
+QD-26-00671,Harassment allegation at Oakfield Station,Workplace Conduct,17/06/2026,Web,High,South,01/07/2026
+QD-26-00672,Planning complaint about Marlow House,Licensing,17/06/2026,Email,High,East,20/06/2026
+QD-26-00673,Permit breach at Riverside Campus,Environmental,18/06/2026,Web,Low,East,19/06/2026
+QD-26-00674,Harassment allegation at Marlow House,Workplace Conduct,18/06/2026,Email,Low,North,05/07/2026
+QD-26-00675,Invoice discrepancy at Northgate Depot,Financial Irregularity,18/06/2026,Web,Low,West,27/06/2026
+QD-26-00676,Licence condition breach at Kingsway Works,Licensing,19/06/2026,Email,High,West,21/06/2026
+QD-26-00677,Bullying complaint at Mill Lane Yard,Workplace Conduct,22/06/2026,Referral,High,West,27/06/2026
+QD-26-00678,Ransomware incident at Mill Lane Yard,Data Breach,22/06/2026,Phone,Low,South,29/06/2026
+QD-26-00679,Bullying complaint at Northgate Depot,Workplace Conduct,22/06/2026,Phone,High,North,01/07/2026
+QD-26-00680,Emissions reporting gap at the Regional Hub,Environmental,23/06/2026,Referral,High,West,30/06/2026
+QD-26-00681,Waste disposal complaint at Marlow House,Environmental,23/06/2026,Phone,Low,South,25/06/2026
+QD-26-00682,Permit breach at the Central Archive,Environmental,24/06/2026,Referral,High,North,11/07/2026
+QD-26-00683,Unauthorised access to records at the Port Authority,Data Breach,24/06/2026,Email,Medium,East,05/07/2026
+QD-26-00684,Duplicate supplier payments at Marlow House,Financial Irregularity,25/06/2026,Email,Low,North,09/07/2026
+QD-26-00685,Recruitment concern at the Port Authority,Workplace Conduct,25/06/2026,Phone,Low,South,09/07/2026
+QD-26-00686,Single-source award at Oakfield Station,Procurement,25/06/2026,Referral,Medium,West,30/06/2026
+QD-26-00687,Unexplained payments from the Regional Hub,Financial Irregularity,25/06/2026,Web,Medium,West,06/07/2026
+QD-26-00688,Unexplained payments from the Central Archive,Financial Irregularity,26/06/2026,Phone,High,North,27/06/2026
+QD-26-00689,Lost laptop at Riverside Campus,Data Breach,29/06/2026,Referral,Low,North,08/07/2026
+QD-26-00690,Emissions reporting gap at the Eastern Laboratory,Environmental,29/06/2026,Referral,High,North,02/07/2026
+QD-26-00691,Permit breach at Harbour Office,Environmental,29/06/2026,Web,Medium,South,07/07/2026
+QD-26-00692,Harassment allegation at Oakfield Station,Workplace Conduct,29/06/2026,Phone,Low,East,05/07/2026
+QD-26-00693,Waste disposal complaint at Westfield Library,Environmental,30/06/2026,Email,High,South,10/07/2026
+QD-26-00694,Unauthorised access to records at Fairview School,Data Breach,30/06/2026,Referral,High,West,19/07/2026
+QD-26-00695,Unlicensed activity at Northgate Depot,Licensing,01/07/2026,Email,High,West,09/07/2026
+QD-26-00696,Invoice discrepancy at St Anne's Hall,Financial Irregularity,01/07/2026,Phone,High,East,10/07/2026
+QD-26-00697,Recruitment concern at Kingsway Works,Workplace Conduct,02/07/2026,Email,High,East,21/07/2026
+QD-26-00698,Ransomware incident at Oakfield Station,Data Breach,03/07/2026,Web,Low,East,18/07/2026
+QD-26-00699,Contract variation dispute at Elm Street Clinic,Procurement,03/07/2026,Web,Low,East,04/07/2026
+QD-26-00700,Duplicate supplier payments at St Anne's Hall,Financial Irregularity,06/07/2026,Web,Low,North,13/07/2026
+QD-26-00701,Ineligible expenditure at Oakfield Station,Grant Compliance,07/07/2026,Phone,Medium,North,09/07/2026
+QD-26-00702,Protected disclosure from Northgate Depot,Workplace Conduct,07/07/2026,Email,Medium,North,19/07/2026
+QD-26-00703,Protected disclosure from the Regional Hub,Workplace Conduct,08/07/2026,Email,Low,North,16/07/2026
+QD-26-00704,Single-source award at Northgate Depot,Procurement,08/07/2026,Phone,Low,North,19/07/2026
+QD-26-00705,Permit breach at the Central Archive,Environmental,09/07/2026,Phone,High,East,11/07/2026
+QD-26-00706,Planning complaint about the Regional Hub,Licensing,09/07/2026,Email,Low,West,28/07/2026
+QD-26-00707,Lost laptop at Fairview School,Data Breach,10/07/2026,Web,Medium,North,20/07/2026
+QD-26-00708,Ransomware incident at St Anne's Hall,Data Breach,10/07/2026,Referral,Low,North,22/07/2026
+QD-26-00709,Invoice discrepancy at Oakfield Station,Financial Irregularity,10/07/2026,Phone,High,South,28/07/2026
+QD-26-00710,Protected disclosure from the Regional Hub,Workplace Conduct,13/07/2026,Phone,High,South,15/07/2026
+QD-26-00711,Unlicensed activity at Oakfield Station,Licensing,13/07/2026,Phone,High,South,17/07/2026
+QD-26-00712,Planning complaint about Kingsway Works,Licensing,14/07/2026,Referral,High,South,29/07/2026
+QD-26-00713,Bullying complaint at the Central Archive,Workplace Conduct,14/07/2026,Email,High,East,24/07/2026
+QD-26-00714,Protected disclosure from the Regional Hub,Workplace Conduct,15/07/2026,Referral,Low,East,01/08/2026
+QD-26-00715,Ineligible expenditure at Mill Lane Yard,Grant Compliance,16/07/2026,Referral,Medium,South,31/07/2026
+QD-26-00716,Funding condition breach at Oakfield Station,Grant Compliance,16/07/2026,Phone,High,South,27/07/2026
+QD-26-00717,Contract variation dispute at Mill Lane Yard,Procurement,16/07/2026,Web,Medium,East,30/07/2026
+QD-26-00718,Grant milestone shortfall at Fairview School,Grant Compliance,17/07/2026,Referral,Medium,South,03/08/2026
+QD-26-00719,Emissions reporting gap at Fairview School,Environmental,17/07/2026,Phone,High,West,30/07/2026
+QD-26-00720,Emissions reporting gap at the Central Archive,Environmental,17/07/2026,Referral,Medium,North,29/07/2026
+QD-26-00721,Petty cash shortfall at the Regional Hub,Financial Irregularity,20/07/2026,Email,Medium,South,25/07/2026
+QD-26-00722,Invoice discrepancy at Elm Street Clinic,Financial Irregularity,20/07/2026,Web,High,North,03/08/2026
+QD-26-00723,Supplier conflict of interest at Marlow House,Procurement,20/07/2026,Phone,Low,North,04/08/2026
+QD-26-00724,Lost laptop at the Central Archive,Data Breach,21/07/2026,Phone,High,West,08/08/2026
+QD-26-00725,Single-source award at St Anne's Hall,Procurement,21/07/2026,Phone,Low,East,21/07/2026
+QD-26-00726,Duplicate supplier payments at St Anne's Hall,Financial Irregularity,21/07/2026,Email,High,South,22/07/2026
+QD-26-00727,Funding condition breach at the Port Authority,Grant Compliance,22/07/2026,Referral,Medium,East,06/08/2026
+QD-26-00728,Grant milestone shortfall at the Regional Hub,Grant Compliance,22/07/2026,Referral,Low,East,23/07/2026
+QD-26-00729,Protected disclosure from Oakfield Station,Workplace Conduct,22/07/2026,Referral,Low,West,27/07/2026
+QD-26-00730,Funding condition breach at Northgate Depot,Grant Compliance,23/07/2026,Email,Low,North,28/07/2026
+QD-26-00731,Petty cash shortfall at Kingsway Works,Financial Irregularity,23/07/2026,Phone,Medium,North,28/07/2026
+QD-26-00732,Permit breach at Riverside Campus,Environmental,23/07/2026,Phone,Low,East,09/08/2026
+QD-26-00733,Protected disclosure from Northgate Depot,Workplace Conduct,24/07/2026,Phone,High,East,25/07/2026
+QD-26-00734,Supplier conflict of interest at Mill Lane Yard,Procurement,24/07/2026,Referral,Low,East,12/08/2026
+QD-26-00735,Planning complaint about Kingsway Works,Licensing,24/07/2026,Web,Medium,North,27/07/2026
+QD-26-00736,Unexplained payments from Elm Street Clinic,Financial Irregularity,27/07/2026,Referral,Low,South,11/08/2026
+QD-26-00737,Ineligible expenditure at the Eastern Laboratory,Grant Compliance,27/07/2026,Phone,Medium,East,01/08/2026
+QD-26-00738,Bullying complaint at the Regional Hub,Workplace Conduct,27/07/2026,Email,High,North,15/08/2026
+QD-26-00739,Planning complaint about the Eastern Laboratory,Licensing,28/07/2026,Referral,High,East,06/08/2026
+QD-26-00740,Planning complaint about Kingsway Works,Licensing,29/07/2026,Web,Low,East,02/08/2026
+QD-26-00741,Lost laptop at the Regional Hub,Data Breach,29/07/2026,Email,Medium,West,09/08/2026
+QD-26-00742,Funding condition breach at the Eastern Laboratory,Grant Compliance,30/07/2026,Referral,Low,North,02/08/2026
+QD-26-00743,Protected disclosure from St Anne's Hall,Workplace Conduct,30/07/2026,Referral,Medium,North,13/08/2026
+QD-26-00744,Permit breach at Fairview School,Environmental,31/07/2026,Email,High,North,09/08/2026
+QD-26-00745,Contract variation dispute at Mill Lane Yard,Procurement,31/07/2026,Email,Medium,South,01/08/2026
+QD-26-00746,Invoice discrepancy at Kingsway Works,Financial Irregularity,31/07/2026,Referral,Medium,North,14/08/2026
+QD-26-00747,Invoice discrepancy at Harbour Office,Financial Irregularity,03/08/2026,Email,High,North,16/08/2026
+QD-26-00748,Waste disposal complaint at the Central Archive,Environmental,03/08/2026,Web,Low,West,07/08/2026
+QD-26-00749,Ineligible expenditure at Northgate Depot,Grant Compliance,04/08/2026,Referral,High,East,15/08/2026
+QD-26-00750,Licence condition breach at Riverside Campus,Licensing,05/08/2026,Web,Medium,West,19/08/2026
+QD-26-00751,Unauthorised access to records at Elm Street Clinic,Data Breach,06/08/2026,Web,Medium,North,24/08/2026
+QD-26-00752,Permit breach at Kingsway Works,Environmental,06/08/2026,Web,Low,North,25/08/2026
+QD-26-00753,Petty cash shortfall at Fairview School,Financial Irregularity,06/08/2026,Web,Medium,East,25/08/2026
+QD-26-00754,Permit breach at the Eastern Laboratory,Environmental,07/08/2026,Referral,High,East,17/08/2026
+QD-26-00755,Grant milestone shortfall at Westfield Library,Grant Compliance,07/08/2026,Referral,Medium,East,18/08/2026
+QD-26-00756,Single-source award at St Anne's Hall,Procurement,07/08/2026,Web,Medium,North,08/08/2026
+QD-26-00757,Ransomware incident at Elm Street Clinic,Data Breach,10/08/2026,Web,High,South,14/08/2026
+QD-26-00758,Unlicensed activity at the Port Authority,Licensing,11/08/2026,Phone,Low,South,11/08/2026
+QD-26-00759,Funding condition breach at Elm Street Clinic,Grant Compliance,11/08/2026,Web,High,East,26/08/2026
+QD-26-00760,Petty cash shortfall at Northgate Depot,Financial Irregularity,12/08/2026,Phone,High,West,24/08/2026
+QD-26-00761,Protected disclosure from Northgate Depot,Workplace Conduct,12/08/2026,Referral,Low,West,23/08/2026
+QD-26-00762,Misdirected email from Marlow House,Data Breach,12/08/2026,Web,High,North,28/08/2026
+QD-26-00763,Petty cash shortfall at Elm Street Clinic,Financial Irregularity,12/08/2026,Phone,Low,North,28/08/2026
+QD-26-00764,Petty cash shortfall at Mill Lane Yard,Financial Irregularity,13/08/2026,Email,High,East,15/08/2026
+QD-26-00765,Ineligible expenditure at Westfield Library,Grant Compliance,14/08/2026,Referral,Medium,North,31/08/2026
+QD-26-00766,Ineligible expenditure at the Eastern Laboratory,Grant Compliance,14/08/2026,Phone,High,West,26/08/2026
+QD-26-00767,Supplier conflict of interest at Westfield Library,Procurement,14/08/2026,Referral,High,West,18/08/2026
+QD-26-00768,Permit breach at Harbour Office,Environmental,14/08/2026,Email,High,North,21/08/2026
+QD-26-00769,Waste disposal complaint at Kingsway Works,Environmental,17/08/2026,Phone,High,South,04/09/2026
+QD-26-00770,Licence condition breach at St Anne's Hall,Licensing,17/08/2026,Referral,Low,East,03/09/2026
+QD-26-00771,Planning complaint about St Anne's Hall,Licensing,17/08/2026,Web,High,South,22/08/2026
+QD-26-00772,Recruitment concern at Northgate Depot,Workplace Conduct,17/08/2026,Email,Medium,West,29/08/2026
+QD-26-00773,Permit breach at the Central Archive,Environmental,18/08/2026,Referral,Medium,West,06/09/2026
+QD-26-00774,Waste disposal complaint at Marlow House,Environmental,19/08/2026,Web,High,East,04/09/2026
+QD-26-00775,Tender irregularity at the Eastern Laboratory,Procurement,20/08/2026,Phone,Low,South,27/08/2026
+QD-26-00776,Misdirected email from the Eastern Laboratory,Data Breach,20/08/2026,Phone,Low,North,03/09/2026
+QD-26-00777,Unexplained payments from Westfield Library,Financial Irregularity,21/08/2026,Email,Medium,East,25/08/2026
+QD-26-00778,Grant milestone shortfall at Harbour Office,Grant Compliance,24/08/2026,Web,Low,East,10/09/2026
+QD-26-00779,Duplicate supplier payments at Harbour Office,Financial Irregularity,24/08/2026,Email,Medium,West,02/09/2026
+QD-26-00780,Grant milestone shortfall at St Anne's Hall,Grant Compliance,24/08/2026,Web,Medium,North,04/09/2026
+QD-26-00781,Unauthorised access to records at Oakfield Station,Data Breach,25/08/2026,Phone,Low,West,08/09/2026
+QD-26-00782,Duplicate supplier payments at Oakfield Station,Financial Irregularity,25/08/2026,Web,High,South,04/09/2026
+QD-26-00783,Emissions reporting gap at Fairview School,Environmental,25/08/2026,Web,High,South,25/08/2026
+QD-26-00784,Emissions reporting gap at the Regional Hub,Environmental,25/08/2026,Phone,Medium,West,07/09/2026
+QD-26-00785,Supplier conflict of interest at the Eastern Laboratory,Procurement,26/08/2026,Email,Low,South,06/09/2026
+QD-26-00786,Emissions reporting gap at the Central Archive,Environmental,26/08/2026,Phone,Low,South,07/09/2026
+QD-26-00787,Supplier conflict of interest at the Port Authority,Procurement,26/08/2026,Web,Low,West,30/08/2026
+QD-26-00788,Duplicate supplier payments at Harbour Office,Financial Irregularity,27/08/2026,Phone,Medium,South,11/09/2026
+QD-26-00789,Emissions reporting gap at Fairview School,Environmental,27/08/2026,Referral,Low,West,14/09/2026
+QD-26-00790,Duplicate supplier payments at Kingsway Works,Financial Irregularity,27/08/2026,Referral,Low,North,11/09/2026
+QD-26-00791,Petty cash shortfall at the Port Authority,Financial Irregularity,28/08/2026,Referral,Low,West,10/09/2026
+QD-26-00792,Petty cash shortfall at the Eastern Laboratory,Financial Irregularity,28/08/2026,Phone,Medium,West,07/09/2026
+QD-26-00793,Permit breach at Elm Street Clinic,Environmental,28/08/2026,Web,High,North,07/09/2026
+QD-26-00794,Ineligible expenditure at Oakfield Station,Grant Compliance,31/08/2026,Phone,High,North,01/09/2026
+QD-26-00795,Single-source award at Fairview School,Procurement,31/08/2026,Phone,Medium,East,17/09/2026
+QD-26-00796,Funding condition breach at Kingsway Works,Grant Compliance,01/09/2026,Referral,Medium,South,17/09/2026
+QD-26-00797,Lost laptop at St Anne's Hall,Data Breach,01/09/2026,Phone,Medium,South,18/09/2026
+QD-26-00798,Waste disposal complaint at Fairview School,Environmental,01/09/2026,Phone,Low,East,03/09/2026
+QD-26-00799,Bullying complaint at Northgate Depot,Workplace Conduct,01/09/2026,Referral,High,North,02/09/2026
+QD-26-00800,Permit breach at Marlow House,Environmental,02/09/2026,Phone,Low,West,18/09/2026
+QD-26-00801,Unlicensed activity at Riverside Campus,Licensing,02/09/2026,Phone,Medium,South,11/09/2026
+QD-26-00802,Duplicate supplier payments at St Anne's Hall,Financial Irregularity,03/09/2026,Web,Low,East,05/09/2026
+QD-26-00803,Emissions reporting gap at Fairview School,Environmental,03/09/2026,Web,Medium,South,13/09/2026
+QD-26-00804,Waste disposal complaint at Harbour Office,Environmental,03/09/2026,Referral,High,North,09/09/2026
+QD-26-00805,Contract variation dispute at Harbour Office,Procurement,04/09/2026,Referral,Low,East,18/09/2026
+QD-26-00806,Tender irregularity at Marlow House,Procurement,04/09/2026,Referral,Low,West,18/09/2026
+QD-26-00807,Licence condition breach at Mill Lane Yard,Licensing,07/09/2026,Web,Medium,North,25/09/2026
+QD-26-00808,Petty cash shortfall at the Eastern Laboratory,Financial Irregularity,07/09/2026,Email,High,West,20/09/2026
+QD-26-00809,Ransomware incident at the Regional Hub,Data Breach,08/09/2026,Email,Low,West,11/09/2026
+QD-26-00810,Waste disposal complaint at St Anne's Hall,Environmental,08/09/2026,Referral,High,East,25/09/2026
+QD-26-00811,Petty cash shortfall at Mill Lane Yard,Financial Irregularity,08/09/2026,Email,Low,North,13/09/2026
+QD-26-00812,Ineligible expenditure at the Eastern Laboratory,Grant Compliance,09/09/2026,Web,High,North,18/09/2026
+QD-26-00813,Waste disposal complaint at Northgate Depot,Environmental,09/09/2026,Email,High,South,24/09/2026
+QD-26-00814,Tender irregularity at Riverside Campus,Procurement,10/09/2026,Referral,Medium,South,17/09/2026
+QD-26-00815,Supplier conflict of interest at Westfield Library,Procurement,10/09/2026,Phone,Low,North,13/09/2026
+QD-26-00816,Unlicensed activity at Kingsway Works,Licensing,10/09/2026,Phone,Medium,West,17/09/2026
+QD-26-00817,Permit breach at Kingsway Works,Environmental,10/09/2026,Web,Medium,North,29/09/2026
+QD-26-00818,Unauthorised access to records at Harbour Office,Data Breach,11/09/2026,Email,Medium,West,26/09/2026
+QD-26-00819,Protected disclosure from Northgate Depot,Workplace Conduct,11/09/2026,Web,High,North,23/09/2026
+QD-26-00820,Licence condition breach at Marlow House,Licensing,11/09/2026,Web,Medium,West,22/09/2026
+QD-26-00821,Misdirected email from Harbour Office,Data Breach,11/09/2026,Phone,High,East,14/09/2026
+QD-26-00822,Duplicate supplier payments at the Eastern Laboratory,Financial Irregularity,14/09/2026,Web,High,South,15/09/2026
+QD-26-00823,Contract variation dispute at Elm Street Clinic,Procurement,14/09/2026,Referral,High,East,29/09/2026
+QD-26-00824,Invoice discrepancy at the Central Archive,Financial Irregularity,14/09/2026,Email,Medium,East,02/10/2026
+QD-26-00825,Permit breach at Kingsway Works,Environmental,15/09/2026,Email,Medium,South,21/09/2026
+QD-26-00826,Tender irregularity at Harbour Office,Procurement,15/09/2026,Web,High,East,20/09/2026
+QD-26-00827,Harassment allegation at Mill Lane Yard,Workplace Conduct,15/09/2026,Web,High,North,25/09/2026
+QD-26-00828,Waste disposal complaint at Marlow House,Environmental,16/09/2026,Email,Low,South,27/09/2026
+QD-26-00829,Grant milestone shortfall at the Eastern Laboratory,Grant Compliance,16/09/2026,Phone,Low,West,04/10/2026
+QD-26-00830,Planning complaint about Oakfield Station,Licensing,16/09/2026,Phone,Medium,East,05/10/2026
+QD-26-00831,Harassment allegation at Kingsway Works,Workplace Conduct,17/09/2026,Phone,High,West,23/09/2026
+QD-26-00832,Tender irregularity at the Port Authority,Procurement,17/09/2026,Phone,High,West,18/09/2026
+QD-26-00833,Emissions reporting gap at Mill Lane Yard,Environmental,17/09/2026,Email,High,West,30/09/2026
+QD-26-00834,Ineligible expenditure at Elm Street Clinic,Grant Compliance,18/09/2026,Referral,High,South,27/09/2026
+QD-26-00835,Contract variation dispute at Elm Street Clinic,Procurement,18/09/2026,Phone,Medium,North,30/09/2026
+QD-26-00836,Invoice discrepancy at the Central Archive,Financial Irregularity,18/09/2026,Referral,Low,West,25/09/2026
+QD-26-00837,Funding condition breach at Marlow House,Grant Compliance,18/09/2026,Email,High,West,28/09/2026
+QD-26-00838,Emissions reporting gap at Westfield Library,Environmental,21/09/2026,Referral,Low,West,03/10/2026
+QD-26-00839,Grant milestone shortfall at Riverside Campus,Grant Compliance,21/09/2026,Email,High,North,28/09/2026
+QD-26-00840,Invoice discrepancy at Kingsway Works,Financial Irregularity,21/09/2026,Phone,Medium,North,21/09/2026
+QD-26-00841,Licence condition breach at Riverside Campus,Licensing,22/09/2026,Phone,Medium,East,08/10/2026
+QD-26-00842,Grant milestone shortfall at Kingsway Works,Grant Compliance,22/09/2026,Referral,High,South,01/10/2026
+QD-26-00843,Tender irregularity at St Anne's Hall,Procurement,22/09/2026,Web,Medium,East,24/09/2026
+QD-26-00844,Planning complaint about the Port Authority,Licensing,23/09/2026,Referral,Low,East,02/10/2026
+QD-26-00845,Planning complaint about St Anne's Hall,Licensing,23/09/2026,Email,Medium,North,29/09/2026
+QD-26-00846,Tender irregularity at Oakfield Station,Procurement,24/09/2026,Email,High,East,29/09/2026
+QD-26-00847,Waste disposal complaint at Westfield Library,Environmental,24/09/2026,Phone,Low,West,08/10/2026
+QD-26-00848,Ransomware incident at Mill Lane Yard,Data Breach,24/09/2026,Referral,Low,North,07/10/2026
+QD-26-00849,Funding condition breach at Northgate Depot,Grant Compliance,24/09/2026,Email,Medium,West,24/09/2026
+QD-26-00850,Permit breach at the Port Authority,Environmental,25/09/2026,Phone,High,North,04/10/2026
+QD-26-00851,Invoice discrepancy at Marlow House,Financial Irregularity,28/09/2026,Email,Medium,South,03/10/2026
+QD-26-00852,Harassment allegation at Elm Street Clinic,Workplace Conduct,28/09/2026,Web,Medium,North,13/10/2026
+QD-26-00853,Unlicensed activity at the Port Authority,Licensing,29/09/2026,Phone,High,South,14/10/2026
+QD-26-00854,Misdirected email from the Central Archive,Data Breach,30/09/2026,Web,High,East,12/10/2026
+QD-26-00855,Supplier conflict of interest at Harbour Office,Procurement,30/09/2026,Phone,High,South,15/10/2026
+QD-26-00856,Ineligible expenditure at the Regional Hub,Grant Compliance,30/09/2026,Email,Low,North,04/10/2026
+QD-26-00857,Funding condition breach at the Central Archive,Grant Compliance,30/09/2026,Phone,High,South,07/10/2026
+QD-26-00858,Recruitment concern at Westfield Library,Workplace Conduct,01/10/2026,Web,Medium,West,09/10/2026
+QD-26-00859,Duplicate supplier payments at Elm Street Clinic,Financial Irregularity,01/10/2026,Email,Medium,West,15/10/2026
+QD-26-00860,Grant milestone shortfall at Riverside Campus,Grant Compliance,01/10/2026,Phone,Medium,West,09/10/2026
+QD-26-00861,Waste disposal complaint at Elm Street Clinic,Environmental,02/10/2026,Email,Low,East,11/10/2026
+QD-26-00862,Bullying complaint at Kingsway Works,Workplace Conduct,02/10/2026,Phone,High,East,21/10/2026
+QD-26-00863,Petty cash shortfall at Northgate Depot,Financial Irregularity,02/10/2026,Email,High,West,18/10/2026
+QD-26-00864,Bullying complaint at Northgate Depot,Workplace Conduct,05/10/2026,Email,Medium,South,13/10/2026
+QD-26-00865,Duplicate supplier payments at Fairview School,Financial Irregularity,05/10/2026,Referral,Low,North,23/10/2026
+QD-26-00866,Ineligible expenditure at Harbour Office,Grant Compliance,05/10/2026,Email,Low,North,13/10/2026
+QD-26-00867,Misdirected email from Mill Lane Yard,Data Breach,06/10/2026,Referral,Low,West,07/10/2026
+QD-26-00868,Protected disclosure from Elm Street Clinic,Workplace Conduct,06/10/2026,Email,Medium,South,18/10/2026
+QD-26-00869,Unlicensed activity at Elm Street Clinic,Licensing,06/10/2026,Web,Low,East,08/10/2026
+QD-26-00870,Waste disposal complaint at Riverside Campus,Environmental,07/10/2026,Email,Medium,South,24/10/2026
+QD-26-00871,Unlicensed activity at the Port Authority,Licensing,07/10/2026,Phone,High,South,15/10/2026
+QD-26-00872,Tender irregularity at the Eastern Laboratory,Procurement,08/10/2026,Referral,Medium,South,16/10/2026
+QD-26-00873,Bullying complaint at the Central Archive,Workplace Conduct,08/10/2026,Phone,Low,West,24/10/2026
+QD-26-00874,Supplier conflict of interest at the Eastern Laboratory,Procurement,08/10/2026,Email,Medium,North,11/10/2026
+QD-26-00875,Bullying complaint at Northgate Depot,Workplace Conduct,09/10/2026,Email,High,West,26/10/2026
+QD-26-00876,Licence condition breach at Oakfield Station,Licensing,09/10/2026,Phone,High,East,16/10/2026
+QD-26-00877,Grant milestone shortfall at Elm Street Clinic,Grant Compliance,09/10/2026,Email,Medium,North,16/10/2026
+QD-26-00878,Ransomware incident at Northgate Depot,Data Breach,12/10/2026,Referral,Medium,North,25/10/2026
+QD-26-00879,Licence condition breach at Oakfield Station,Licensing,13/10/2026,Web,High,West,25/10/2026
+QD-26-00880,Permit breach at Mill Lane Yard,Environmental,13/10/2026,Referral,Medium,North,15/10/2026
+QD-26-00881,Misdirected email from the Eastern Laboratory,Data Breach,13/10/2026,Phone,High,East,21/10/2026
+QD-26-00882,Petty cash shortfall at Harbour Office,Financial Irregularity,14/10/2026,Referral,Medium,West,19/10/2026
+QD-26-00883,Harassment allegation at the Central Archive,Workplace Conduct,14/10/2026,Web,Low,North,28/10/2026
+QD-26-00884,Misdirected email from Kingsway Works,Data Breach,15/10/2026,Phone,Low,South,28/10/2026
+QD-26-00885,Ransomware incident at Northgate Depot,Data Breach,15/10/2026,Web,Low,East,23/10/2026
+QD-26-00886,Ransomware incident at Marlow House,Data Breach,16/10/2026,Web,High,West,04/11/2026
+QD-26-00887,Unauthorised access to records at Fairview School,Data Breach,16/10/2026,Email,High,West,23/10/2026
+QD-26-00888,Duplicate supplier payments at Kingsway Works,Financial Irregularity,16/10/2026,Email,Medium,West,18/10/2026
+QD-26-00889,Bullying complaint at the Port Authority,Workplace Conduct,19/10/2026,Phone,Medium,East,04/11/2026
+QD-26-00890,Unlicensed activity at St Anne's Hall,Licensing,19/10/2026,Referral,High,East,22/10/2026
+QD-26-00891,Tender irregularity at St Anne's Hall,Procurement,19/10/2026,Email,Low,West,31/10/2026
+QD-26-00892,Ineligible expenditure at the Eastern Laboratory,Grant Compliance,20/10/2026,Phone,High,East,23/10/2026
+QD-26-00893,Permit breach at the Eastern Laboratory,Environmental,20/10/2026,Email,Medium,West,21/10/2026
+QD-26-00894,Grant milestone shortfall at Harbour Office,Grant Compliance,21/10/2026,Referral,Medium,East,28/10/2026
+QD-26-00895,Unlicensed activity at Marlow House,Licensing,22/10/2026,Referral,Low,West,28/10/2026
+QD-26-00896,Single-source award at Harbour Office,Procurement,22/10/2026,Referral,Medium,East,27/10/2026
+QD-26-00897,Waste disposal complaint at Westfield Library,Environmental,22/10/2026,Web,Medium,South,09/11/2026
+QD-26-00898,Grant milestone shortfall at Northgate Depot,Grant Compliance,22/10/2026,Web,High,North,24/10/2026
+QD-26-00899,Grant milestone shortfall at St Anne's Hall,Grant Compliance,23/10/2026,Email,Medium,East,29/10/2026
+QD-26-00900,Waste disposal complaint at Fairview School,Environmental,23/10/2026,Phone,Medium,East,30/10/2026
+QD-26-00901,Permit breach at Elm Street Clinic,Environmental,26/10/2026,Referral,Medium,North,27/10/2026
+QD-26-00902,Waste disposal complaint at the Port Authority,Environmental,26/10/2026,Web,High,South,27/10/2026
+QD-26-00903,Tender irregularity at St Anne's Hall,Procurement,27/10/2026,Email,High,East,15/11/2026
+QD-26-00904,Ineligible expenditure at the Eastern Laboratory,Grant Compliance,27/10/2026,Web,High,West,11/11/2026
+QD-26-00905,Invoice discrepancy at Kingsway Works,Financial Irregularity,28/10/2026,Phone,Medium,East,07/11/2026
+QD-26-00906,Supplier conflict of interest at Kingsway Works,Procurement,29/10/2026,Phone,High,South,16/11/2026
+QD-26-00907,Recruitment concern at Fairview School,Workplace Conduct,29/10/2026,Referral,High,South,09/11/2026
+QD-26-00908,Harassment allegation at Harbour Office,Workplace Conduct,30/10/2026,Web,Medium,South,12/11/2026
+QD-26-00909,Permit breach at the Port Authority,Environmental,30/10/2026,Email,Medium,East,06/11/2026
+QD-26-00910,Duplicate supplier payments at Mill Lane Yard,Financial Irregularity,02/11/2026,Web,Low,South,18/11/2026
+QD-26-00911,Single-source award at Westfield Library,Procurement,03/11/2026,Email,Medium,East,07/11/2026
+QD-26-00912,Ransomware incident at Harbour Office,Data Breach,03/11/2026,Referral,Medium,West,09/11/2026
+QD-26-00913,Ransomware incident at the Eastern Laboratory,Data Breach,03/11/2026,Email,Low,East,16/11/2026
+QD-26-00914,Licence condition breach at Harbour Office,Licensing,03/11/2026,Web,Low,North,21/11/2026
+QD-26-00915,Emissions reporting gap at the Port Authority,Environmental,04/11/2026,Web,Low,North,22/11/2026
+QD-26-00916,Invoice discrepancy at Northgate Depot,Financial Irregularity,04/11/2026,Phone,Medium,South,20/11/2026
+QD-26-00917,Unlicensed activity at Mill Lane Yard,Licensing,04/11/2026,Web,High,North,06/11/2026

@@ -1,0 +1,9 @@
+source: imports/case-catalogue.csv
+original_filename: CASE_EXTRACT_20261104.csv
+imported_at: 2026-11-04
+date_order: day-first
+columns:
+  case_id: CSE_REF_NO
+  title: CSE_TTL_TXT
+  genre: CSE_GNR_CD
+  registration_date: CSE_REG_DT

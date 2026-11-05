@@ -1,0 +1,14 @@
+source: imports/allocation-control-sheet.csv
+original_filename: Allocation Control Sheet (export).csv
+imported_at: 2026-11-04
+date_order: day-first
+columns:
+  case_id: Case Ref
+  title: Title (as entered)
+  genre: Genre
+  registration_date: Reg. Date
+  supervisor: Alloc Supervisor
+  allocation_date: Date Allocated
+  outcome: Outcome
+  note: Alloc Note
+  analyst: Analyst (SH)
