@@ -44,7 +44,7 @@ struct CaseListView: View {
             }
         }
         .inspector(isPresented: $model.inspectorShown) {
-            CaseInspector()
+            CaseInspector(model: model)
                 .inspectorColumnWidth(min: 280, ideal: 340, max: 520)
         }
     }
@@ -101,7 +101,7 @@ struct CaseTable: View {
                 .width(min: 70, ideal: 110)
             TableColumn("Note", value: \.note) { row in NoteCell(row: row) }
                 .width(min: 100, ideal: 220)
-            TableColumn("Projects", value: \.projectsSort) { row in ProjectTags(row: row) }
+            TableColumn("Projects", value: \.projectsSort) { row in ProjectTags(model: model, row: row) }
                 .width(min: 50, ideal: 80)
         }
         .contextMenu(forSelectionType: String.self) { ids in
@@ -134,8 +134,10 @@ struct CaseIDCell: View {
     }
 }
 
+/// Table cells are hosted one by one and don't reliably inherit the
+/// environment, so cell views never read `AppModel` from it: those that need
+/// the model are handed it (docs/MAINTENANCE.md §2.2).
 struct StatusCell: View {
-    @Environment(AppModel.self) private var model
     var row: CaseRow
 
     var body: some View {
@@ -171,7 +173,7 @@ struct NoteCell: View {
 }
 
 struct ProjectTags: View {
-    @Environment(AppModel.self) private var model
+    var model: AppModel
     var row: CaseRow
 
     var body: some View {
@@ -188,7 +190,7 @@ struct ProjectTags: View {
 // MARK: - Inspector
 
 struct CaseInspector: View {
-    @Environment(AppModel.self) private var model
+    var model: AppModel
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {

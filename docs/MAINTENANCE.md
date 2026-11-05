@@ -121,6 +121,14 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
   tables use exactly 10.
 - Worksheets and the paste preview have arbitrary columns, so they use
   `SheetGrid` (a lazy grid with a pinned header) rather than `Table`.
+- **Views in table cells, menus, popovers and the inspector are handed
+  the model (`var model: AppModel`); they never read it with
+  `@Environment(AppModel.self)`.** Each table cell is hosted separately
+  and doesn't reliably inherit the environment: a status cell that read
+  the model from it crashed the app (`EXC_BREAKPOINT` in
+  `EnvironmentValues.subscript.getter`) as soon as the case table drew its
+  first rows. Observation still tracks what such views read. `HostingTests`
+  fails if a view that reads the environment is used in a `TableColumn`.
 - Text fields bound to lists (aliases, outcome codes) edit a local string
   and parse it, so typing a comma isn't undone mid-word.
 
@@ -140,3 +148,5 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
 - Batch: date styles, rows in control sheet order, pending/landed/decided
   differently, paste text, pending load.
 - Offline: no networking API in the sources, no package dependencies.
+- Hosting: no view that reads `AppModel` from the environment is used in a
+  table column.

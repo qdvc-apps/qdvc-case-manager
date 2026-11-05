@@ -378,3 +378,47 @@ final class OfflineTests: XCTestCase {
         XCTAssertFalse(manifest.contains(".package("), "no package dependencies: building must not download anything")
     }
 }
+
+/// Table cells are hosted one by one and don't reliably inherit the
+/// environment: a cell view reading `@Environment(AppModel.self)` crashed
+/// the app when the case table first drew rows (docs/MAINTENANCE.md §2.2).
+/// No view that reads the model from the environment may be used in a
+/// table column.
+final class HostingTests: XCTestCase {
+    func testTableCellsDoNotReadTheModelFromTheEnvironment() throws {
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let app = root.appendingPathComponent("Sources/QDVCCaseManager")
+        let files = try FileManager.default.contentsOfDirectory(at: app, includingPropertiesForKeys: nil)
+            .filter { $0.pathExtension == "swift" }
+        let texts = try files.map { try String(contentsOf: $0, encoding: .utf8) }
+        XCTAssertFalse(texts.isEmpty)
+
+        // Views that declare @Environment(AppModel.self).
+        var envViews = Set<String>()
+        for text in texts {
+            var current: String?
+            for line in text.split(separator: "\n", omittingEmptySubsequences: false) {
+                let t = line.trimmingCharacters(in: .whitespaces)
+                if t.hasPrefix("struct "), t.contains(": View") {
+                    current = t.dropFirst(7).split(whereSeparator: { $0 == ":" || $0 == " " }).first.map(String.init)
+                }
+                if t.contains("@Environment(AppModel.self)"), let name = current { envViews.insert(name) }
+            }
+        }
+        XCTAssertTrue(envViews.contains("CaseTable"), "the scan found the views")
+
+        // Every line of a TableColumn's content (from TableColumn( to its .width).
+        for (file, text) in zip(files, texts) {
+            var inColumn = false
+            for line in text.split(separator: "\n") {
+                if line.contains("TableColumn(") { inColumn = true }
+                if inColumn {
+                    for name in envViews where line.contains("\(name)(") {
+                        XCTFail("\(file.lastPathComponent): \(name) reads AppModel from the environment but is used in a table column")
+                    }
+                }
+                if line.contains(".width(") { inColumn = false }
+            }
+        }
+    }
+}

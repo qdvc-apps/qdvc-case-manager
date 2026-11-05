@@ -400,7 +400,7 @@ struct CaseSummaryHeader: View {
                 HStack(spacing: 14) {
                     Label(row.genre.isEmpty ? "No genre" : row.genre, systemImage: "tag")
                     Label("Registered \(row.registrationDate?.display ?? row.registrationText)", systemImage: "calendar")
-                    ProjectTags(row: row)
+                    ProjectTags(model: model, row: row)
                 }
                 .font(.callout)
                 .foregroundStyle(.secondary)

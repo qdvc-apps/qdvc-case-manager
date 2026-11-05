@@ -19,7 +19,7 @@ struct ContentView: View {
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Menu {
-                    ImportMenuItems()
+                    ImportMenuItems(model: model)
                 } label: {
                     Label("Import", systemImage: "square.and.arrow.down")
                 }
@@ -63,7 +63,7 @@ struct ContentView: View {
 
 /// The items of File › Import and the toolbar's Import menu.
 struct ImportMenuItems: View {
-    @Environment(AppModel.self) private var model
+    var model: AppModel
 
     var body: some View {
         Button("Case Catalogue…") { model.beginImport(.catalogue) }

@@ -189,11 +189,10 @@ struct WorkloadView: View {
         .help("\(model.analystLabel(a)), \(m.label): \(n) case\(n == 1 ? "" : "s")")
         .popover(isPresented: Binding(get: { openCell == cell }, set: { if !$0 { openCell = nil } }),
                  arrowEdge: .bottom) {
-            CellCasesPopover(analyst: a, month: m, caseIDs: p.cases(a, m)) { id in
+            CellCasesPopover(model: model, analyst: a, month: m, caseIDs: p.cases(a, m)) { id in
                 openCell = nil
                 model.reveal(id)
             }
-            .environment(model)
         }
     }
 
@@ -245,7 +244,7 @@ struct BalancePoint: Identifiable {
 
 /// The cases behind one heat map cell.
 struct CellCasesPopover: View {
-    @Environment(AppModel.self) private var model
+    var model: AppModel
     var analyst: String
     var month: MonthKey
     var caseIDs: [String]
