@@ -101,12 +101,29 @@ The sidebar foot, Decision Support's header and Data Sources show when
 each export was imported and the latest date in it, in orange once it is
 older than the threshold in Settings (7 days by default).
 
+## Derived figures, computed in the background
+
+Everything shown that is computed from the workspace (the joined cases,
+the batch, workload metrics, year summaries, and both dashboards' figures
+for every period and option) is one `Derived` value, computed in one go
+off the main thread whenever the data changes: an edit, an import, a
+reload, a new day. The window stays responsive while it runs; pages and
+dashboards only look things up, so switching to Workload, or changing its
+period or sort, is instant. A small spinner in the dashboards' toolbar
+shows when newer figures are on their way. Only the newest result is
+used: one computed from data that has since changed is discarded.
+
+Derived figures are kept in memory, not on disk: computing them takes a
+fraction of a second (about 55 ms for 900 cases on the development
+machine), and a cache file in a Git-tracked workspace could go stale or
+conflict.
+
 ## Heat map
 
 A SwiftUI Grid of cells shaded pale to deep teal relative to the largest
 cell in view, as the spreadsheet's conditional formatting did. Clicking a
 cell opens a popover listing its cases; clicking one shows it in the
-catalogue.
+catalogue. Cells are plain views: only the open cell has a popover.
 
 ## Choices worth revisiting
 

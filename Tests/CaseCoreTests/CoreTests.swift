@@ -438,3 +438,40 @@ final class HostingTests: XCTestCase {
         }
     }
 }
+
+final class DerivedTests: XCTestCase {
+    func testEverythingIsPrecomputed() {
+        let today = LocalDate(year: 2026, month: 11, day: 5)!
+        let d = Derived.compute(makeData(), today: today)
+        XCTAssertEqual(d.book.rows.count, 9)
+        XCTAssertEqual(d.workload.count, Derived.spans.count * 2, "every period, with and without inactive analysts")
+        XCTAssertEqual(d.rates.count, Derived.spans.count * Rates.Grouping.allCases.count)
+
+        let w = d.workload[WorkloadKey(months: 12, includeInactive: false)]!
+        XCTAssertEqual(w.pivot.months.count, 12)
+        XCTAssertEqual(w.analysts(.total), ["KM", "AJB", "ZZ"], "busiest first")
+        XCTAssertEqual(w.analysts(.name), ["AJB", "KM", "ZZ"])
+        XCTAssertEqual(w.activeMean, 1.5)
+
+        XCTAssertEqual(d.workloadSummary.total, 1, "KM's Waymaker case this month")
+        XCTAssertEqual(d.workloadSummary.busiest, AnalystCount(shorthand: "KM", count: 1))
+        XCTAssertEqual(d.years.map(\.year), [2026, YearSummary.undated])
+        XCTAssertEqual(d.years.first?.awaiting, 2)
+        XCTAssertEqual(d.missingCounts, ["way": 1])
+
+        let rates = d.rates[RatesKey(grouping: .month, months: 12)]!
+        XCTAssertEqual(rates.rows.count, 12)
+        XCTAssertEqual(rates.total.accepted, 3)
+    }
+
+    /// A rebuild of a workspace this size must stay well under a second
+    /// (it runs off the main thread, but the dashboards wait for it).
+    func testComputeIsQuick() throws {
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let data = Workspace(root: root.appendingPathComponent("sample-workspace")).load()
+        XCTAssertGreaterThan(data.tables[.catalogue]?.rows.count ?? 0, 800)
+        let start = Date()
+        _ = Derived.compute(data, today: LocalDate(year: 2026, month: 11, day: 5)!)
+        XCTAssertLessThan(Date().timeIntervalSince(start), 2.0, "debug build; release is several times faster")
+    }
+}

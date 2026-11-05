@@ -152,7 +152,12 @@ public struct CSVTable: Equatable, Sendable {
 
     public func value(_ row: Int, _ column: Int?) -> String {
         guard let column, rows.indices.contains(row), rows[row].indices.contains(column) else { return "" }
-        return rows[row][column].trimmingCharacters(in: .whitespacesAndNewlines)
+        let v = rows[row][column]
+        // Most cells have nothing to trim; checking the ends first avoids
+        // Foundation's trimming, which dominated reading a large export.
+        guard let first = v.unicodeScalars.first, let last = v.unicodeScalars.last,
+              first.properties.isWhitespace || last.properties.isWhitespace else { return v }
+        return v.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     public func render() -> String { CSV.render([headers] + rows) }

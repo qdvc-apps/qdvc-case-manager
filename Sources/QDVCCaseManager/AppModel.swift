@@ -90,26 +90,6 @@ enum Span: String, CaseIterable, Identifiable {
     }
 }
 
-/// One registration year in the Year filter.
-struct YearSummary: Identifiable, Equatable {
-    /// The year for cases with no readable registration date.
-    static let undated = 0
-
-    var year: Int
-    var cases = 0
-    var awaiting = 0
-    var id: Int { year }
-
-    var title: String { year == YearSummary.undated ? "No date" : String(year) }
-
-    /// "2026 — 412 cases, 9 awaiting".
-    var menuTitle: String {
-        var s = "\(title) — \(cases) case\(cases == 1 ? "" : "s")"
-        if awaiting > 0 { s += ", \(awaiting) awaiting" }
-        return s
-    }
-}
-
 /// An import waiting for its column mapping to be confirmed.
 struct ImportDraft: Identifiable {
     let id = UUID()
@@ -150,20 +130,27 @@ final class AppModel {
 
     private(set) var workspace: Workspace?
     private(set) var data = WorkspaceData()
-    // Derived from `data` by `rebuild()`.
-    private(set) var book = CaseBook()
-    private(set) var prepared: [PreparedRow] = []
-    private(set) var events: [WorkloadEvent] = []
-    private(set) var metrics: [String: AnalystMetrics] = [:]
-    private(set) var pendingLoad: [String: Int] = [:]
     private(set) var today = LocalDate.today()
-    /// Years of registration with how many cases (and how many awaiting),
-    /// newest first; always includes this year.
-    private(set) var yearSummaries: [YearSummary] = []
+    /// Everything derived from `data`: the joined cases, the batch,
+    /// workload, and each dashboard's figures for every period. Computed in
+    /// the background by `rebuild()` whenever the data changes; the pages
+    /// only look things up.
+    private(set) var derived = Derived()
+    /// Whether a newer `derived` is being computed.
+    private(set) var isUpdating = false
     /// Sidebar counts for the selected year.
     private(set) var scopeCounts: [CaseScope: Int] = [:]
+
+    var book: CaseBook { derived.book }
+    var prepared: [PreparedRow] { derived.prepared }
+    var events: [WorkloadEvent] { derived.events }
+    var metrics: [String: AnalystMetrics] { derived.metrics }
+    var pendingLoad: [String: Int] { derived.pendingLoad }
+    /// Years of registration with how many cases (and how many awaiting),
+    /// newest first; always includes this year.
+    var yearSummaries: [YearSummary] { derived.years }
     /// Cases missing from each project's worksheet (all years).
-    private(set) var missingCounts: [String: Int] = [:]
+    var missingCounts: [String: Int] { derived.missingCounts }
 
     // MARK: View state
 
@@ -197,6 +184,11 @@ final class AppModel {
     @ObservationIgnored private var dirty: Set<WorkspacePart> = []
     @ObservationIgnored private var saveTask: Task<Void, Never>?
     @ObservationIgnored private var rebuildTask: Task<Void, Never>?
+    @ObservationIgnored private var computeTask: Task<Void, Never>?
+    /// Counts rebuilds, so only the newest background result is used.
+    @ObservationIgnored private var generation = 0
+    /// Run once the rebuild in progress has been applied.
+    @ObservationIgnored private var afterRebuild: [() -> Void] = []
     @ObservationIgnored private var startedUp = false
 
     var isOpen: Bool { workspace != nil }
@@ -266,6 +258,7 @@ final class AppModel {
         workspace = ws
         data = ws.load()
         today = LocalDate.today()
+        derived = Derived(today: today)
         selectedCaseIDs = []
         searchText = ""
         page = .cases(.all)
@@ -283,16 +276,20 @@ final class AppModel {
         flushSaves()
         workspace = nil
         data = WorkspaceData()
-        rebuild()
+        generation += 1
+        computeTask?.cancel()
+        derived = Derived(today: today)
+        isUpdating = false
+        recount()
     }
 
-    func reload() {
+    func reload(then: (() -> Void)? = nil) {
         guard let ws = workspace else { return }
         flushSaves()
         data = ws.load()
         data.templates = ReturnTemplate.sorted(data.templates)
         today = LocalDate.today()
-        rebuild()
+        rebuild(then: then)
     }
 
     /// When the app comes back to the front: pick up a `git pull` or an edit
@@ -326,32 +323,38 @@ final class AppModel {
 
     // MARK: Changes and saving
 
-    private func rebuild() {
+    /// Recomputes `derived` from the current data off the main thread, so
+    /// the window never stops responding. The data is a value, so the
+    /// background work reads a snapshot; if the data changes again first,
+    /// the older result is thrown away. `then` runs once the result is in.
+    private func rebuild(then: (() -> Void)? = nil) {
         rebuildTask?.cancel()
         rebuildTask = nil
-        book = CaseBook.build(data)
-        prepared = Batch.rows(data, book: book)
-        events = Workload.events(book)
-        metrics = Workload.metrics(events, today: today)
-        pendingLoad = Batch.pendingLoad(prepared, settings: data.settings, book: book)
-        let kept = selectedCaseIDs.filter { book.row($0) != nil }
-        if kept != selectedCaseIDs { selectedCaseIDs = kept }
+        generation += 1
+        let gen = generation
+        let snapshot = data
+        let day = today
+        if let then { afterRebuild.append(then) }
+        isUpdating = true
+        computeTask?.cancel()
+        computeTask = Task { [weak self] in
+            let result = await Task.detached(priority: .userInitiated) {
+                Derived.compute(snapshot, today: day)
+            }.value
+            guard let self, gen == self.generation else { return }
+            self.apply(result)
+        }
+    }
 
-        var years: [Int: YearSummary] = [today.year: YearSummary(year: today.year)]
-        for r in book.rows {
-            let y = r.registrationDate?.year ?? YearSummary.undated
-            var s = years[y] ?? YearSummary(year: y)
-            s.cases += 1
-            if r.status == .awaiting { s.awaiting += 1 }
-            years[y] = s
-        }
-        yearSummaries = years.values.sorted { $0.year > $1.year }
-        var missing: [String: Int] = [:]
-        for r in book.rows {
-            for f in r.flags { if case .missingFromWorksheet(let p) = f { missing[p, default: 0] += 1 } }
-        }
-        missingCounts = missing
+    private func apply(_ result: Derived) {
+        derived = result
+        isUpdating = false
+        let kept = selectedCaseIDs.filter { result.book.row($0) != nil }
+        if kept != selectedCaseIDs { selectedCaseIDs = kept }
         recount()
+        let pending = afterRebuild
+        afterRebuild = []
+        for f in pending { f() }
     }
 
     /// The sidebar counts for the selected year.
@@ -470,15 +473,13 @@ final class AppModel {
         return parts.isEmpty ? "\(f.rows) rows" : parts.joined(separator: " · ")
     }
 
-    /// The months a dashboard covers, ending this month.
-    func months(_ span: Span) -> [MonthKey] {
-        if let n = span.count { return today.monthKey.trailing(n) }
-        return Workload.allMonths(events, today: today)
+    /// The Workload dashboard's figures, computed with everything else.
+    func workload(_ span: Span, includeInactive: Bool) -> WorkloadSnapshot? {
+        derived.workload[WorkloadKey(months: span.count, includeInactive: includeInactive)]
     }
 
-    func pivot(months: [MonthKey], includeInactive: Bool) -> WorkloadPivot {
-        let pool = data.analysts.filter { includeInactive || $0.active }.map(\.shorthand)
-        return Workload.pivot(events, months: months, analysts: pool)
+    func rates(_ grouping: Rates.Grouping, _ span: Span) -> RatesSnapshot? {
+        derived.rates[RatesKey(grouping: grouping, months: span.count)]
     }
 
     /// Notes most often used for allocations in this genre: good search terms.
@@ -563,10 +564,10 @@ final class AppModel {
             return
         }
         sheet = nil
-        reload()
-        if draft.source == .controlSheet {
-            let landed = prepared.filter { $0.state != .pending && !landedBefore.contains($0.caseID) }.count
-            if landed > 0 { landedPrompt = landed }
+        reload { [weak self] in
+            guard let self, draft.source == .controlSheet else { return }
+            let landed = self.prepared.filter { $0.state != .pending && !landedBefore.contains($0.caseID) }.count
+            if landed > 0 { self.landedPrompt = landed }
         }
     }
 

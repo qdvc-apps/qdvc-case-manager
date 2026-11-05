@@ -203,6 +203,24 @@ public struct CaseBook: Sendable {
         }
         let templateNames = Set(data.templates.map { $0.name.trimmingCharacters(in: .whitespaces).uppercased() })
         let specialNotes = settings.specialNotes.map { $0.lowercased() }
+        // Text is folded (case, accents, spacing) once up front and then
+        // compared byte for byte: Foundation's insensitive comparisons,
+        // repeated for every case, were most of the cost of a rebuild.
+        var foldedExpertise: [String: [UInt8]] = [:]
+        for a in data.analysts { foldedExpertise[a.shorthand] = Array(CaseBook.fold(a.expertise).utf8) }
+        struct ProjectMatcher {
+            let id: String
+            let codes: Set<String>
+            let keywords: [[UInt8]]
+        }
+        let matchers = data.projects.map { p in
+            ProjectMatcher(id: p.id,
+                           codes: Set(p.definition.outcomeCodes.map { $0.trimmingCharacters(in: .whitespaces).lowercased() }),
+                           keywords: p.definition.noteKeywords.map { Array(CaseBook.fold($0).utf8) }.filter { !$0.isEmpty })
+        }
+        let anyKeywords = matchers.contains { !$0.keywords.isEmpty }
+        var decisionsByKey: [String: CaseDecision] = [:]
+        for (k, d) in data.decisions where decisionsByKey[CaseKey.normalise(k)] == nil { decisionsByKey[CaseKey.normalise(k)] = d }
 
         // Catalogue.
         var records: [CaseRecord] = []
@@ -313,9 +331,8 @@ public struct CaseBook: Sendable {
                     if status == .refused {
                         if templateNames.contains(note.uppercased()) { noteKind = .template }
                         else { noteKind = .unknownTemplate; flags.append(.unknownTemplate(note)) }
-                    } else if let a = book.analyst(for: latest.analyst),
-                              a.expertise.range(of: CaseBook.squashSpaces(note), options: [.caseInsensitive, .diacriticInsensitive]) != nil
-                                || CaseBook.squashSpaces(a.expertise).range(of: CaseBook.squashSpaces(note), options: [.caseInsensitive, .diacriticInsensitive]) != nil {
+                    } else if let a = book.analyst(for: latest.analyst), let expertise = foldedExpertise[a.shorthand],
+                              CaseBook.contains(expertise, Array(CaseBook.fold(note).utf8)) {
                         noteKind = .expertise
                     } else if specialNotes.contains(where: { note.lowercased().contains($0) }) {
                         noteKind = .special
@@ -355,18 +372,24 @@ public struct CaseBook: Sendable {
 
             let projects = listedIn[key] ?? []
             var claimedBy: [String] = []
-            for p in data.projects {
-                let claims = allocations.contains { p.definition.claims($0) }
-                    || (outcome.map { $0.kind == .project && $0.project == p.id } ?? false)
-                if claims { claimedBy.append(p.id) }
-                if claims && !projects.contains(p.id) { flags.append(.missingFromWorksheet(p.id)) }
+            let foldedNotes = anyKeywords ? allocations.map { Array(CaseBook.fold($0.note).utf8) } : []
+            for m in matchers {
+                var claims = outcome.map { $0.kind == .project && $0.project == m.id } ?? false
+                if !claims && !m.codes.isEmpty {
+                    claims = allocations.contains { m.codes.contains($0.outcome.trimmingCharacters(in: .whitespaces).lowercased()) }
+                }
+                if !claims && !m.keywords.isEmpty {
+                    claims = foldedNotes.contains { note in m.keywords.contains { CaseBook.contains(note, $0) } }
+                }
+                if claims { claimedBy.append(m.id) }
+                if claims && !projects.contains(m.id) { flags.append(.missingFromWorksheet(m.id)) }
             }
 
             let caseID = record?.caseID ?? latest?.caseID ?? key
             return CaseRow(caseID: caseID, key: key, record: record, allocations: allocations, status: status,
                            outcome: outcome, analystKey: analystKey, analystName: analystName, noteKind: noteKind,
                            discrepancies: discrepancies, flags: flags, projects: projects, claimedBy: claimedBy,
-                           decision: data.decisions[caseID] ?? data.decisions.first { CaseKey.normalise($0.key) == key }?.value)
+                           decision: decisionsByKey[key])
         }
 
         var rows: [CaseRow] = []
@@ -411,7 +434,31 @@ public struct CaseBook: Sendable {
     }
 
     static func same(_ a: String, _ b: String, lenient: Bool) -> Bool {
+        if a == b { return true }
         if !lenient { return a.trimmingCharacters(in: .whitespacesAndNewlines) == b.trimmingCharacters(in: .whitespacesAndNewlines) }
-        return squashSpaces(a).compare(squashSpaces(b), options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
+        return fold(a) == fold(b)
+    }
+
+    /// Lower case, without accents, with runs of white space as one space.
+    public static func fold(_ s: String) -> String {
+        squashSpaces(s).folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil).lowercased()
+    }
+
+    /// Whether `needle` occurs in `haystack` (bytes of folded text).
+    static func contains(_ haystack: [UInt8], _ needle: [UInt8]) -> Bool {
+        guard !needle.isEmpty else { return true }
+        guard needle.count <= haystack.count else { return false }
+        let first = needle[0]
+        var i = 0
+        let last = haystack.count - needle.count
+        while i <= last {
+            if haystack[i] == first {
+                var j = 1
+                while j < needle.count && haystack[i + j] == needle[j] { j += 1 }
+                if j == needle.count { return true }
+            }
+            i += 1
+        }
+        return false
     }
 }

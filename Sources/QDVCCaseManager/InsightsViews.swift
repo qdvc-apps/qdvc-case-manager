@@ -8,81 +8,41 @@ struct PivotCell: Hashable {
     var month: MonthKey
 }
 
-enum PivotSort: String, CaseIterable, Identifiable {
-    case total, thisMonth, name
-    var id: String { rawValue }
-    var title: String {
-        switch self {
-        case .name: return "Name"
-        case .total: return "Total"
-        case .thisMonth: return "Latest Month"
-        }
-    }
-}
-
 struct WorkloadView: View {
     @Environment(AppModel.self) private var model
     @State private var span: Span = .twelve
     @State private var includeInactive = false
-    @State private var sort: PivotSort = .total
+    @State private var sort: WorkloadSort = .total
     @State private var openCell: PivotCell?
 
     var body: some View {
-        let months = model.months(span)
-        let pivot = model.pivot(months: months, includeInactive: includeInactive)
-        let analysts = ordered(pivot)
-        ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
-                Text("Workload").font(.title2.weight(.semibold))
-                summary(pivot)
-                GroupBox {
-                    heatMap(pivot, analysts: analysts)
-                        .padding(4)
-                } label: {
-                    HStack {
-                        Text("Cases per analyst per month")
-                        Spacer()
-                        Text("Click a cell to see its cases").font(.caption).foregroundStyle(.secondary)
-                    }
-                }
-                HStack(alignment: .top, spacing: 18) {
-                    GroupBox("Cases allocated per month") { monthlyChart(pivot).frame(height: 220).padding(4) }
-                    GroupBox("Total per analyst over the period") {
-                        analystChart(pivot, analysts: analysts)
-                            .frame(height: max(160, CGFloat(analysts.count) * 24)).padding(4)
-                    }
-                }
-                GroupBox("How evenly the work is spread") {
-                    VStack(alignment: .leading, spacing: 8) {
-                        balanceChart(pivot).frame(height: 180)
-                        Text("Coefficient of variation of each month's cases across the active pool: 0 means everyone had the same number; above 0.5 is markedly uneven. Analysts who joined or left part-way raise it.")
-                            .font(.caption).foregroundStyle(.secondary)
-                    }
-                    .padding(4)
-                }
-                let uncounted = Workload.uncounted(model.book)
-                if uncounted > 0 {
-                    Label("\(uncounted) allocated case\(uncounted == 1 ? " is" : "s are") not counted: no allocation date or no analyst in the control sheet.",
-                          systemImage: "info.circle")
-                        .font(.caption).foregroundStyle(.secondary)
-                }
+        // Everything here was computed in the background with the rest of
+        // the workspace's figures; drawing only looks it up.
+        Group {
+            if let snapshot = model.workload(span, includeInactive: includeInactive) {
+                dashboard(snapshot)
+            } else {
+                ProgressView("Calculating workload…").frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .padding(20)
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
+                if model.isUpdating {
+                    ProgressView().controlSize(.small).help("Updating with the latest changes")
+                }
                 Picker("Period", selection: $span) {
                     ForEach(Span.allCases) { Text($0.title).tag($0) }
                 }
                 .pickerStyle(.segmented)
                 Toggle("Include Inactive", isOn: $includeInactive)
                 Picker("Sort", selection: $sort) {
-                    ForEach(PivotSort.allCases) { Text($0.title).tag($0) }
+                    ForEach(WorkloadSort.allCases) { Text($0.title).tag($0) }
                 }
                 .frame(width: 140)
                 Button {
+                    guard let snapshot = model.workload(span, includeInactive: includeInactive) else { return }
                     let names = Dictionary(model.data.analysts.map { ($0.shorthand, $0.name) }, uniquingKeysWith: { a, _ in a })
-                    model.export(Export.pivot(pivot, names: names), name: "workload-\(model.today.iso).csv")
+                    model.export(Export.pivot(snapshot.pivot, names: names), name: "workload-\(model.today.iso).csv")
                 } label: {
                     Label("Export CSV", systemImage: "square.and.arrow.up")
                 }
@@ -91,40 +51,56 @@ struct WorkloadView: View {
         }
     }
 
-    private func ordered(_ p: WorkloadPivot) -> [String] {
-        switch sort {
-        case .name:
-            return p.analysts.sorted { model.analystLabel($0).localizedStandardCompare(model.analystLabel($1)) == .orderedAscending }
-        case .total:
-            return p.analysts.sorted { a, b in
-                let x = p.rowTotal(a), y = p.rowTotal(b)
-                return x == y ? a < b : x > y
+    private func dashboard(_ s: WorkloadSnapshot) -> some View {
+        let analysts = s.analysts(sort)
+        return ScrollView {
+            VStack(alignment: .leading, spacing: 18) {
+                Text("Workload").font(.title2.weight(.semibold))
+                summary(model.derived.workloadSummary)
+                GroupBox {
+                    heatMap(s, analysts: analysts).padding(4)
+                } label: {
+                    HStack {
+                        Text("Cases per analyst per month")
+                        Spacer()
+                        Text("Click a cell to see its cases").font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+                HStack(alignment: .top, spacing: 18) {
+                    GroupBox("Cases allocated per month") { monthlyChart(s.pivot).frame(height: 220).padding(4) }
+                    GroupBox("Total per analyst over the period") {
+                        analystChart(s, analysts: analysts)
+                            .frame(height: max(160, CGFloat(analysts.count) * 24)).padding(4)
+                    }
+                }
+                GroupBox("How evenly the work is spread") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        balanceChart(s.balance).frame(height: 180)
+                        Text("Coefficient of variation of each month's cases across the active pool: 0 means everyone had the same number; above 0.5 is markedly uneven. Analysts who joined or left part-way raise it.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
+                    .padding(4)
+                }
+                let uncounted = model.derived.workloadSummary.uncounted
+                if uncounted > 0 {
+                    Label("\(uncounted) allocated case\(uncounted == 1 ? " is" : "s are") not counted: no allocation date or no analyst in the control sheet.",
+                          systemImage: "info.circle")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
             }
-        case .thisMonth:
-            guard let last = p.months.last else { return p.analysts }
-            return p.analysts.sorted { p.count($0, last) > p.count($1, last) }
+            .padding(20)
         }
     }
 
-    private func activePool() -> [String] { model.data.analysts.filter(\.active).map(\.shorthand) }
-
-    @ViewBuilder
-    private func summary(_ p: WorkloadPivot) -> some View {
-        let thisMonth = model.today.monthKey
-        let pool = activePool()
-        let counts = pool.map { (a: $0, n: model.metrics[$0]?.thisMonth ?? 0) }
-        let total = counts.reduce(0) { $0 + $1.n }
-        let busiest = counts.max { $0.n < $1.n }
-        let lightest = counts.min { $0.n < $1.n }
-        let year = pool.map { model.metrics[$0]?.past12 ?? 0 }
-        let cv = Workload.coefficientOfVariation(year)
-        HStack(spacing: 12) {
-            StatCard(title: "Allocated in \(thisMonth.longLabel)", value: "\(total)",
-                     detail: pool.isEmpty ? "" : String(format: "%.1f per active analyst", Double(total) / Double(pool.count)))
-            StatCard(title: "Busiest this month", value: busiest.map { "\($0.a) · \($0.n)" } ?? "–",
-                     detail: busiest.map { model.analystLabel($0.a) } ?? "")
-            StatCard(title: "Lightest this month", value: lightest.map { "\($0.a) · \($0.n)" } ?? "–",
-                     detail: lightest.map { model.analystLabel($0.a) } ?? "", tint: .teal)
+    private func summary(_ w: WorkloadSummary) -> some View {
+        let cv = w.balance12
+        return HStack(spacing: 12) {
+            StatCard(title: "Allocated in \(w.month.longLabel)", value: "\(w.total)",
+                     detail: w.poolSize == 0 ? "" : String(format: "%.1f per active analyst", Double(w.total) / Double(w.poolSize)))
+            StatCard(title: "Busiest this month", value: w.busiest.map { "\($0.shorthand) · \($0.count)" } ?? "–",
+                     detail: w.busiest.map { model.analystLabel($0.shorthand) } ?? "")
+            StatCard(title: "Lightest this month", value: w.lightest.map { "\($0.shorthand) · \($0.count)" } ?? "–",
+                     detail: w.lightest.map { model.analystLabel($0.shorthand) } ?? "", tint: .teal)
             StatCard(title: "Balance, past 12 months", value: cv.map { String(format: "%.2f", $0) } ?? "–",
                      detail: cv.map { $0 < 0.25 ? "Even" : ($0 < 0.5 ? "Somewhat uneven" : "Uneven") } ?? "Not enough data",
                      tint: cv.map { $0 < 0.25 ? Color.green : ($0 < 0.5 ? Color.orange : Color.red) } ?? .primary)
@@ -134,8 +110,8 @@ struct WorkloadView: View {
 
     // MARK: Heat map
 
-    private func heatMap(_ p: WorkloadPivot, analysts: [String]) -> some View {
-        let top = p.maxCell
+    private func heatMap(_ s: WorkloadSnapshot, analysts: [String]) -> some View {
+        let p = s.pivot
         return ScrollView(.horizontal) {
             Grid(alignment: .center, horizontalSpacing: 2, verticalSpacing: 2) {
                 GridRow {
@@ -148,7 +124,7 @@ struct WorkloadView: View {
                 ForEach(analysts, id: \.self) { a in
                     GridRow {
                         analystLabel(a)
-                        ForEach(p.months) { m in heatCell(p, a, m, top: top) }
+                        ForEach(p.months) { m in heatCell(s, a, m) }
                         Text("\(p.rowTotal(a))").font(.callout.weight(.semibold)).monospacedDigit().frame(width: 52)
                     }
                 }
@@ -174,29 +150,35 @@ struct WorkloadView: View {
         .frame(minWidth: 230, alignment: .leading)
     }
 
-    private func heatCell(_ p: WorkloadPivot, _ a: String, _ m: MonthKey, top: Int) -> some View {
-        let n = p.count(a, m)
+    /// A cell is a plain shaded number. Only the open cell carries a
+    /// popover: one per cell (with a tooltip each) made the dashboard slow
+    /// to appear and sluggish to use.
+    private func heatCell(_ s: WorkloadSnapshot, _ a: String, _ m: MonthKey) -> some View {
+        let n = s.pivot.count(a, m)
         let cell = PivotCell(analyst: a, month: m)
-        return Button {
-            openCell = cell
-        } label: {
-            Text(n == 0 ? "" : "\(n)")
-                .font(.callout.weight(.medium)).monospacedDigit()
-                .foregroundStyle(Style.heatText(n, max: top))
-                .frame(width: 46, height: 26)
-                .background(RoundedRectangle(cornerRadius: 4).fill(Style.heat(n, max: top)))
-                .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .disabled(n == 0)
-        .help("\(model.analystLabel(a)), \(m.label): \(n) case\(n == 1 ? "" : "s")")
-        .popover(isPresented: Binding(get: { openCell == cell }, set: { if !$0 { openCell = nil } }),
-                 arrowEdge: .bottom) {
-            CellCasesPopover(model: model, analyst: a, month: m, caseIDs: p.cases(a, m)) { id in
-                openCell = nil
-                model.reveal(id)
+        let isOpen = openCell == cell
+        return Text(n == 0 ? "" : "\(n)")
+            .font(.callout.weight(.medium)).monospacedDigit()
+            .foregroundStyle(Style.heatText(n, max: s.maxCell))
+            .frame(width: 46, height: 26)
+            .background(RoundedRectangle(cornerRadius: 4).fill(Style.heat(n, max: s.maxCell)))
+            .overlay {
+                if isOpen { RoundedRectangle(cornerRadius: 4).strokeBorder(Color.accentColor, lineWidth: 2) }
             }
-        }
+            .contentShape(Rectangle())
+            .onTapGesture { if n > 0 { openCell = cell } }
+            .background {
+                if isOpen {
+                    Color.clear
+                        .popover(isPresented: Binding(get: { openCell == cell }, set: { if !$0 { openCell = nil } }),
+                                 arrowEdge: .bottom) {
+                            CellCasesPopover(model: model, analyst: a, month: m, caseIDs: s.pivot.cases(a, m)) { id in
+                                openCell = nil
+                                model.reveal(id)
+                            }
+                        }
+                }
+            }
     }
 
     // MARK: Charts
@@ -208,9 +190,9 @@ struct WorkloadView: View {
         }
     }
 
-    private func analystChart(_ p: WorkloadPivot, analysts: [String]) -> some View {
-        let active = analysts.filter { model.book.analyst(for: $0)?.active ?? false }
-        let mean = active.isEmpty ? 0 : Double(active.reduce(0) { $0 + p.rowTotal($1) }) / Double(active.count)
+    private func analystChart(_ s: WorkloadSnapshot, analysts: [String]) -> some View {
+        let p = s.pivot
+        let mean = s.activeMean
         return Chart {
             ForEach(analysts, id: \.self) { a in
                 BarMark(x: .value("Cases", p.rowTotal(a)), y: .value("Analyst", a))
@@ -227,22 +209,14 @@ struct WorkloadView: View {
         }
     }
 
-    private func balanceChart(_ p: WorkloadPivot) -> some View {
-        let pool = activePool()
-        let points = p.months.compactMap { m in p.balance(m, pool: pool).map { BalancePoint(month: m, cv: $0) } }
-        return Chart(points) { pt in
+    private func balanceChart(_ points: [BalancePoint]) -> some View {
+        Chart(points) { pt in
             LineMark(x: .value("Month", pt.month.shortLabel), y: .value("Variation", pt.cv))
                 .foregroundStyle(Color.indigo)
             PointMark(x: .value("Month", pt.month.shortLabel), y: .value("Variation", pt.cv))
                 .foregroundStyle(pt.cv < 0.25 ? Color.green : (pt.cv < 0.5 ? Color.orange : Color.red))
         }
     }
-}
-
-struct BalancePoint: Identifiable {
-    var month: MonthKey
-    var cv: Double
-    var id: MonthKey { month }
 }
 
 /// The cases behind one heat map cell.
@@ -303,11 +277,12 @@ struct RatesView: View {
     @State private var span: Span = .twelve
 
     var body: some View {
-        let months: [MonthKey]? = span == .all ? nil : model.months(span)
-        let rows = Rates.rows(model.book, by: grouping, months: months)
+        // Computed in the background with everything else.
+        let snapshot = model.rates(grouping, span)
+        let rows = snapshot?.rows ?? []
         // The table (and its export) put the latest month first; the charts run left to right in time.
         let listed = grouping == .month ? Array(rows.reversed()) : rows
-        let total = Rates.overall(rows)
+        let total = snapshot?.total ?? Rates.overall(rows)
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 Text("Acceptance & Refusal").font(.title2.weight(.semibold))
@@ -339,6 +314,9 @@ struct RatesView: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
+                if model.isUpdating {
+                    ProgressView().controlSize(.small).help("Updating with the latest changes")
+                }
                 Picker("Group", selection: $grouping) {
                     ForEach(Rates.Grouping.allCases) { Text($0.title).tag($0) }
                 }

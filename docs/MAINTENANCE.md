@@ -108,10 +108,24 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
 
 ### 2.1 Changes and saving
 
-- `mutate(parts…) { data in … }` applies a change, rebuilds the derived
-  `CaseBook`, batch rows, workload, year summaries and sidebar counts, and
-  saves the named `WorkspacePart`s 0.6 s later (and when the app is left,
-  and on quit).
+- `mutate(parts…) { data in … }` applies a change, rebuilds `derived`
+  and saves the named `WorkspacePart`s 0.6 s later (and when the app is
+  left, and on quit).
+- **Derived figures are computed off the main thread.** `Derived.compute`
+  (CaseCore, pure, `Sendable` in and out) builds the `CaseBook`, batch
+  rows, workload metrics, year summaries, missing-from-worksheet counts and
+  a `WorkloadSnapshot` / `RatesSnapshot` for every period and option. The
+  app's `rebuild()` runs it in a detached task on a copy of the data and
+  applies the result on the main actor only if no newer rebuild has
+  started (`generation`). Work that needs the new figures (the "rows have
+  landed" prompt after an import) goes in `rebuild(then:)`. Views must not
+  compute dashboards in `body`: add what they need to `Derived`.
+  `DerivedTests.testComputeIsQuick` guards the cost on the sample
+  workspace.
+- Text is compared folded (`CaseBook.fold`) and byte-wise: Foundation's
+  case- and accent-insensitive comparisons per case made the join about
+  three times slower. `CSVTable.value` only trims cells whose ends are
+  white space, for the same reason.
 - **Typing must not rebuild on every keystroke.** Text bindings (analysts,
   templates, outcome labels) pass `deferRebuild: true`: the data changes at
   once, the rebuild runs 0.45 s after the last keystroke. Rebuilding on
@@ -132,6 +146,9 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
   gives its content a minimum size of the view's, aligned top-leading.
 - Analyst shorthands use `ShorthandText`: one line, room for seven
   characters.
+- Don't attach a `.popover` or `.help` to every cell of a large grid:
+  each brings AppKit machinery that has to be laid out and tracked. The
+  heat map attaches its popover only to the open cell.
 - **Views in table cells, menus, popovers and the inspector are handed
   the model (`var model: AppModel`); they never read it with
   `@Environment(AppModel.self)`.** Each table cell is hosted separately
@@ -158,6 +175,8 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
 - Expertise search: terms, phrases, all/any, highlight ranges.
 - Batch: date styles, rows in control sheet order, pending/landed/decided
   differently, paste text, pending load.
+- Derived: every dashboard snapshot is present and correct; the sample
+  workspace computes quickly.
 - Offline: no networking API in the sources, no package dependencies.
 - Hosting: no view that reads `AppModel` from the environment is used in a
   table column.
