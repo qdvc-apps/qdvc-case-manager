@@ -23,20 +23,23 @@ in Git. The format is documented in [docs/FILE_FORMAT.md](docs/FILE_FORMAT.md).
 
 ## What it does
 
-At launch a welcome window, as in Xcode and Keynote, offers to create or
-open a workspace and lists recent ones. The main window has a sidebar, the
+At launch the app reopens the last workspace you had open. If there is
+none (or it has gone), a welcome window, as in Xcode and Keynote, offers to
+create or open one and lists recent ones. The main window has a sidebar, the
 page, and (on case pages) an inspector. The layout is explained in
 [docs/DESIGN.md](docs/DESIGN.md).
 
 **Cases**
 
-- **All Cases, Awaiting Allocation, Allocated, Refused & Returned, Projects
-  & Other, Needs Attention**: the case catalogue joined with the control
-  sheet. Columns: case ID (with the (!) emblem), title, genre, registration
+- **All Cases, Awaiting Allocation, Allocated, Refused & Returned,
+  Special, Projects & Other, Needs Attention**: the case catalogue joined
+  with the control sheet, one registration **year** at a time (the Year
+  menu in the toolbar, this year by default; each year shows how many cases
+  it has and how many are awaiting). Columns: case ID (with the (!) emblem), title, genre, registration
   date, status, analyst, allocation date, supervisor, note (with what kind
   of note it is) and project badges. Search, filter by genre, sort by any
-  column. Cases in the control sheet but not the catalogue are listed too,
-  flagged.
+  column; ⌘C copies the selected case IDs. Cases in the control sheet but
+  not the catalogue are listed too, flagged.
 - The **inspector** shows a case's details, why it needs attention, a
   side-by-side of catalogue and control sheet values where they differ (the
   case ID decides; the catalogue's details are shown), every control sheet
@@ -54,7 +57,9 @@ page, and (on case pages) an inspector. The layout is explained in
   average are orange. The header says how current the control sheet is.
 - Star analysts to shortlist them (kept in the workspace). **Choose** sets
   the analyst and picks the matching expertise phrase as the note.
-- Prepare the row: outcome (a, r, or any other code), analyst, note (a
+- Analysts are sorted by the lightest past 12 months by default (or best
+  match, lightest this month, name).
+- Prepare the row: outcome (a, r, sp, or any other code), analyst, note (a
   phrase from the analyst's expertise, a special note, or a return-to-sender
   template for a refusal), supervisor and date. **Add to Batch & Next
   Case** (⌘↩) moves on to the next case awaiting allocation.
@@ -67,7 +72,11 @@ also with a header row, as CSV, or saved to a file. After importing the
 updated control sheet, landed rows are marked (and those decided
 differently flagged) and can be removed.
 
-**Projects**: each imported project worksheet (any columns, as long as
+**Projects**: each imported project worksheet, shown in the sidebar with
+its badge; right-click it to edit the project, update its worksheet from a
+newer file, show the worksheet in Finder or remove the project (also File ›
+Import › Update Project Worksheet, and the buttons on its page; choosing a
+newer copy with New Project from Worksheet offers to update instead) (any columns, as long as
 one holds the case ID): the worksheet itself, with each case's status; the
 project's cases; and **Completeness**: cases the exports put in the project
 (by outcome code, e.g. "Operation Waymaker", or a note keyword) that the
@@ -77,13 +86,14 @@ list show which cases are on a worksheet (filled) or should be (outlined).
 **Insights**
 
 - **Workload**: the familiar pivot, analysts by month, shaded as a heat
-  map, with totals; click a cell for its cases. Plus this month's total
+  map, with totals, busiest first; click a cell for its cases. Plus this month's total
   and average, the busiest and lightest analysts, a balance index (how
   evenly the work is spread), cases per month, totals per analyst against
   the average, and the balance month by month. Export the pivot as CSV.
 - **Acceptance & Refusal**: acceptance rate a/(a+r) and refusal rate
-  r/(a+r) month by month, by supervisor or by genre, with charts. Other
-  outcomes are shown separately. Export as CSV.
+  r/(a+r) month by month (latest first), by supervisor or by genre, with
+  charts. Special (sp), neither a nor r, has its own yellow column; project
+  and other outcomes are shown separately. Export as CSV.
 
 **Workspace**
 
@@ -91,10 +101,10 @@ list show which cases are on a worksheet (filled) or should be (outlined).
   full name, active or not, the long expertise string, notes, and their
   workload. Shorthands in the control sheet with no analyst are listed for
   adding.
-- **Return Templates**: IS_DUPLICATE, INCOMPLETE_FORM… Names used in
-  refusals but not listed are offered for adding.
-- **Outcome Codes**: what each code means (allocated, refused, project,
-  other), how it counts in the rates, whether it counts as workload, and
+- **Return Templates**: IS_DUPLICATE, INCOMPLETE_FORM…, alphabetically.
+  Names used in refusals but not listed are offered for adding.
+- **Outcome Codes**: what each code means (allocated, refused, special,
+  project, other; a, r and sp are standard), how it counts in the rates, whether it counts as workload, and
   its project. Codes in the control sheet that aren't classified are
   listed and flagged.
 - **Data Sources**: each export's file, when it was imported, how far its
@@ -176,7 +186,7 @@ other QDVC apps, in the "Teal" palette.
   The app notices files changed by Git or another editor when you come back
   to it; View › Reload from Disk (⌘R) re-reads them.
 - Preferences (your name as supervisor, staleness threshold, recent
-  workspaces, the welcome window): the standard macOS defaults domain
+  workspaces): the standard macOS defaults domain
   (`defaults read org.qdvc.case-manager.mac`).
 
 ## Keyboard shortcuts
@@ -192,5 +202,6 @@ other QDVC apps, in the "Teal" palette.
 | ⇧⌘C | Copy the batch rows to paste upstream |
 | ⇧⌘E | Export the cases shown as CSV |
 | ⌃⌘1 … ⌃⌘8 | All Cases, Awaiting, Needs Attention, Batch, Workload, Acceptance & Refusal, Analysts, Data Sources |
+| ⌘C | Copy the selected case IDs |
 | ⌘F | Search cases |
 | ⌘R | Reload from disk |

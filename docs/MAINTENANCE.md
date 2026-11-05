@@ -109,8 +109,15 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
 ### 2.1 Changes and saving
 
 - `mutate(parts…) { data in … }` applies a change, rebuilds the derived
-  `CaseBook`, batch rows and workload, and saves the named
-  `WorkspacePart`s 0.6 s later (and when the app is left, and on quit).
+  `CaseBook`, batch rows, workload, year summaries and sidebar counts, and
+  saves the named `WorkspacePart`s 0.6 s later (and when the app is left,
+  and on quit).
+- **Typing must not rebuild on every keystroke.** Text bindings (analysts,
+  templates, outcome labels) pass `deferRebuild: true`: the data changes at
+  once, the rebuild runs 0.45 s after the last keystroke. Rebuilding on
+  each keystroke made the Analysts page crawl, because every window (the
+  sidebar's counts, the case table, Decision Support) recomputed with it.
+  The sidebar's counts are computed in the rebuild, not in `body`.
 - On returning to the app, file dates are compared and the workspace
   reloaded if Git or another editor changed it.
 - Imports copy the file into the workspace and reload.
@@ -120,7 +127,11 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
 - Table column builders take at most 10 columns; the case and batch
   tables use exactly 10.
 - Worksheets and the paste preview have arbitrary columns, so they use
-  `SheetGrid` (a lazy grid with a pinned header) rather than `Table`.
+  `SheetGrid` (a lazy grid with a pinned header) rather than `Table`. A
+  two-way `ScrollView` centres content smaller than itself, so SheetGrid
+  gives its content a minimum size of the view's, aligned top-leading.
+- Analyst shorthands use `ShorthandText`: one line, room for seven
+  characters.
 - **Views in table cells, menus, popovers and the inspector are handed
   the model (`var model: AppModel`); they never read it with
   `@Environment(AppModel.self)`.** Each table cell is hosted separately

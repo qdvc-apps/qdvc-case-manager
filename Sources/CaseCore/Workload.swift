@@ -127,11 +127,13 @@ public struct RateRow: Sendable, Equatable, Identifiable {
     public var label: String
     public var accepted = 0
     public var refused = 0
-    /// Decisions counted in neither (non-standard outcomes shown separately).
+    /// Special decisions (sp): neither a nor r.
+    public var special = 0
+    /// Decisions counted in neither (project and other outcomes, shown separately).
     public var other = 0
 
     public var decided: Int { accepted + refused }
-    public var total: Int { accepted + refused + other }
+    public var total: Int { accepted + refused + special + other }
     /// a / (a + r).
     public var acceptanceRate: Double? { decided == 0 ? nil : Double(accepted) / Double(decided) }
     /// r / (a + r).
@@ -182,6 +184,7 @@ public enum Rates {
             switch outcome.rates {
             case .accepted: r.accepted += 1
             case .refused: r.refused += 1
+            case .special: r.special += 1
             case .excluded: r.other += 1
             }
             rows[key] = r
@@ -199,6 +202,7 @@ public enum Rates {
         for r in rows {
             t.accepted += r.accepted
             t.refused += r.refused
+            t.special += r.special
             t.other += r.other
         }
         return t

@@ -139,12 +139,28 @@ struct BatchView: View {
                 Divider()
             }
             if !ids.isEmpty {
-                Button("Copy \(ids.count == 1 ? "Row" : "\(ids.count) Rows")") { model.copyBatch(only: ids); flash() }
+                Button(ids.count == 1 ? "Copy Case ID" : "Copy \(ids.count) Case IDs") {
+                    Platform.copy(ordered(ids).joined(separator: "\n"))
+                }
+                Button(ids.count == 1 ? "Copy as Control Sheet Row" : "Copy as \(ids.count) Control Sheet Rows") {
+                    model.copyBatch(only: ids)
+                    flash()
+                }
                 Button("Remove from Batch") { for id in ids { model.unprepare(id) } }
             }
         } primaryAction: { ids in
             if let id = ids.first { openWindow(id: DecisionWindow.id, value: id) }
         }
+        // Edit › Copy (⌘C) copies the selected rows' case IDs.
+        .onCopyCommand {
+            let ids = ordered(selection)
+            return ids.isEmpty ? [] : [NSItemProvider(object: ids.joined(separator: "\n") as NSString)]
+        }
+    }
+
+    /// The case IDs in batch order.
+    private func ordered(_ ids: Set<String>) -> [String] {
+        model.prepared.map(\.caseID).filter { ids.contains($0) }
     }
 
     private func helpText(_ r: PreparedRow) -> String {

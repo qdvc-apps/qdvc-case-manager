@@ -70,6 +70,13 @@ struct ImportMenuItems: View {
         Button("Allocation Control Sheet…") { model.beginImport(.controlSheet) }
         Divider()
         Button("New Project from Worksheet…") { model.beginNewProject() }
+        if !model.data.projects.isEmpty {
+            Menu("Update Project Worksheet") {
+                ForEach(model.data.projects) { p in
+                    Button("\(p.definition.name)…") { model.updateWorksheet(p.id) }
+                }
+            }
+        }
     }
 }
 
@@ -95,12 +102,23 @@ struct Sidebar: View {
                 Section("Projects") {
                     ForEach(model.data.projects) { p in
                         Label {
-                            Text(p.definition.name)
+                            HStack(spacing: 6) {
+                                Text(p.definition.name).lineLimit(1)
+                                ProjectTag(definition: p.definition)
+                            }
                         } icon: {
                             Image(systemName: "folder.fill").foregroundStyle(Style.colour(p.definition.colour))
                         }
-                        .badge(model.book.rows.filter { $0.flags.contains(.missingFromWorksheet(p.id)) }.count)
+                        .badge(model.missingCounts[p.id] ?? 0)
                         .tag(Page.project(p.id))
+                        .contextMenu {
+                            Button("Edit Project…") { model.editProject(p.id) }
+                            Button("Update Worksheet…") { model.updateWorksheet(p.id) }
+                            Divider()
+                            Button("Show Worksheet in Finder") { model.revealWorksheet(p.id) }
+                            Divider()
+                            Button("Remove Project…") { model.deleteProject(p.id) }
+                        }
                     }
                 }
             }

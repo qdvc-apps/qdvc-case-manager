@@ -46,7 +46,14 @@ public enum SettingsFile {
                 rates: RateTreatment(rawValue: item.text("rates")), countsAsWorkload: item["workload"]?.bool,
                 project: item.text("project")))
         }
-        if doc["outcomes"] == nil { s.outcomes = OutcomeCode.standard }
+        // Every workspace has the standard codes; ones added since a
+        // workspace was made (such as sp) are added to it.
+        for standard in OutcomeCode.standard.reversed() where !s.outcomes.contains(where: { $0.code == standard.code }) {
+            let after = OutcomeCode.standard.prefix { $0.code != standard.code }.compactMap { std in
+                s.outcomes.firstIndex { $0.code == std.code }
+            }.max()
+            s.outcomes.insert(standard, at: after.map { $0 + 1 } ?? 0)
+        }
         s.extra = doc.pairs.filter { !known.contains($0.key) }
         return s
     }
@@ -115,8 +122,9 @@ public enum TemplatesFile {
         }
     }
 
+    /// Written in alphabetical order.
     public static func render(_ templates: [ReturnTemplate]) -> String {
-        let items = templates.map { t -> YAMLNode in
+        let items = ReturnTemplate.sorted(templates).map { t -> YAMLNode in
             var p: [(String, YAMLNode)] = [("name", .str(t.name))]
             if !t.description.isEmpty { p.append(("description", .str(t.description))) }
             return .map(p)

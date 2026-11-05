@@ -9,6 +9,9 @@ outcomes:
   - code: r
     kind: refused
     label: Refused & returned
+  - code: sp
+    kind: special
+    label: Special
   - code: Operation Waymaker
     kind: project
     label: Operation Waymaker

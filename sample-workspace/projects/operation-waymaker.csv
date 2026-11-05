@@ -1,14 +1,13 @@
 Op Ref,Case,Workstream,Lead,Status,RAG,Next Action
-WM-001,QD-26-00653,Containment,KM,Open,Red,Image devices
-WM-002,QD-26-00654,Notification,KM,Paused,Amber,Draft ICO notice
-WM-004,QD-26-00694,Notification,KM,Open,Red,Close out
-WM-005,QD-26-00724,Forensics,EN,Open,Amber,Draft ICO notice
-WM-006,QD-26-00751,Forensics,EN,Open,Amber,Draft ICO notice
-WM-007,QD-26-00776,Lessons learned,KM,Closed,Red,Interview IT lead
-WM-008,QD-26-00809,Lessons learned,KM,Paused,Red,Image devices
-WM-009,QD-26-00867,Containment,KM,Open,Green,Draft ICO notice
-WM-010,QD-26-00878,Containment,KM,Open,Amber,Draft ICO notice
-WM-011,QD-26-00884,Containment,KM,Open,Green,Close out
-WM-012,QD-26-00885,Forensics,KM,Closed,Red,Close out
-WM-013,QD-26-00886,Notification,KM,Open,Red,Close out
+WM-001,QD-26-00643,Notification,KM,Closed,Green,Close out
+WM-002,QD-26-00675,Forensics,KM,Closed,Red,Close out
+WM-004,QD-26-00723,Containment,KM,Open,Red,Draft ICO notice
+WM-005,QD-26-00755,Forensics,KM,Open,Amber,Image devices
+WM-006,QD-26-00808,Lessons learned,KM,Paused,Amber,Close out
+WM-007,QD-26-00832,Containment,KM,Open,Green,Draft ICO notice
+WM-008,QD-26-00842,Notification,KM,Paused,Amber,Draft ICO notice
+WM-009,QD-26-00849,Containment,KM,Paused,Red,Draft ICO notice
+WM-010,QD-26-00856,Forensics,EN,Open,Red,Draft ICO notice
+WM-011,QD-26-00861,Forensics,KM,Closed,Red,Image devices
+WM-012,QD-26-00867,Notification,KM,Closed,Red,Close out
 WM-900,QD-26-77777,Forensics,KM,Open,Amber,Check case ID with registry

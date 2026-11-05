@@ -9,7 +9,7 @@ struct PivotCell: Hashable {
 }
 
 enum PivotSort: String, CaseIterable, Identifiable {
-    case name, total, thisMonth
+    case total, thisMonth, name
     var id: String { rawValue }
     var title: String {
         switch self {
@@ -24,7 +24,7 @@ struct WorkloadView: View {
     @Environment(AppModel.self) private var model
     @State private var span: Span = .twelve
     @State private var includeInactive = false
-    @State private var sort: PivotSort = .name
+    @State private var sort: PivotSort = .total
     @State private var openCell: PivotCell?
 
     var body: some View {
@@ -96,7 +96,10 @@ struct WorkloadView: View {
         case .name:
             return p.analysts.sorted { model.analystLabel($0).localizedStandardCompare(model.analystLabel($1)) == .orderedAscending }
         case .total:
-            return p.analysts.sorted { p.rowTotal($0) > p.rowTotal($1) }
+            return p.analysts.sorted { a, b in
+                let x = p.rowTotal(a), y = p.rowTotal(b)
+                return x == y ? a < b : x > y
+            }
         case .thisMonth:
             guard let last = p.months.last else { return p.analysts }
             return p.analysts.sorted { p.count($0, last) > p.count($1, last) }
@@ -164,11 +167,11 @@ struct WorkloadView: View {
     private func analystLabel(_ a: String) -> some View {
         let analyst = model.book.analyst(for: a)
         return HStack(spacing: 6) {
-            Text(a).font(Style.monoSmall).frame(width: 44, alignment: .leading)
+            ShorthandText(text: a)
             Text(analyst?.displayName ?? "Unknown shorthand").lineLimit(1)
                 .foregroundStyle(analyst == nil ? Color.orange : (analyst!.active ? Color.primary : Color.secondary))
         }
-        .frame(width: 210, alignment: .leading)
+        .frame(minWidth: 230, alignment: .leading)
     }
 
     private func heatCell(_ p: WorkloadPivot, _ a: String, _ m: MonthKey, top: Int) -> some View {
@@ -302,6 +305,8 @@ struct RatesView: View {
     var body: some View {
         let months: [MonthKey]? = span == .all ? nil : model.months(span)
         let rows = Rates.rows(model.book, by: grouping, months: months)
+        // The table (and its export) put the latest month first; the charts run left to right in time.
+        let listed = grouping == .month ? Array(rows.reversed()) : rows
         let total = Rates.overall(rows)
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
@@ -311,7 +316,9 @@ struct RatesView: View {
                              detail: "\(total.accepted) accepted", tint: .green)
                     StatCard(title: "Refusal rate  r / (a + r)", value: Style.percent(total.refusalRate),
                              detail: "\(total.refused) refused & returned", tint: .red)
-                    StatCard(title: "Shown separately", value: "\(total.other)",
+                    StatCard(title: "Special (sp)", value: "\(total.special)",
+                             detail: "neither accepted nor refused", tint: Style.special)
+                    StatCard(title: "Other", value: "\(total.other)",
                              detail: "projects and other outcomes, in neither rate")
                 }
                 if grouping == .month && !rows.isEmpty {
@@ -321,11 +328,11 @@ struct RatesView: View {
                     }
                 }
                 GroupBox {
-                    rateTable(rows, total: total).padding(4)
+                    rateTable(listed, total: total).padding(4)
                 } label: {
                     Text(grouping.title)
                 }
-                Text("Each case counts once, by its latest decision in the control sheet. How each outcome code counts is set in Outcome Codes.")
+                Text("Each case counts once, by its latest decision in the control sheet. Special (sp) and other outcomes are in neither rate. How each outcome code counts is set in Outcome Codes.")
                     .font(.caption).foregroundStyle(.secondary)
             }
             .padding(20)
@@ -341,7 +348,7 @@ struct RatesView: View {
                 }
                 .frame(width: 130)
                 Button {
-                    model.export(Export.rates(rows, heading: grouping.title), name: "rates-\(grouping.rawValue)-\(model.today.iso).csv")
+                    model.export(Export.rates(listed, heading: grouping.title), name: "rates-\(grouping.rawValue)-\(model.today.iso).csv")
                 } label: {
                     Label("Export CSV", systemImage: "square.and.arrow.up")
                 }
@@ -353,13 +360,15 @@ struct RatesView: View {
         let points = rows.flatMap { r in
             [RatePoint(key: r.key, label: r.label, kind: "Accepted (a)", count: r.accepted),
              RatePoint(key: r.key, label: r.label, kind: "Refused (r)", count: r.refused),
+             RatePoint(key: r.key, label: r.label, kind: "Special (sp)", count: r.special),
              RatePoint(key: r.key, label: r.label, kind: "Other", count: r.other)]
         }
         return Chart(points) { p in
             BarMark(x: .value("Month", p.label), y: .value("Cases", p.count))
                 .foregroundStyle(by: .value("Outcome", p.kind))
         }
-        .chartForegroundStyleScale(["Accepted (a)": Color.green, "Refused (r)": Color.red, "Other": Color.gray])
+        .chartForegroundStyleScale(["Accepted (a)": Color.green, "Refused (r)": Color.red,
+                                    "Special (sp)": Style.special, "Other": Color.gray])
     }
 
     private func rateChart(_ rows: [RateRow]) -> some View {
@@ -385,6 +394,7 @@ struct RatesView: View {
                     .gridColumnAlignment(.leading)
                 heading("a")
                 heading("r")
+                heading("sp")
                 heading("Other")
                 heading("Acceptance")
                 heading("Refusal")
@@ -397,6 +407,7 @@ struct RatesView: View {
                     Text(r.label).fontWeight(weight)
                     Text("\(r.accepted)").monospacedDigit().fontWeight(weight)
                     Text("\(r.refused)").monospacedDigit().fontWeight(weight)
+                    Text("\(r.special)").monospacedDigit().fontWeight(weight).foregroundStyle(Style.specialText)
                     Text("\(r.other)").monospacedDigit().fontWeight(weight).foregroundStyle(.secondary)
                     Text(Style.percent(r.acceptanceRate)).monospacedDigit().fontWeight(weight)
                     Text(Style.percent(r.refusalRate)).monospacedDigit().fontWeight(weight)
@@ -411,15 +422,20 @@ struct RatesView: View {
     }
 }
 
-/// Acceptance (green) against refusal (red) as one bar.
+/// Accepted (green), refused (red), special (yellow) and other (grey) as
+/// shares of one bar.
 struct RateBar: View {
     var row: RateRow
 
     var body: some View {
         GeometryReader { g in
+            let total = max(1, row.total)
+            let w = { (n: Int) in g.size.width * CGFloat(n) / CGFloat(total) }
             HStack(spacing: 0) {
-                Rectangle().fill(Color.green.opacity(0.75)).frame(width: g.size.width * (row.acceptanceRate ?? 0))
-                Rectangle().fill(Color.red.opacity(0.7)).frame(width: g.size.width * (row.refusalRate ?? 0))
+                Rectangle().fill(Color.green.opacity(0.75)).frame(width: w(row.accepted))
+                Rectangle().fill(Color.red.opacity(0.7)).frame(width: w(row.refused))
+                Rectangle().fill(Style.special.opacity(0.85)).frame(width: w(row.special))
+                Rectangle().fill(Color.gray.opacity(0.45)).frame(width: w(row.other))
             }
             .clipShape(RoundedRectangle(cornerRadius: 2))
         }

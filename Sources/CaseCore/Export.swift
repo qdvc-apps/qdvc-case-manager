@@ -26,9 +26,10 @@ public enum Export {
 
     public static func rates(_ rows: [RateRow], heading: String) -> String {
         func pct(_ v: Double?) -> String { v.map { String(format: "%.1f%%", $0 * 100) } ?? "" }
-        var out: [[String]] = [[heading, "Accepted (a)", "Refused (r)", "Other", "Acceptance rate", "Refusal rate"]]
+        var out: [[String]] = [[heading, "Accepted (a)", "Refused (r)", "Special (sp)", "Other", "Acceptance rate", "Refusal rate"]]
         for r in rows + [Rates.overall(rows)] {
-            out.append([r.label, String(r.accepted), String(r.refused), String(r.other), pct(r.acceptanceRate), pct(r.refusalRate)])
+            out.append([r.label, String(r.accepted), String(r.refused), String(r.special), String(r.other),
+                        pct(r.acceptanceRate), pct(r.refusalRate)])
         }
         return CSV.render(out)
     }

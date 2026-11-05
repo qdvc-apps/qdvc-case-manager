@@ -1,8 +1,16 @@
-QD-26-00903:
+QD-26-00874:
+  outcome: a
+  analyst: AB
+  note: supplier due diligence
+  supervisor: D. Lindqvist
+  date: 2026-10-30
+  order: 1
+  updated: 2026-10-30
+QD-26-00875:
   shortlist: [AJB, MO]
   note: Check MO's November load first
   updated: 2026-11-04
-QD-26-00904:
+QD-26-00876:
   shortlist: [KM, EN]
   outcome: a
   analyst: EN
@@ -11,15 +19,7 @@ QD-26-00904:
   date: 2026-11-05
   order: 2
   updated: 2026-11-05
-QD-26-00905:
-  outcome: a
-  analyst: DW
-  note: As per Protocol 67
-  supervisor: D. Lindqvist
-  date: 2026-11-02
-  order: 1
-  updated: 2026-11-02
-QD-26-00906:
+QD-26-00877:
   outcome: r
   analyst: ""
   note: OUT_OF_SCOPE

@@ -113,6 +113,12 @@ struct CaseCommands: Commands {
                 Divider()
                 Button("New Project from Worksheet…") { model.beginNewProject() }
                     .keyboardShortcut("3", modifiers: [.command, .option])
+                Menu("Update Project Worksheet") {
+                    ForEach(model.data.projects) { p in
+                        Button("\(p.definition.name)…") { model.updateWorksheet(p.id) }
+                    }
+                }
+                .disabled(model.data.projects.isEmpty)
             }
             .disabled(!model.isOpen)
             Divider()
@@ -232,8 +238,7 @@ struct WelcomeWindow: View {
                 }
                 .frame(width: 330)
                 Spacer(minLength: 28)
-                Toggle("Show this window when QDVC Case Manager opens", isOn: $model.showWelcomeAtLaunch)
-                    .toggleStyle(.checkbox)
+                Text("Your last workspace reopens when the app starts.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .padding(.bottom, 16)
@@ -393,7 +398,8 @@ struct SettingsView: View {
                         value: $model.staleAfterDays, in: 1...60)
             }
             Section("Launch") {
-                Toggle("Show the welcome window when the app opens", isOn: $model.showWelcomeAtLaunch)
+                Text("The last workspace you had open reopens when the app starts; if it can't be found, the welcome window appears instead.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
             Section {
                 Text("QDVC Case Manager works entirely offline: it never connects to the network or the internet. Everything it reads and writes is in the workspace folder you choose.")

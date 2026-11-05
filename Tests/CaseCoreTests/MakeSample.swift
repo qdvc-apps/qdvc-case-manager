@@ -103,6 +103,7 @@ final class MakeSampleTests: XCTestCase {
         XCTAssertTrue(book.rows.contains { $0.status == .awaiting })
         XCTAssertTrue(book.rows.contains { $0.hasWarning })
         XCTAssertTrue(book.rows.contains { if case .other = $0.status { return true }; return false })
+        XCTAssertTrue(book.rows.contains { $0.status == .special("sp") })
         XCTAssertTrue(book.rows.contains { $0.flags.contains(.missingFromWorksheet("operation-waymaker")) })
         XCTAssertEqual(book.unknownShorthands.keys.sorted(), ["JTB"])
         XCTAssertEqual(Batch.rows(data, book: book).map(\.state), [.landed, .pending, .pending])
@@ -170,6 +171,9 @@ final class MakeSampleTests: XCTestCase {
                         note = rng.weighted([("IS_DUPLICATE", 5), ("INCOMPLETE_FORM", 6), ("OUT_OF_SCOPE", 5),
                                              ("UNAUTHORISED_ENTITY_REV23", 2), ("INSUFFICIENT_FUNDS", 2),
                                              ("CODENAME_JUNO", 1), ("CODENAME_NEPTUNE", 1)])
+                    } else if rng.chance(0.04) {
+                        outcome = "sp"   // special: neither allocated nor refused
+                        note = rng.pick(["Joint review with Legal", "Escalated to the Director", "Referred to Internal Audit"])
                     } else if rng.chance(0.008) {
                         outcome = "h"   // a non-standard code nobody has classified yet
                         note = "On hold pending legal advice"

@@ -39,20 +39,25 @@ struct ProjectView: View {
                 switch tab {
                 case .worksheet: worksheet(p)
                 case .cases:
-                    CaseTable(rows: model.book.rows.filter { $0.projects.contains(id) || $0.claimedBy.contains(id) }
+                    CaseTable(rows: model.book.rows
+                        .filter { ($0.projects.contains(id) || $0.claimedBy.contains(id)) && model.inSelectedYear($0) }
                         .sorted(using: sortOrder), sortOrder: $sortOrder)
                 case .completeness: completeness(p, missing: missing, orphans: orphans)
                 }
             }
+            // The page starts at the top, never centred in the window.
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
+                    if tab == .cases { YearPicker(model: model) }
                     Button { model.updateWorksheet(id) } label: {
                         Label("Update Worksheet", systemImage: "arrow.triangle.2.circlepath")
                     }
-                    .help("Import a newer copy of this worksheet")
+                    .help("Re-import this project's worksheet from a newer file")
                     Button { model.editProject(id) } label: {
                         Label("Edit Project", systemImage: "slider.horizontal.3")
                     }
+                    .help("Edit the project's details")
                 }
             }
         } else {
@@ -72,6 +77,12 @@ struct ProjectView: View {
                 Text("\(d.leaderTitle): \(d.leader.isEmpty ? "not set" : model.analystLabel(d.leader))")
                     .foregroundStyle(.secondary)
                 Text(worksheetLine(d, rows: p.table.rows.count)).font(.caption).foregroundStyle(.secondary)
+                HStack(spacing: 8) {
+                    Button("Update Worksheet…") { model.updateWorksheet(d.id) }
+                    Button("Edit Project…") { model.editProject(d.id) }
+                }
+                .controlSize(.small)
+                .padding(.top, 2)
             }
             Spacer()
             HStack(spacing: 10) {

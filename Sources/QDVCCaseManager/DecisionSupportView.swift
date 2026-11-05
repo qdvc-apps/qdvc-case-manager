@@ -44,7 +44,7 @@ struct DecisionSupportView: View {
     @State private var query = ""
     @State private var matchAll = true
     @State private var activeOnly = true
-    @State private var sort: AnalystSort = .relevance
+    @State private var sort: AnalystSort = .lightYear
 
     // The row being prepared.
     @State private var outcome = "a"
@@ -207,7 +207,10 @@ struct DecisionSupportView: View {
     // MARK: The row being prepared
 
     private var outcomeCode: OutcomeCode? { model.data.settings.outcome(for: outcome) }
-    private var needsAnalyst: Bool { outcomeCode.map { $0.kind == .allocated || $0.kind == .project } ?? true }
+    /// Whether the row can name an analyst (required only for an allocation).
+    private var needsAnalyst: Bool {
+        outcomeCode.map { $0.kind == .allocated || $0.kind == .project || $0.kind == .special } ?? true
+    }
 
     private func noteOptions() -> [String] {
         switch outcomeCode?.kind {
@@ -321,7 +324,7 @@ struct DecisionSupportView: View {
     }
 
     private var canSave: Bool {
-        !outcome.isEmpty && (!needsAnalyst || !analyst.isEmpty || outcomeCode?.kind == .project)
+        !outcome.isEmpty && (outcomeCode?.kind != .allocated || !analyst.isEmpty)
     }
 
     private func previewText(_ row: CaseRow) -> String {
@@ -367,7 +370,7 @@ struct DecisionSupportView: View {
     }
 
     private func choose(_ a: Analyst) {
-        if outcomeCode?.kind != .allocated && outcomeCode?.kind != .project {
+        if outcomeCode?.kind != .allocated && outcomeCode?.kind != .project && outcomeCode?.kind != .special {
             outcome = model.data.settings.outcomes.first { $0.kind == .allocated }?.code ?? "a"
         }
         analyst = a.shorthand
@@ -453,8 +456,8 @@ struct AnalystCard: View {
 
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 6) {
-                    Text(a.displayName).font(.headline)
-                    Text(a.shorthand).font(Style.monoSmall).foregroundStyle(.secondary)
+                    Text(a.displayName).font(.headline).lineLimit(1)
+                    ShorthandText(text: a.shorthand, minWidth: 0).foregroundStyle(.secondary)
                     if !a.active {
                         Text("Inactive").font(.caption2).padding(.horizontal, 5)
                             .background(Capsule().fill(Color.secondary.opacity(0.2)))

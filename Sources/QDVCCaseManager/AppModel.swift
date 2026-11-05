@@ -5,7 +5,7 @@ import SwiftUI
 
 /// Which cases a case list shows.
 enum CaseScope: String, CaseIterable, Identifiable, Hashable {
-    case all, awaiting, allocated, refused, other, attention
+    case all, awaiting, allocated, refused, special, other, attention
 
     var id: String { rawValue }
 
@@ -15,6 +15,7 @@ enum CaseScope: String, CaseIterable, Identifiable, Hashable {
         case .awaiting: return "Awaiting Allocation"
         case .allocated: return "Allocated"
         case .refused: return "Refused & Returned"
+        case .special: return "Special"
         case .other: return "Projects & Other"
         case .attention: return "Needs Attention"
         }
@@ -26,6 +27,7 @@ enum CaseScope: String, CaseIterable, Identifiable, Hashable {
         case .awaiting: return "hourglass"
         case .allocated: return "person.fill.checkmark"
         case .refused: return "arrow.uturn.backward.circle"
+        case .special: return "star.circle"
         case .other: return "folder"
         case .attention: return "exclamationmark.triangle"
         }
@@ -37,6 +39,9 @@ enum CaseScope: String, CaseIterable, Identifiable, Hashable {
         case .awaiting: return row.status == .awaiting
         case .allocated: return row.status == .allocated
         case .refused: return row.status == .refused
+        case .special:
+            if case .special = row.status { return true }
+            return false
         case .other:
             switch row.status {
             case .project, .other: return true
@@ -82,6 +87,26 @@ enum Span: String, CaseIterable, Identifiable {
         case .twentyFour: return 24
         case .all: return nil
         }
+    }
+}
+
+/// One registration year in the Year filter.
+struct YearSummary: Identifiable, Equatable {
+    /// The year for cases with no readable registration date.
+    static let undated = 0
+
+    var year: Int
+    var cases = 0
+    var awaiting = 0
+    var id: Int { year }
+
+    var title: String { year == YearSummary.undated ? "No date" : String(year) }
+
+    /// "2026 — 412 cases, 9 awaiting".
+    var menuTitle: String {
+        var s = "\(title) — \(cases) case\(cases == 1 ? "" : "s")"
+        if awaiting > 0 { s += ", \(awaiting) awaiting" }
+        return s
     }
 }
 
@@ -132,14 +157,25 @@ final class AppModel {
     private(set) var metrics: [String: AnalystMetrics] = [:]
     private(set) var pendingLoad: [String: Int] = [:]
     private(set) var today = LocalDate.today()
+    /// Years of registration with how many cases (and how many awaiting),
+    /// newest first; always includes this year.
+    private(set) var yearSummaries: [YearSummary] = []
+    /// Sidebar counts for the selected year.
+    private(set) var scopeCounts: [CaseScope: Int] = [:]
+    /// Cases missing from each project's worksheet (all years).
+    private(set) var missingCounts: [String: Int] = [:]
 
     // MARK: View state
 
     var page: Page = .cases(.all)
     var selectedCaseIDs: Set<String> = []
     var searchText = ""
-    /// "" for every genre.
-    var genreFilter = ""
+    /// The registration year the case tables show (`YearSummary.undated`
+    /// for cases without a readable date). There is deliberately no "all
+    /// years", to keep the tables manageable.
+    var selectedYear: Int = LocalDate.today().year {
+        didSet { if selectedYear != oldValue { recount() } }
+    }
     var inspectorShown: Bool = Prefs.inspectorShown {
         didSet { Prefs.inspectorShown = inspectorShown }
     }
@@ -151,9 +187,6 @@ final class AppModel {
     var welcomeRequested = false
 
     private(set) var recentWorkspaces: [URL] = Prefs.recentWorkspaces
-    var showWelcomeAtLaunch: Bool = Prefs.showWelcomeAtLaunch {
-        didSet { Prefs.showWelcomeAtLaunch = showWelcomeAtLaunch }
-    }
     var supervisorName: String = Prefs.supervisorName {
         didSet { Prefs.supervisorName = supervisorName }
     }
@@ -163,6 +196,7 @@ final class AppModel {
 
     @ObservationIgnored private var dirty: Set<WorkspacePart> = []
     @ObservationIgnored private var saveTask: Task<Void, Never>?
+    @ObservationIgnored private var rebuildTask: Task<Void, Never>?
     @ObservationIgnored private var startedUp = false
 
     var isOpen: Bool { workspace != nil }
@@ -175,11 +209,13 @@ final class AppModel {
 
     // MARK: Opening and closing
 
-    /// Called by the welcome window when it first appears.
+    /// Called by the welcome window when it first appears: reopens the
+    /// last workspace, if it is still there. Otherwise the welcome window
+    /// stays up.
     func startUp() {
         guard !startedUp else { return }
         startedUp = true
-        if !showWelcomeAtLaunch, let last = recentWorkspaces.first, Workspace.looksLikeWorkspace(last) {
+        if let last = recentWorkspaces.first, Workspace.looksLikeWorkspace(last) {
             open(last)
         }
     }
@@ -232,9 +268,10 @@ final class AppModel {
         today = LocalDate.today()
         selectedCaseIDs = []
         searchText = ""
-        genreFilter = ""
         page = .cases(.all)
+        data.templates = ReturnTemplate.sorted(data.templates)
         rebuild()
+        selectedYear = today.year
         addRecent(url)
         if !data.issues.isEmpty {
             errorMessage = "Some files could not be read and will not be changed until they are fixed:\n"
@@ -253,6 +290,7 @@ final class AppModel {
         guard let ws = workspace else { return }
         flushSaves()
         data = ws.load()
+        data.templates = ReturnTemplate.sorted(data.templates)
         today = LocalDate.today()
         rebuild()
     }
@@ -289,6 +327,8 @@ final class AppModel {
     // MARK: Changes and saving
 
     private func rebuild() {
+        rebuildTask?.cancel()
+        rebuildTask = nil
         book = CaseBook.build(data)
         prepared = Batch.rows(data, book: book)
         events = Workload.events(book)
@@ -296,14 +336,55 @@ final class AppModel {
         pendingLoad = Batch.pendingLoad(prepared, settings: data.settings, book: book)
         let kept = selectedCaseIDs.filter { book.row($0) != nil }
         if kept != selectedCaseIDs { selectedCaseIDs = kept }
+
+        var years: [Int: YearSummary] = [today.year: YearSummary(year: today.year)]
+        for r in book.rows {
+            let y = r.registrationDate?.year ?? YearSummary.undated
+            var s = years[y] ?? YearSummary(year: y)
+            s.cases += 1
+            if r.status == .awaiting { s.awaiting += 1 }
+            years[y] = s
+        }
+        yearSummaries = years.values.sorted { $0.year > $1.year }
+        var missing: [String: Int] = [:]
+        for r in book.rows {
+            for f in r.flags { if case .missingFromWorksheet(let p) = f { missing[p, default: 0] += 1 } }
+        }
+        missingCounts = missing
+        recount()
+    }
+
+    /// The sidebar counts for the selected year.
+    private func recount() {
+        var counts: [CaseScope: Int] = [:]
+        for r in book.rows where inSelectedYear(r) {
+            for scope in CaseScope.allCases where scope.includes(r) { counts[scope, default: 0] += 1 }
+        }
+        scopeCounts = counts
+    }
+
+    func inSelectedYear(_ row: CaseRow) -> Bool {
+        (row.registrationDate?.year ?? YearSummary.undated) == selectedYear
+    }
+
+    /// Rebuilds a moment after the last of a run of changes (typing), so
+    /// each keystroke doesn't recompute every case.
+    private func scheduleRebuild() {
+        rebuildTask?.cancel()
+        rebuildTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: 450_000_000)
+            guard !Task.isCancelled else { return }
+            self?.rebuild()
+        }
     }
 
     /// Applies a change to the workspace data, rebuilds what depends on it
-    /// and saves the parts named shortly afterwards.
-    func mutate(_ parts: WorkspacePart..., change: (inout WorkspaceData) -> Void) {
+    /// (at once, or with `deferRebuild` once typing pauses) and saves the
+    /// parts named shortly afterwards.
+    func mutate(_ parts: WorkspacePart..., deferRebuild: Bool = false, change: (inout WorkspaceData) -> Void) {
         guard isOpen else { return }
         change(&data)
-        rebuild()
+        if deferRebuild { scheduleRebuild() } else { rebuild() }
         dirty.formUnion(parts)
         scheduleSave()
     }
@@ -335,13 +416,12 @@ final class AppModel {
     // MARK: Lookups
 
     var visibleRows: [CaseRow] {
-        var rows = book.rows
+        var rows = book.rows.filter { inSelectedYear($0) }
         switch page {
         case .cases(let scope): rows = rows.filter { scope.includes($0) }
         case .project(let id): rows = rows.filter { $0.projects.contains(id) || $0.claimedBy.contains(id) }
         default: break
         }
-        if !genreFilter.isEmpty { rows = rows.filter { $0.genre == genreFilter } }
         let q = searchText.trimmingCharacters(in: .whitespaces)
         if !q.isEmpty {
             rows = rows.filter { r in
@@ -352,7 +432,7 @@ final class AppModel {
         return rows
     }
 
-    func count(_ scope: CaseScope) -> Int { book.rows.filter { scope.includes($0) }.count }
+    func count(_ scope: CaseScope) -> Int { scopeCounts[scope] ?? 0 }
 
     var pendingCount: Int { prepared.filter { $0.state == .pending }.count }
     var landedCount: Int { prepared.filter { $0.state != .pending }.count }
@@ -418,10 +498,10 @@ final class AppModel {
         return (queue.first { ($0.registrationSort, $0.caseID) > key } ?? queue.first)?.caseID
     }
 
-    /// Shows one case in the catalogue.
+    /// Shows one case in the catalogue (switching to its year).
     func reveal(_ caseID: String) {
         page = .cases(.all)
-        genreFilter = ""
+        if let row = book.row(caseID) { selectedYear = row.registrationDate?.year ?? YearSummary.undated }
         searchText = caseID
         selectedCaseIDs = [caseID]
     }
@@ -494,6 +574,20 @@ final class AppModel {
 
     func beginNewProject() {
         guard isOpen, let url = Platform.chooseCSV(title: "Import Project Worksheet"), let table = loadTable(url) else { return }
+        // A newer copy of a worksheet already in the workspace? Offer to update that project.
+        if let existing = matchingProject(url: url, table: table) {
+            switch Platform.choose("This looks like the “\(existing.definition.name)” worksheet.",
+                                   "Update that project with this file, or add it as a new project?",
+                                   buttons: ["Update \(existing.definition.name)", "Add as New Project", "Cancel"]) {
+            case 0:
+                beginWorksheetUpdate(existing, url: url, table: table)
+                return
+            case 1:
+                break
+            default:
+                return
+            }
+        }
         let name = url.deletingPathExtension().lastPathComponent
         var def = ProjectDefinition(id: uniqueProjectID(ProjectDefinition.slug(name)), name: name)
         def.caseIDColumn = guessCaseIDColumn(table)
@@ -506,12 +600,38 @@ final class AppModel {
         sheet = .project(ProjectDraft(definition: p.definition, fileURL: nil, table: p.table, isNew: false))
     }
 
+    /// Re-imports a project's worksheet from a newer file.
     func updateWorksheet(_ id: String) {
-        guard let p = project(id), let url = Platform.chooseCSV(title: "Update \(p.definition.name) Worksheet"),
+        guard let p = project(id), let url = Platform.chooseCSV(title: "Update the \(p.definition.name) Worksheet"),
               let table = loadTable(url) else { return }
+        beginWorksheetUpdate(p, url: url, table: table)
+    }
+
+    private func beginWorksheetUpdate(_ p: ProjectWorksheet, url: URL, table: CSVTable) {
         var def = p.definition
         if table.index(of: def.caseIDColumn) == nil { def.caseIDColumn = guessCaseIDColumn(table) }
         sheet = .project(ProjectDraft(definition: def, fileURL: url, table: table, isNew: false))
+    }
+
+    /// The project a newly chosen worksheet probably updates: same file
+    /// name stem or same name as the project, or mostly the same case IDs.
+    private func matchingProject(url: URL, table: CSVTable) -> ProjectWorksheet? {
+        let slug = ProjectDefinition.slug(url.deletingPathExtension().lastPathComponent)
+        if let p = data.projects.first(where: {
+            $0.id == slug || ProjectDefinition.slug($0.definition.name) == slug
+                || ProjectDefinition.slug(($0.definition.originalFilename as NSString).deletingPathExtension) == slug
+        }) { return p }
+        let col = table.index(of: guessCaseIDColumn(table))
+        let ids = Set(table.rows.indices.map { CaseKey.normalise(table.value($0, col)) }.filter { !$0.isEmpty })
+        guard !ids.isEmpty else { return nil }
+        let best = data.projects.map { p in (p, Set(p.caseRows.keys).intersection(ids).count) }.max { $0.1 < $1.1 }
+        if let best, Double(best.1) >= 0.6 * Double(ids.count) { return best.0 }
+        return nil
+    }
+
+    func revealWorksheet(_ id: String) {
+        guard let ws = workspace else { return }
+        Platform.reveal(ws.url(for: "\(Workspace.projectsFolder)/\(id).csv"))
     }
 
     func confirmProject(_ draft: ProjectDraft) {
@@ -578,9 +698,9 @@ final class AppModel {
         return a.id
     }
 
-    func updateAnalyst(_ id: UUID, _ change: (inout Analyst) -> Void) {
+    func updateAnalyst(_ id: UUID, deferRebuild: Bool = false, _ change: (inout Analyst) -> Void) {
         guard let i = data.analysts.firstIndex(where: { $0.id == id }) else { return }
-        mutate(.analysts) { change(&$0.analysts[i]) }
+        mutate(.analysts, deferRebuild: deferRebuild) { change(&$0.analysts[i]) }
     }
 
     func deleteAnalyst(_ id: UUID) {
@@ -594,18 +714,27 @@ final class AppModel {
     func analystBinding<T>(_ id: UUID, _ keyPath: WritableKeyPath<Analyst, T>, default value: T) -> Binding<T> {
         Binding(
             get: { [weak self] in self?.data.analysts.first { $0.id == id }?[keyPath: keyPath] ?? value },
-            set: { [weak self] v in self?.updateAnalyst(id) { $0[keyPath: keyPath] = v } })
+            set: { [weak self] v in self?.updateAnalyst(id, deferRebuild: true) { $0[keyPath: keyPath] = v } })
     }
 
     // MARK: Templates, outcome codes, settings
 
-    func addTemplate(_ name: String = "NEW_TEMPLATE") {
-        mutate(.templates) { $0.templates.append(ReturnTemplate(name: name)) }
+    func addTemplate(_ name: String) {
+        let n = name.trimmingCharacters(in: .whitespaces)
+        guard !n.isEmpty, !data.templates.contains(where: { $0.name.caseInsensitiveCompare(n) == .orderedSame }) else { return }
+        mutate(.templates) { d in d.templates = ReturnTemplate.sorted(d.templates + [ReturnTemplate(name: n)]) }
+    }
+
+    /// Puts the list back in alphabetical order (after a name is edited).
+    func sortTemplates() {
+        let sorted = ReturnTemplate.sorted(data.templates)
+        guard sorted.map(\.id) != data.templates.map(\.id) else { return }
+        mutate(.templates) { $0.templates = sorted }
     }
 
     func updateTemplate(_ id: UUID, _ change: (inout ReturnTemplate) -> Void) {
         guard let i = data.templates.firstIndex(where: { $0.id == id }) else { return }
-        mutate(.templates) { change(&$0.templates[i]) }
+        mutate(.templates, deferRebuild: true) { change(&$0.templates[i]) }
     }
 
     func deleteTemplate(_ id: UUID) {
@@ -618,8 +747,8 @@ final class AppModel {
             set: { [weak self] v in self?.updateTemplate(id) { $0[keyPath: keyPath] = v } })
     }
 
-    func updateOutcome(_ code: String, _ change: (inout OutcomeCode) -> Void) {
-        mutate(.settings) { d in
+    func updateOutcome(_ code: String, deferRebuild: Bool = false, _ change: (inout OutcomeCode) -> Void) {
+        mutate(.settings, deferRebuild: deferRebuild) { d in
             if let i = d.settings.outcomes.firstIndex(where: { $0.code == code }) {
                 change(&d.settings.outcomes[i])
             } else {
@@ -633,15 +762,15 @@ final class AppModel {
     func outcomeBinding<T>(_ code: String, _ keyPath: WritableKeyPath<OutcomeCode, T>, default value: T) -> Binding<T> {
         Binding(
             get: { [weak self] in self?.data.settings.outcomes.first { $0.code == code }?[keyPath: keyPath] ?? value },
-            set: { [weak self] v in self?.updateOutcome(code) { $0[keyPath: keyPath] = v } })
+            set: { [weak self] v in self?.updateOutcome(code, deferRebuild: true) { $0[keyPath: keyPath] = v } })
     }
 
     func removeOutcome(_ code: String) {
         mutate(.settings) { $0.settings.outcomes.removeAll { $0.code == code } }
     }
 
-    func updateSettings(_ change: (inout WorkspaceSettings) -> Void) {
-        mutate(.settings) { change(&$0.settings) }
+    func updateSettings(deferRebuild: Bool = false, _ change: (inout WorkspaceSettings) -> Void) {
+        mutate(.settings, deferRebuild: deferRebuild) { change(&$0.settings) }
     }
 
     // MARK: Decisions and the batch

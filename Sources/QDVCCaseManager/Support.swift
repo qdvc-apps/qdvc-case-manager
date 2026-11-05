@@ -9,6 +9,14 @@ enum Style {
     static let mono = Font.system(.body, design: .monospaced)
     static let monoSmall = Font.system(.callout, design: .monospaced)
 
+    /// Special (sp): neither the green of a nor the red of r.
+    static let special = Color.yellow
+    /// Yellow text needs to be darker to be legible on a light background.
+    static let specialText = Color(nsColor: NSColor(name: nil) { appearance in
+        appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+            ? NSColor.systemYellow : NSColor(calibratedRed: 0.70, green: 0.53, blue: 0.0, alpha: 1)
+    })
+
     static func colour(_ name: String) -> Color {
         switch name {
         case "teal": return .teal
@@ -49,6 +57,7 @@ enum Style {
         case .awaiting: return "hourglass"
         case .allocated: return "person.fill.checkmark"
         case .refused: return "arrow.uturn.backward.circle"
+        case .special: return "star.circle.fill"
         case .project: return "folder.fill"
         case .other: return "questionmark.diamond"
         }
@@ -59,6 +68,7 @@ enum Style {
         case .awaiting: return .orange
         case .allocated: return .green
         case .refused: return .red
+        case .special: return .yellow
         case .project: return .indigo
         case .other: return .gray
         }
@@ -128,11 +138,6 @@ enum Prefs {
     static var recentWorkspaces: [URL] {
         get { (d.stringArray(forKey: "recentWorkspaces") ?? []).map { URL(fileURLWithPath: $0) } }
         set { d.set(newValue.map(\.path), forKey: "recentWorkspaces") }
-    }
-
-    static var showWelcomeAtLaunch: Bool {
-        get { d.object(forKey: "showWelcomeAtLaunch") as? Bool ?? true }
-        set { d.set(newValue, forKey: "showWelcomeAtLaunch") }
     }
 
     static var inspectorShown: Bool {
@@ -205,6 +210,15 @@ enum Platform {
         return alert.runModal() == .alertFirstButtonReturn
     }
 
+    /// An alert with several buttons; the index of the one chosen.
+    static func choose(_ message: String, _ info: String, buttons: [String]) -> Int {
+        let alert = NSAlert()
+        alert.messageText = message
+        alert.informativeText = info
+        for b in buttons { alert.addButton(withTitle: b) }
+        return alert.runModal().rawValue - NSApplication.ModalResponse.alertFirstButtonReturn.rawValue
+    }
+
     static func reveal(_ url: URL) {
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
@@ -216,6 +230,22 @@ enum Platform {
 }
 
 // MARK: - Small shared views
+
+/// An analyst shorthand: monospaced, on one line, with room for up to
+/// seven characters (longer ones widen rather than wrap).
+struct ShorthandText: View {
+    var text: String
+    var font: Font = Style.monoSmall
+    var minWidth: CGFloat = 64
+
+    var body: some View {
+        Text(text)
+            .font(font)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: false)
+            .frame(minWidth: minWidth, alignment: .leading)
+    }
+}
 
 /// The (!) emblem: a white symbol on a coloured circle.
 struct Emblem: View {
@@ -351,6 +381,9 @@ struct SheetGrid: View {
 
     var body: some View {
         let widths = self.widths
+        // A two-way scroll view centres content smaller than itself; the
+        // frame keeps the sheet at the top left instead.
+        GeometryReader { geo in
         ScrollView([.horizontal, .vertical]) {
             LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
                 Section {
@@ -386,6 +419,8 @@ struct SheetGrid: View {
                 }
             }
             .padding(.bottom, 8)
+            .frame(minWidth: geo.size.width, minHeight: geo.size.height, alignment: .topLeading)
+        }
         }
     }
 }

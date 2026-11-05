@@ -6,6 +6,8 @@ public enum CaseStatus: Hashable, Sendable {
     case awaiting
     case allocated
     case refused
+    /// Special: neither allocated nor refused (the outcome code).
+    case special(String)
     /// Diverted to a project (the outcome code).
     case project(String)
     /// An outcome code the workspace hasn't classified.
@@ -16,6 +18,7 @@ public enum CaseStatus: Hashable, Sendable {
         case .awaiting: return "Awaiting allocation"
         case .allocated: return "Allocated"
         case .refused: return "Refused & returned"
+        case .special(let code): return code == "sp" ? "Special" : code
         case .project(let code): return code
         case .other(let code): return code.isEmpty ? "No outcome" : code
         }
@@ -27,8 +30,9 @@ public enum CaseStatus: Hashable, Sendable {
         case .awaiting: return "0"
         case .allocated: return "1"
         case .refused: return "2"
-        case .project(let c): return "3" + c
-        case .other(let c): return "4" + c
+        case .special(let c): return "3" + c
+        case .project(let c): return "4" + c
+        case .other(let c): return "5" + c
         }
     }
 }
@@ -287,6 +291,7 @@ public struct CaseBook: Sendable {
                 switch outcome?.kind {
                 case .allocated?: status = .allocated
                 case .refused?: status = .refused
+                case .special?: status = .special(outcome!.code)
                 case .project?: status = .project(outcome!.code)
                 case .other?: status = .other(outcome!.code)
                 case nil:

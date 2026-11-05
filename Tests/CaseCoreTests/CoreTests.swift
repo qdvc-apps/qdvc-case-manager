@@ -96,6 +96,14 @@ final class FileTests: XCTestCase {
         XCTAssertTrue(text.contains("custom: value"))
     }
 
+    func testStandardCodesAreAlwaysPresent() throws {
+        let s = try SettingsFile.parse("outcomes:\n- code: a\n  kind: allocated\n- code: r\n  kind: refused\n- code: X\n  kind: other\n")
+        XCTAssertEqual(s.outcomes.map(\.code), ["a", "r", "sp", "X"], "sp is added to older workspaces, after a and r")
+        XCTAssertEqual(s.outcome(for: "sp")?.kind, .special)
+        XCTAssertEqual(s.outcome(for: "sp")?.rates, .special)
+        XCTAssertEqual(try SettingsFile.parse("").outcomes.map(\.code), ["a", "r", "sp"])
+    }
+
     func testAnalystsAndTemplatesRoundTrip() throws {
         let a = [Analyst(shorthand: "AJB", name: "Alice Brown", expertise: "Fraud; procurement: public sector",
                          aliases: ["AB"], active: false, notes: "Part time")]
@@ -104,8 +112,11 @@ final class FileTests: XCTestCase {
         XCTAssertEqual(parsed[0].expertise, a[0].expertise)
         XCTAssertEqual(parsed[0].aliases, ["AB"])
         XCTAssertFalse(parsed[0].active)
-        let t = [ReturnTemplate(name: "IS_DUPLICATE", description: "Already registered")]
-        XCTAssertEqual(try TemplatesFile.parse(TemplatesFile.render(t)).map(\.description), ["Already registered"])
+        let t = [ReturnTemplate(name: "OUT_OF_SCOPE"), ReturnTemplate(name: "IS_DUPLICATE", description: "Already registered"),
+                 ReturnTemplate(name: "codename_juno")]
+        let back = try TemplatesFile.parse(TemplatesFile.render(t))
+        XCTAssertEqual(back.map(\.name), ["codename_juno", "IS_DUPLICATE", "OUT_OF_SCOPE"], "written alphabetically")
+        XCTAssertEqual(back[1].description, "Already registered")
         XCTAssertEqual(try TemplatesFile.parse("templates:\n- OUT_OF_SCOPE\n").map(\.name), ["OUT_OF_SCOPE"])
     }
 
@@ -146,6 +157,7 @@ func makeData() -> WorkspaceData {
         ["C5", "New case", "Finance", "01/11/2026"],
         ["C5", "Duplicate row", "Finance", "01/11/2026"],
         ["00123", "Leading zeros", "Data", "01/11/2026"],
+        ["C6", "Special one", "Data", "02/11/2026"],
     ])
     data.mappings[.catalogue] = ColumnMapping(columns: [.caseID: "ID", .title: "T", .genre: "G", .registrationDate: "R"])
     data.tables[.controlSheet] = CSVTable(
@@ -157,6 +169,7 @@ func makeData() -> WorkspaceData {
             ["C9", "Ghost", "Data", "", "Sup2", "2026-11-03", "a", "cyber", "ZZ"],
             ["C1", "Invoice fraud", "Finance", "2026-10-01", "Sup2", "2026-09-30", "r", "IS_DUPLICATE", ""],
             ["123", "Not the same case", "Data", "", "Sup2", "2026-11-03", "r", "IS_DUPLICATE", ""],
+            ["C6", "Special one", "Data", "", "Sup2", "2026-11-04", "sp", "Joint review with Legal", ""],
         ])
     data.mappings[.controlSheet] = ColumnMapping(columns: [.caseID: "ID", .title: "T", .genre: "G", .registrationDate: "R",
                                                            .supervisor: "S", .allocationDate: "D", .outcome: "O",
@@ -178,7 +191,9 @@ func makeData() -> WorkspaceData {
 final class CaseBookTests: XCTestCase {
     func testJoin() {
         let book = CaseBook.build(makeData())
-        XCTAssertEqual(book.rows.map(\.caseID), ["C1", "C2", "C3", "C4", "C5", "00123", "C9", "123"])
+        XCTAssertEqual(book.rows.map(\.caseID), ["C1", "C2", "C3", "C4", "C5", "00123", "C6", "C9", "123"])
+        XCTAssertEqual(book.row("C6")!.status, .special("sp"))
+        XCTAssertEqual(book.row("C6")!.noteKind, .special)
         XCTAssertNil(book.row("c1"), "case IDs are verbatim")
         XCTAssertEqual(book.row("00123")!.status, .awaiting)
         XCTAssertEqual(book.row(" 123 ")!.status, .refused, "only surrounding space is ignored")
@@ -265,6 +280,7 @@ final class WorkloadTests: XCTestCase {
         XCTAssertEqual(rows[1].accepted, 1)
         XCTAssertEqual(rows[1].refused, 2)
         XCTAssertEqual(rows[1].other, 1, "the project outcome is shown separately")
+        XCTAssertEqual(rows[1].special, 1, "sp has a column of its own, in neither rate")
         XCTAssertEqual(rows[1].acceptanceRate!, 1.0 / 3, accuracy: 1e-9)
         let total = Rates.overall(rows)
         XCTAssertEqual(total.acceptanceRate!, 0.6, accuracy: 1e-9)
@@ -350,7 +366,7 @@ final class BatchTests: XCTestCase {
         var data = makeData()
         data.mappings[.controlSheet]?.importedAt = "2026-11-01"
         let f = Freshness.of(.controlSheet, data: data, book: CaseBook.build(data))!
-        XCTAssertEqual(f.latestDate, LocalDate(year: 2026, month: 11, day: 3))
+        XCTAssertEqual(f.latestDate, LocalDate(year: 2026, month: 11, day: 4))
         XCTAssertEqual(f.age(today: LocalDate(year: 2026, month: 11, day: 5)!), 4)
         XCTAssertEqual(Freshness.describe(age: 1), "yesterday")
     }

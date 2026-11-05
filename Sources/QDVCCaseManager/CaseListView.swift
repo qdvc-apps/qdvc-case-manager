@@ -18,14 +18,7 @@ struct CaseListView: View {
         .searchable(text: $model.searchText, placement: .toolbar, prompt: "ID, title, genre, analyst, note")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                Picker("Genre", selection: $model.genreFilter) {
-                    Text("All Genres").tag("")
-                    Divider()
-                    ForEach(model.book.genres, id: \.self) { Text($0).tag($0) }
-                }
-                .pickerStyle(.menu)
-                .frame(width: 170)
-                .help("Show one genre")
+                YearPicker(model: model)
 
                 Button {
                     if let id = model.selectedCaseIDs.first { openWindow(id: DecisionWindow.id, value: id) }
@@ -47,6 +40,23 @@ struct CaseListView: View {
             CaseInspector(model: model)
                 .inspectorColumnWidth(min: 280, ideal: 340, max: 520)
         }
+    }
+}
+
+/// The global filter on the year cases were registered. There is no "all
+/// years": one year at a time keeps the tables manageable.
+struct YearPicker: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        Picker("Year", selection: $model.selectedYear) {
+            ForEach(model.yearSummaries) { y in
+                Text(y.menuTitle).tag(y.year)
+            }
+        }
+        .pickerStyle(.menu)
+        .frame(width: 150)
+        .help("Show cases registered in one year")
     }
 }
 
@@ -90,9 +100,9 @@ struct CaseTable: View {
             TableColumn("Status", value: \.statusSort) { row in StatusCell(row: row) }
                 .width(min: 110, ideal: 160)
             TableColumn("Analyst", value: \.analystKey) { row in
-                Text(row.analystKey).font(Style.monoSmall).help(row.analystName)
+                ShorthandText(text: row.analystKey, minWidth: 0).help(row.analystName)
             }
-            .width(min: 50, ideal: 64)
+            .width(min: 64, ideal: 72)
             TableColumn("Allocated", value: \.allocationSort) { row in
                 Text(row.allocationDate?.display ?? (row.latest?.allocationText ?? "")).monospacedDigit()
             }
@@ -114,6 +124,11 @@ struct CaseTable: View {
             }
         } primaryAction: { ids in
             if let id = ids.first { openWindow(id: DecisionWindow.id, value: id) }
+        }
+        // Edit › Copy (⌘C) copies the selected rows' case IDs.
+        .onCopyCommand {
+            let ids = model.selectedCaseIDs.sorted()
+            return ids.isEmpty ? [] : [NSItemProvider(object: ids.joined(separator: "\n") as NSString)]
         }
     }
 }

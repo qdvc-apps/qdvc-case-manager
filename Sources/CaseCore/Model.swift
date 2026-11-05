@@ -67,6 +67,8 @@ public enum OutcomeKind: String, CaseIterable, Sendable, Identifiable {
     case allocated
     /// "r": refused and returned to sender.
     case refused
+    /// "sp": special, neither allocated nor refused.
+    case special
     /// Diverted to a project, operation or special event (e.g. "Operation Waymaker").
     case project
     /// Anything else not yet classified.
@@ -78,6 +80,7 @@ public enum OutcomeKind: String, CaseIterable, Sendable, Identifiable {
         switch self {
         case .allocated: return "Allocated to analyst"
         case .refused: return "Refused & returned"
+        case .special: return "Special (neither a nor r)"
         case .project: return "Project / operation"
         case .other: return "Other (unclassified)"
         }
@@ -88,6 +91,9 @@ public enum OutcomeKind: String, CaseIterable, Sendable, Identifiable {
 public enum RateTreatment: String, CaseIterable, Sendable, Identifiable {
     case accepted
     case refused
+    /// Its own (yellow) column: neither a nor r.
+    case special
+    /// With the other outcomes, shown separately.
     case excluded
 
     public var id: String { rawValue }
@@ -96,7 +102,8 @@ public enum RateTreatment: String, CaseIterable, Sendable, Identifiable {
         switch self {
         case .accepted: return "Counts as accepted (a)"
         case .refused: return "Counts as refused (r)"
-        case .excluded: return "Shown separately"
+        case .special: return "Special (neither a nor r)"
+        case .excluded: return "Other (shown separately)"
         }
     }
 }
@@ -128,6 +135,7 @@ public struct OutcomeCode: Sendable, Equatable, Identifiable {
         switch kind {
         case .allocated: return .accepted
         case .refused: return .refused
+        case .special: return .special
         case .project, .other: return .excluded
         }
     }
@@ -139,7 +147,12 @@ public struct OutcomeCode: Sendable, Equatable, Identifiable {
     public static let standard: [OutcomeCode] = [
         OutcomeCode(code: "a", kind: .allocated, label: "Allocated to analyst"),
         OutcomeCode(code: "r", kind: .refused, label: "Refused & returned"),
+        OutcomeCode(code: "sp", kind: .special, label: "Special"),
     ]
+
+    /// Whether this is one of the standard codes (a, r, sp), which every
+    /// workspace has.
+    public var isStandard: Bool { OutcomeCode.standard.contains { $0.code == code } }
 }
 
 // MARK: - Reference data kept in the workspace
@@ -187,6 +200,14 @@ public struct ReturnTemplate: Sendable, Equatable, Identifiable {
         self.id = id
         self.name = name
         self.description = description
+    }
+
+    /// Alphabetical by name, ignoring case (stable for equal names).
+    public static func sorted(_ templates: [ReturnTemplate]) -> [ReturnTemplate] {
+        templates.enumerated().sorted { a, b in
+            let x = a.element.name.uppercased(), y = b.element.name.uppercased()
+            return x == y ? a.offset < b.offset : x < y
+        }.map(\.element)
     }
 }
 

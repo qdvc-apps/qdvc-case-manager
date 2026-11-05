@@ -54,6 +54,9 @@ outcomes:
 - code: r
   kind: refused
   label: Refused & returned
+- code: sp
+  kind: special
+  label: Special
 - code: Operation Waymaker
   kind: project
   label: Operation Waymaker
@@ -65,7 +68,7 @@ outcomes:
 | `title` | Shown in the window title and recent list. |
 | `lenient_comparison` | Compare titles and genres between the exports ignoring case, accents and repeated spaces (default true). |
 | `special_notes` | Allocation notes containing one of these are "special notes", not expertise phrases. |
-| `outcomes` | Each code the control sheet uses: `kind` is `allocated`, `refused`, `project` or `other`. Optional `rates` (`accepted`, `refused`, `excluded`; default: allocated accepted, refused refused, others excluded), `workload` (default true except for refused), `project` (a project id). Codes not listed are flagged as unclassified. |
+| `outcomes` | Each code the control sheet uses: `kind` is `allocated`, `refused`, `special`, `project` or `other`. Optional `rates` (`accepted`, `refused`, `special`, `excluded`; default: allocated accepted, refused refused, special special, others excluded), `workload` (default true except for refused), `project` (a project id). The standard codes a, r and sp are always present: one missing (sp, in a workspace made before it existed) is added when the file is read. Codes not listed are flagged as unclassified. |
 
 Unknown keys are kept and written back.
 
@@ -95,7 +98,8 @@ templates:
   description: The matter is already registered under another case.
 ```
 
-A bare list of names (`- OUT_OF_SCOPE`) is also read.
+Written in alphabetical order of name. A bare list of names
+(`- OUT_OF_SCOPE`) is also read.
 
 ## 5. `mappings/<source>.yml`
 

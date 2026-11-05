@@ -2,8 +2,10 @@
 
 ## Windows
 
-- **Welcome** at launch, as in Xcode and Keynote (and the other QDVC apps):
-  New and Open on the left, recent workspaces on the right. It hands over
+- **Welcome**, as in Xcode and Keynote (and the other QDVC apps): New and
+  Open on the left, recent workspaces on the right. At launch the last
+  workspace reopens straight away; the welcome window is for when there is
+  none, or it can't be found, and after closing a workspace. It hands over
   to the main window when a workspace opens and comes back when it closes.
 - **Main window**: a standard NavigationSplitView (sidebar, page,
   inspector), toolbar and search field, so the app picks up Liquid Glass on
@@ -23,6 +25,17 @@ Acceptance & Refusal) and **Workspace** (Analysts, Return Templates, Outcome
 Codes, Data Sources). Badges count what needs doing: cases per scope, rows
 to paste, cases missing from each worksheet, unknown shorthands, unknown
 templates, unclassified codes. The foot shows each export's freshness.
+
+## One year at a time
+
+The case tables (every case scope, and a project's Cases tab) show the
+cases registered in one year, chosen in the toolbar's Year menu: this
+calendar year by default, with "No date" for cases without a readable
+registration date. There is deliberately no "all years". The menu shows
+each year's cases and how many are awaiting, so older waiting cases are
+not lost; the sidebar counts are for the year shown; "Show case" jumps to
+the case's year. Dashboards (their own period), the batch, worksheets and
+completeness checks are not filtered.
 
 ## Joining the exports
 
@@ -47,6 +60,8 @@ expertise (orange ?), a return-to-sender template, or an unknown one.
 
 Every code is classified in Outcome Codes: allocated, refused, project or
 other, plus how it counts in the rates and whether it is workload.
+"sp" (special) is standard alongside a and r: neither, with its own yellow
+column in the rates and its own case scope; an analyst is optional.
 "Operation Waymaker" is a project outcome: shown separately in the rates
 (neither a nor r) and counted as the named analyst's workload. A code
 nobody has classified yet is flagged and shown separately, never silently

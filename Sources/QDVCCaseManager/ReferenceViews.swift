@@ -28,7 +28,7 @@ struct AnalystsView: View {
                 List(selection: $selection) {
                     ForEach(filtered) { a in
                         HStack(spacing: 8) {
-                            Text(a.shorthand).font(Style.monoSmall).frame(width: 44, alignment: .leading)
+                            ShorthandText(text: a.shorthand)
                             VStack(alignment: .leading, spacing: 1) {
                                 Text(a.displayName).lineLimit(1)
                                 Text("\(model.metrics[a.shorthand]?.thisMonth ?? 0) this month · \(model.metrics[a.shorthand]?.past12 ?? 0) in 12 months")
@@ -74,7 +74,7 @@ struct AnalystsView: View {
             ForEach(model.book.unknownShorthands.keys.sorted(), id: \.self) { short in
                 let n = model.book.unknownShorthands[short] ?? 0
                 HStack {
-                    Text(short).font(Style.monoSmall)
+                    ShorthandText(text: short)
                     Text("\(n) case\(n == 1 ? "" : "s")").font(.caption).foregroundStyle(.secondary)
                     Spacer()
                     Button("Add") { selection = model.addAnalyst(shorthand: short) }.controlSize(.small)
@@ -109,7 +109,7 @@ struct AnalystEditor: View {
                 TextField("Other shorthands", text: $aliasText, prompt: Text("comma-separated, e.g. AB, A.B."))
                     .onChange(of: aliasText) { _, text in
                         let list = text.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
-                        if list != a.aliases { model.updateAnalyst(id) { $0.aliases = list } }
+                        if list != a.aliases { model.updateAnalyst(id, deferRebuild: true) { $0.aliases = list } }
                     }
                 Toggle("Active in the pool", isOn: model.analystBinding(id, \.active, default: true))
             }
@@ -158,15 +158,29 @@ struct AnalystEditor: View {
 
 struct TemplatesView: View {
     @Environment(AppModel.self) private var model
+    @State private var newName = ""
 
     var body: some View {
         Form {
             Section {
+                HStack {
+                    TextField("New template", text: $newName, prompt: Text("NEW_TEMPLATE_NAME"))
+                        .font(Style.mono)
+                        .onSubmit(add)
+                    Button("Add", action: add)
+                        .disabled(newName.trimmingCharacters(in: .whitespaces).isEmpty)
+                }
+                .labelsHidden()
+            }
+            Section {
+                // Alphabetical; a renamed template moves into place when you
+                // press Return or leave the page.
                 ForEach(model.data.templates) { t in
                     HStack(alignment: .firstTextBaseline, spacing: 10) {
                         TextField("Name", text: model.templateBinding(t.id, \.name))
                             .font(Style.mono)
                             .frame(width: 280)
+                            .onSubmit { model.sortTemplates() }
                         TextField("What it says", text: model.templateBinding(t.id, \.description))
                         Text("\(model.book.templateCounts[t.name] ?? 0)").monospacedDigit().foregroundStyle(.secondary)
                             .frame(width: 40, alignment: .trailing)
@@ -176,7 +190,6 @@ struct TemplatesView: View {
                     }
                     .labelsHidden()
                 }
-                Button("Add Template") { model.addTemplate() }
             } header: {
                 Text("Return-to-Sender Templates")
             } footer: {
@@ -198,6 +211,13 @@ struct TemplatesView: View {
             }
         }
         .formStyle(.grouped)
+        .onAppear { model.sortTemplates() }
+        .onDisappear { model.sortTemplates() }
+    }
+
+    private func add() {
+        model.addTemplate(newName)
+        newName = ""
     }
 }
 
@@ -257,7 +277,7 @@ struct OutcomesView: View {
                 Text(o.code).font(Style.mono)
                 Text("\(model.book.outcomeCounts[o.code] ?? 0) case(s)").foregroundStyle(.secondary)
                 Spacer()
-                if o.code != "a" && o.code != "r" {
+                if !o.isStandard {
                     Button("Remove") { model.removeOutcome(o.code) }.buttonStyle(.borderless).font(.caption)
                 }
             }
