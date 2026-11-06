@@ -136,6 +136,18 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
   reloaded if Git or another editor changed it.
 - Imports copy the file into the workspace and reload.
 
+### 2.1a Activity and the status bar
+
+`AppModel.measure(_:)` times main-thread work (opening, reading from
+disk, importing, saving, filtering when over 20 ms) and `begin`/`end`
+bracket background work (updating figures); both go to `activityLog`,
+which the status bar shows. `StallMonitor` posts a tiny task to the main
+thread every 0.2 s from a background queue and reports when it waits
+0.4 s or more: each such moment is recorded in `stalls` with the page,
+the last user action and the main-thread work that just finished. Modal
+panels and alerts aren't counted. "Copy Report" in the Activity popover
+puts it all on the clipboard: ask for it with any report of slowness.
+
 ### 2.2 Layout notes
 
 - Table column builders take at most 10 columns; the case and batch
@@ -149,6 +161,15 @@ Progress hit a clash with SwiftUI's `GridRow`, QDVC Response Letter with
 - Don't attach a `.popover` or `.help` to every cell of a large grid:
   each brings AppKit machinery that has to be laid out and tracked. The
   heat map attaches its popover only to the open cell.
+- **Table cells are plain values.** They don't read the model (each cell
+  would observe it, and hundreds come and go as a filter is applied and
+  removed) and carry no tooltips (each `.help` brings AppKit tracking
+  along). Work out what a cell shows before the `Table` (as `CaseTable`
+  does for project badges and `BatchView` with `Line`). The case table's
+  rows are filtered and sorted by the model (`refreshCaseRows`) when the
+  search (after a pause in typing), year, page, sort or data change, and
+  the table only gets a new array when the rows really changed.
+  `HostingTests` enforces all of this.
 - **Views in table cells, menus, popovers and the inspector are handed
   the model (`var model: AppModel`); they never read it with
   `@Environment(AppModel.self)`.** Each table cell is hosted separately

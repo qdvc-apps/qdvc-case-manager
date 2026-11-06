@@ -90,6 +90,31 @@ enum Span: String, CaseIterable, Identifiable {
     }
 }
 
+/// Work in progress, for the status bar.
+struct Activity: Identifiable, Equatable {
+    let id = UUID()
+    var title: String
+    var started = Date()
+}
+
+/// Work done, and how long it took.
+struct ActivityRecord: Identifiable, Equatable {
+    let id = UUID()
+    var title: String
+    var finished: Date
+    var duration: TimeInterval
+    /// Main-thread work holds up the window while it runs.
+    var onMainThread: Bool
+}
+
+/// A moment the app stopped responding.
+struct Stall: Identifiable, Equatable {
+    let id = UUID()
+    var at: Date
+    var duration: TimeInterval
+    var context: String
+}
+
 /// An import waiting for its column mapping to be confirmed.
 struct ImportDraft: Identifiable {
     let id = UUID()
@@ -154,14 +179,57 @@ final class AppModel {
 
     // MARK: View state
 
-    var page: Page = .cases(.all)
+    var page: Page = .cases(.all) {
+        didSet {
+            guard page != oldValue else { return }
+            lastAction = "Opened \(pageTitle)"
+            refreshCaseRows()
+        }
+    }
     var selectedCaseIDs: Set<String> = []
-    var searchText = ""
+    /// What the case search field holds. The table follows it a moment
+    /// after typing pauses, not on every keystroke.
+    var searchText = "" {
+        didSet {
+            guard searchText != oldValue else { return }
+            lastAction = searchText.isEmpty ? "Cleared the search" : "Searched cases"
+            scheduleFilter()
+        }
+    }
+    /// The case table's rows: filtered and sorted when what they depend on
+    /// changes, not every time a view is drawn.
+    private(set) var caseRows: [CaseRow] = []
+    var caseSort: [KeyPathComparator<CaseRow>] = [KeyPathComparator(\CaseRow.registrationSort, order: .reverse)] {
+        didSet { refreshCaseRows() }
+    }
+    /// The case shown in the Decision Support window. There is one such
+    /// window, which moves from case to case: a window per case, left
+    /// open, each redrawing with every change, slowed the app over a
+    /// session.
+    var decisionCaseID: String?
+
+    // MARK: Activity (the status bar)
+
+    /// Work in progress, shown in the status bar.
+    private(set) var activities: [Activity] = []
+    /// Recent work and how long it took, newest first.
+    private(set) var activityLog: [ActivityRecord] = []
+    /// Moments the app stopped responding, newest first.
+    private(set) var stalls: [Stall] = []
+    @ObservationIgnored private var lastAction = "Started"
+    @ObservationIgnored private var stallMonitor: StallMonitor?
+    @ObservationIgnored private var filterTask: Task<Void, Never>?
+    @ObservationIgnored private var rebuildActivity: UUID?
     /// The registration year the case tables show (`YearSummary.undated`
     /// for cases without a readable date). There is deliberately no "all
     /// years", to keep the tables manageable.
     var selectedYear: Int = LocalDate.today().year {
-        didSet { if selectedYear != oldValue { recount() } }
+        didSet {
+            guard selectedYear != oldValue else { return }
+            lastAction = "Chose the year \(selectedYear == YearSummary.undated ? "No date" : String(selectedYear))"
+            recount()
+            refreshCaseRows()
+        }
     }
     var inspectorShown: Bool = Prefs.inspectorShown {
         didSet { Prefs.inspectorShown = inspectorShown }
@@ -207,6 +275,7 @@ final class AppModel {
     func startUp() {
         guard !startedUp else { return }
         startedUp = true
+        startStallMonitor()
         if let last = recentWorkspaces.first, Workspace.looksLikeWorkspace(last) {
             open(last)
         }
@@ -256,7 +325,7 @@ final class AppModel {
         flushSaves()
         let ws = Workspace(root: url)
         workspace = ws
-        data = ws.load()
+        data = measure("Opened the workspace") { ws.load() }
         today = LocalDate.today()
         derived = Derived(today: today)
         selectedCaseIDs = []
@@ -280,13 +349,18 @@ final class AppModel {
         computeTask?.cancel()
         derived = Derived(today: today)
         isUpdating = false
+        if let a = rebuildActivity {
+            end(a)
+            rebuildActivity = nil
+        }
         recount()
+        refreshCaseRows()
     }
 
     func reload(then: (() -> Void)? = nil) {
         guard let ws = workspace else { return }
         flushSaves()
-        data = ws.load()
+        data = measure("Read the workspace from disk") { ws.load() }
         data.templates = ReturnTemplate.sorted(data.templates)
         today = LocalDate.today()
         rebuild(then: then)
@@ -336,6 +410,7 @@ final class AppModel {
         let day = today
         if let then { afterRebuild.append(then) }
         isUpdating = true
+        if rebuildActivity == nil { rebuildActivity = begin("Updating figures") }
         computeTask?.cancel()
         computeTask = Task { [weak self] in
             let result = await Task.detached(priority: .userInitiated) {
@@ -349,9 +424,14 @@ final class AppModel {
     private func apply(_ result: Derived) {
         derived = result
         isUpdating = false
+        if let a = rebuildActivity {
+            end(a)
+            rebuildActivity = nil
+        }
         let kept = selectedCaseIDs.filter { result.book.row($0) != nil }
         if kept != selectedCaseIDs { selectedCaseIDs = kept }
         recount()
+        refreshCaseRows()
         let pending = afterRebuild
         afterRebuild = []
         for f in pending { f() }
@@ -407,13 +487,133 @@ final class AppModel {
         guard let ws = workspace, !dirty.isEmpty else { return }
         let parts = dirty
         dirty = []
-        for part in parts {
-            do {
-                try ws.save(part, from: data)
-            } catch {
-                errorMessage = String(describing: error)
+        measure("Saved \(parts.count) file\(parts.count == 1 ? "" : "s")") {
+            for part in parts {
+                do {
+                    try ws.save(part, from: data)
+                } catch {
+                    errorMessage = String(describing: error)
+                }
             }
         }
+    }
+
+    // MARK: The case table
+
+    private func scheduleFilter() {
+        filterTask?.cancel()
+        filterTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: 180_000_000)
+            guard !Task.isCancelled else { return }
+            self?.refreshCaseRows()
+        }
+    }
+
+    /// Filters and sorts the case table's rows. The table is only given a
+    /// new array when the rows really changed.
+    func refreshCaseRows() {
+        filterTask?.cancel()
+        filterTask = nil
+        guard case .cases = page else { return }
+        let rows = measure("Filtered and sorted the cases", onlyIfOver: 0.02) { visibleRows.sorted(using: caseSort) }
+        if rows != caseRows { caseRows = rows }
+    }
+
+    func openDecision(_ caseID: String, with openWindow: OpenWindowAction) {
+        decisionCaseID = caseID
+        lastAction = "Opened \(caseID) in Decision Support"
+        openWindow(id: DecisionWindow.id)
+    }
+
+    // MARK: Activity
+
+    var pageTitle: String {
+        switch page {
+        case .cases(let scope): return scope.title
+        case .batch: return "Batch"
+        case .project(let id): return project(id)?.definition.name ?? "a project"
+        case .workload: return "Workload"
+        case .rates: return "Acceptance & Refusal"
+        case .analysts: return "Analysts"
+        case .templates: return "Return Templates"
+        case .outcomes: return "Outcome Codes"
+        case .dataSources: return "Data Sources"
+        }
+    }
+
+    func begin(_ title: String) -> UUID {
+        let a = Activity(title: title)
+        activities.append(a)
+        return a.id
+    }
+
+    func end(_ id: UUID) {
+        guard let i = activities.firstIndex(where: { $0.id == id }) else { return }
+        let a = activities.remove(at: i)
+        log(a.title, Date().timeIntervalSince(a.started), onMainThread: false)
+    }
+
+    /// Runs main-thread work, recording how long it took (always, or only
+    /// when longer than `onlyIfOver` seconds).
+    func measure<T>(_ title: String, onlyIfOver threshold: TimeInterval = 0, _ body: () throws -> T) rethrows -> T {
+        let start = Date()
+        defer {
+            let d = Date().timeIntervalSince(start)
+            if d >= threshold { log(title, d, onMainThread: true) }
+        }
+        return try body()
+    }
+
+    private func log(_ title: String, _ duration: TimeInterval, onMainThread: Bool) {
+        activityLog.insert(ActivityRecord(title: title, finished: Date(), duration: duration, onMainThread: onMainThread), at: 0)
+        if activityLog.count > 60 { activityLog.removeLast(activityLog.count - 60) }
+    }
+
+    func clearActivityLog() {
+        activityLog = []
+        stalls = []
+    }
+
+    /// Watches for moments the app stops responding, and notes what was
+    /// going on (docs/MAINTENANCE.md §2.3).
+    private func startStallMonitor() {
+        guard stallMonitor == nil else { return }
+        let monitor = StallMonitor(threshold: 0.4) { [weak self] seconds in
+            MainActor.assumeIsolated { self?.recordStall(seconds) }
+        }
+        monitor.start()
+        stallMonitor = monitor
+    }
+
+    private func recordStall(_ seconds: TimeInterval) {
+        // A modal open panel or alert isn't a freeze.
+        guard NSApp.modalWindow == nil, seconds < 120 else { return }
+        var context = "On \(pageTitle), after: \(lastAction)"
+        if let busy = activityLog.first(where: { $0.onMainThread && Date().timeIntervalSince($0.finished) < seconds + 1 }) {
+            context += "; \(busy.title) took \(Self.duration(busy.duration))"
+        }
+        if !activities.isEmpty { context += "; in progress: \(activities.map(\.title).joined(separator: ", "))" }
+        stalls.insert(Stall(at: Date(), duration: seconds, context: context), at: 0)
+        if stalls.count > 30 { stalls.removeLast(stalls.count - 30) }
+    }
+
+    static func duration(_ t: TimeInterval) -> String {
+        t < 1 ? "\(Int((t * 1000).rounded())) ms" : String(format: "%.1f s", t)
+    }
+
+    /// The log as text, to send with a bug report.
+    var activityReport: String {
+        let time = DateFormatter()
+        time.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        var lines = ["QDVC Case Manager activity report, \(time.string(from: Date()))",
+                     "Workspace: \(book.rows.count) cases, \(data.analysts.count) analysts, \(data.projects.count) projects",
+                     "", "Moments the app stopped responding:"]
+        lines += stalls.isEmpty ? ["  none"] : stalls.map { "  \(time.string(from: $0.at))  \(Self.duration($0.duration))  \($0.context)" }
+        lines += ["", "Recent work:"]
+        lines += activityLog.map {
+            "  \(time.string(from: $0.finished))  \(Self.duration($0.duration))  \($0.title)\($0.onMainThread ? "" : " (background)")"
+        }
+        return lines.joined(separator: "\n")
     }
 
     // MARK: Lookups
@@ -504,6 +704,7 @@ final class AppModel {
         page = .cases(.all)
         if let row = book.row(caseID) { selectedYear = row.registrationDate?.year ?? YearSummary.undated }
         searchText = caseID
+        refreshCaseRows()
         selectedCaseIDs = [caseID]
     }
 
@@ -554,7 +755,9 @@ final class AppModel {
             if let file = draft.fileURL {
                 mapping.originalFilename = file.lastPathComponent
                 mapping.importedAt = LocalDate.today().iso
-                try ws.importSource(draft.source, from: file, mapping: mapping)
+                try measure("Imported the \(draft.source.title)") {
+                    try ws.importSource(draft.source, from: file, mapping: mapping)
+                }
             } else {
                 data.mappings[draft.source] = mapping
                 try ws.save(.mapping(draft.source), from: data)

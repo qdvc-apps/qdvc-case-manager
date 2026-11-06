@@ -14,6 +14,9 @@ struct ContentView: View {
         } detail: {
             DetailView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .safeAreaInset(edge: .bottom, spacing: 0) {
+                    if model.isOpen { StatusBar(model: model) }
+                }
         }
         .navigationTitle(model.title)
         .toolbar {

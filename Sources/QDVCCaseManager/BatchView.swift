@@ -25,8 +25,16 @@ struct BatchView: View {
                 }
             } else {
                 VSplitView {
-                    table(rows)
-                        .frame(minHeight: 180)
+                    VStack(spacing: 0) {
+                        table(rows)
+                        if selection.count == 1, let r = rows.first(where: { selection.contains($0.caseID) }) {
+                            Text(helpText(r))
+                                .font(.caption).foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 12).padding(.vertical, 6)
+                        }
+                    }
+                    .frame(minHeight: 180)
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
                             Text("As it will be pasted").font(.headline)
@@ -95,43 +103,53 @@ struct BatchView: View {
         .background(Color.green.opacity(0.08))
     }
 
-    private func table(_ rows: [PreparedRow]) -> some View {
-        Table(rows, selection: $selection) {
-            TableColumn("#") { r in Text("\(r.decision.order)").monospacedDigit().foregroundStyle(.secondary) }
+    /// A prepared row with what its cells show, worked out once.
+    struct Line: Identifiable {
+        var row: PreparedRow
+        var title: String
+        var analyst: String
+        var id: String { row.caseID }
+    }
+
+    private func table(_ prepared: [PreparedRow]) -> some View {
+        let lines = prepared.map { r in
+            Line(row: r, title: model.book.row(r.caseID)?.title ?? "", analyst: model.analystLabel(r.decision.analyst))
+        }
+        return Table(lines, selection: $selection) {
+            TableColumn("#") { l in Text("\(l.row.decision.order)").monospacedDigit().foregroundStyle(.secondary) }
                 .width(28)
-            TableColumn("State") { r in
-                Label(r.state.title, systemImage: Style.symbol(r.state))
-                    .foregroundStyle(Style.tint(r.state))
-                    .help(helpText(r))
+            TableColumn("State") { l in
+                Label(l.row.state.title, systemImage: Style.symbol(l.row.state))
+                    .foregroundStyle(Style.tint(l.row.state))
             }
             .width(min: 120, ideal: 150)
-            TableColumn("Case ID") { r in Text(r.caseID).font(Style.monoSmall) }
+            TableColumn("Case ID") { l in Text(l.row.caseID).font(Style.monoSmall) }
                 .width(min: 100, ideal: 130)
-            TableColumn("Title") { r in Text(model.book.row(r.caseID)?.title ?? "").lineLimit(1) }
+            TableColumn("Title") { l in Text(l.title).lineLimit(1) }
                 .width(min: 120, ideal: 240)
-            TableColumn("Outcome") { r in Text(r.decision.outcome).font(Style.monoSmall) }
+            TableColumn("Outcome") { l in Text(l.row.decision.outcome).font(Style.monoSmall) }
                 .width(min: 50, ideal: 70)
-            TableColumn("Analyst") { r in Text(model.analystLabel(r.decision.analyst)).lineLimit(1) }
+            TableColumn("Analyst") { l in Text(l.analyst).lineLimit(1) }
                 .width(min: 80, ideal: 170)
-            TableColumn("Note") { r in Text(r.decision.note).lineLimit(1).help(r.decision.note) }
+            TableColumn("Note") { l in Text(l.row.decision.note).lineLimit(1) }
                 .width(min: 100, ideal: 220)
-            TableColumn("Date") { r in Text(LocalDate(iso: r.decision.date)?.display ?? r.decision.date).monospacedDigit() }
+            TableColumn("Date") { l in Text(LocalDate(iso: l.row.decision.date)?.display ?? l.row.decision.date).monospacedDigit() }
                 .width(min: 80, ideal: 96)
-            TableColumn("Supervisor") { r in Text(r.decision.supervisor) }
+            TableColumn("Supervisor") { l in Text(l.row.decision.supervisor) }
                 .width(min: 70, ideal: 110)
-            TableColumn("Check") { r in
-                if r.problems.isEmpty {
+            TableColumn("Check") { l in
+                if l.row.problems.isEmpty {
                     Image(systemName: "checkmark").foregroundStyle(.green)
                 } else {
-                    Label(r.problems.joined(separator: " "), systemImage: "exclamationmark.triangle.fill")
-                        .foregroundStyle(.orange).lineLimit(1).help(r.problems.joined(separator: "\n"))
+                    Label(l.row.problems.joined(separator: " "), systemImage: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.orange).lineLimit(1)
                 }
             }
             .width(min: 60, ideal: 160)
         }
         .contextMenu(forSelectionType: String.self) { ids in
             if ids.count == 1, let id = ids.first {
-                Button("Open in Decision Support…") { openWindow(id: DecisionWindow.id, value: id) }
+                Button("Open in Decision Support…") { model.openDecision(id, with: openWindow) }
                 Button("Show Case") { model.reveal(id) }
                 Divider()
                 Button("Move Up") { model.moveBatchRow(id, by: -1) }
@@ -149,7 +167,7 @@ struct BatchView: View {
                 Button("Remove from Batch") { for id in ids { model.unprepare(id) } }
             }
         } primaryAction: { ids in
-            if let id = ids.first { openWindow(id: DecisionWindow.id, value: id) }
+            if let id = ids.first { model.openDecision(id, with: openWindow) }
         }
         // Edit › Copy (⌘C) copies the selected rows' case IDs.
         .onCopyCommand {

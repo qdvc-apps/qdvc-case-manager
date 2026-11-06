@@ -424,6 +424,9 @@ final class HostingTests: XCTestCase {
         XCTAssertTrue(envViews.contains("CaseTable"), "the scan found the views")
 
         // Every line of a TableColumn's content (from TableColumn( to its .width).
+        // Cells are plain values: they don't read the model at all (each
+        // cell would observe it) and carry no tooltips (each brings AppKit
+        // tracking along); both slowed the app as rows came and went.
         for (file, text) in zip(files, texts) {
             var inColumn = false
             for line in text.split(separator: "\n") {
@@ -432,9 +435,22 @@ final class HostingTests: XCTestCase {
                     for name in envViews where line.contains("\(name)(") {
                         XCTFail("\(file.lastPathComponent): \(name) reads AppModel from the environment but is used in a table column")
                     }
+                    if line.contains("model.") { XCTFail("\(file.lastPathComponent): a table cell reads the model: \(line)") }
+                    if line.contains(".help(") { XCTFail("\(file.lastPathComponent): a table cell has a tooltip: \(line)") }
                 }
                 if line.contains(".width(") { inColumn = false }
             }
+        }
+        // Views used as cells don't read the model or carry tooltips either.
+        for cell in ["CaseIDCell", "StatusCell", "NoteCell", "ProjectTags", "ShorthandText"] {
+            guard let text = texts.first(where: { $0.contains("struct \(cell): View") }) else {
+                XCTFail("\(cell) not found"); continue
+            }
+            let start = text.range(of: "struct \(cell): View")!.lowerBound
+            let rest = text[start...]
+            let body = rest[..<(rest.range(of: "\n}\n")?.upperBound ?? rest.endIndex)]
+            XCTAssertFalse(body.contains("AppModel"), "\(cell) must not use the model")
+            XCTAssertFalse(body.contains(".help("), "\(cell) must not carry a tooltip")
         }
     }
 }

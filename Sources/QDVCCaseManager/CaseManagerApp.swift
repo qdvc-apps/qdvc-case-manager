@@ -38,10 +38,10 @@ struct CaseManagerApp: App {
             SidebarCommands()
         }
 
-        // Decision Support: one window per case, which can move on through
-        // the queue. It sits beside the case paperwork.
-        WindowGroup("Decision Support", id: DecisionWindow.id, for: String.self) { $caseID in
-            DecisionSupportView(caseID: $caseID)
+        // Decision Support: one window, beside the case paperwork, that
+        // moves from case to case (double-click another case to switch).
+        Window("Decision Support", id: DecisionWindow.id) {
+            DecisionWindowRoot()
                 .environment(model)
                 .frame(minWidth: 860, minHeight: 600)
         }
@@ -139,14 +139,14 @@ struct CaseCommands: Commands {
 
         CommandMenu("Case") {
             Button("Decision Support…") {
-                if let id = model.selectedCaseIDs.first { openWindow(id: DecisionWindow.id, value: id) }
+                if let id = model.selectedCaseIDs.first { model.openDecision(id, with: openWindow) }
             }
             .keyboardShortcut("d")
             .disabled(model.selectedCaseIDs.count != 1)
             Button("Next Case Awaiting Allocation") {
                 if let id = model.nextAwaitingCase(after: model.selectedCaseIDs.first ?? "") {
                     model.reveal(id)
-                    openWindow(id: DecisionWindow.id, value: id)
+                    model.openDecision(id, with: openWindow)
                 }
             }
             .keyboardShortcut("d", modifiers: [.command, .shift])

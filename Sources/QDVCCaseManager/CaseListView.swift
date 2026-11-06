@@ -4,15 +4,15 @@ import SwiftUI
 struct CaseListView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.openWindow) private var openWindow
-    @State private var sortOrder = [KeyPathComparator(\CaseRow.registrationSort, order: .reverse)]
-
     var body: some View {
         @Bindable var model = model
         Group {
             if model.data.tables[.catalogue] == nil && model.data.tables[.controlSheet] == nil {
                 NothingImportedView()
             } else {
-                CaseTable(rows: model.visibleRows.sorted(using: sortOrder), sortOrder: $sortOrder)
+                // Filtered and sorted by the model when the search, year,
+                // page or data change, not on every redraw.
+                CaseTable(rows: model.caseRows, sortOrder: $model.caseSort)
             }
         }
         .searchable(text: $model.searchText, placement: .toolbar, prompt: "ID, title, genre, analyst, note")
@@ -21,7 +21,7 @@ struct CaseListView: View {
                 YearPicker(model: model)
 
                 Button {
-                    if let id = model.selectedCaseIDs.first { openWindow(id: DecisionWindow.id, value: id) }
+                    if let id = model.selectedCaseIDs.first { model.openDecision(id, with: openWindow) }
                 } label: {
                     Label("Decision Support", systemImage: "person.crop.rectangle.stack")
                 }
@@ -84,11 +84,14 @@ struct CaseTable: View {
 
     var body: some View {
         @Bindable var model = model
+        // Cells are given plain values: none reads the model or carries a
+        // tooltip (docs/MAINTENANCE.md §2.2).
+        let projects = Dictionary(model.data.projects.map { ($0.id, $0.definition) }, uniquingKeysWith: { a, _ in a })
         Table(rows, selection: $model.selectedCaseIDs, sortOrder: $sortOrder) {
             TableColumn("Case ID", value: \.caseID) { row in CaseIDCell(row: row) }
                 .width(min: 110, ideal: 140)
             TableColumn("Title", value: \.title) { row in
-                Text(row.title).lineLimit(1).help(row.title)
+                Text(row.title).lineLimit(1)
             }
             .width(min: 160, ideal: 300)
             TableColumn("Genre", value: \.genre)
@@ -100,7 +103,7 @@ struct CaseTable: View {
             TableColumn("Status", value: \.statusSort) { row in StatusCell(row: row) }
                 .width(min: 110, ideal: 160)
             TableColumn("Analyst", value: \.analystKey) { row in
-                ShorthandText(text: row.analystKey, minWidth: 0).help(row.analystName)
+                ShorthandText(text: row.analystKey, minWidth: 0)
             }
             .width(min: 64, ideal: 72)
             TableColumn("Allocated", value: \.allocationSort) { row in
@@ -111,19 +114,19 @@ struct CaseTable: View {
                 .width(min: 70, ideal: 110)
             TableColumn("Note", value: \.note) { row in NoteCell(row: row) }
                 .width(min: 100, ideal: 220)
-            TableColumn("Projects", value: \.projectsSort) { row in ProjectTags(model: model, row: row) }
+            TableColumn("Projects", value: \.projectsSort) { row in ProjectTags(definitions: projects, row: row) }
                 .width(min: 50, ideal: 80)
         }
         .contextMenu(forSelectionType: String.self) { ids in
             if ids.count == 1, let id = ids.first {
-                Button("Decision Support…") { openWindow(id: DecisionWindow.id, value: id) }
+                Button("Decision Support…") { model.openDecision(id, with: openWindow) }
                 Divider()
                 Button("Copy Case ID") { Platform.copy(id) }
             } else if !ids.isEmpty {
                 Button("Copy \(ids.count) Case IDs") { Platform.copy(ids.sorted().joined(separator: "\n")) }
             }
         } primaryAction: { ids in
-            if let id = ids.first { openWindow(id: DecisionWindow.id, value: id) }
+            if let id = ids.first { model.openDecision(id, with: openWindow) }
         }
         // Edit › Copy (⌘C) copies the selected rows' case IDs.
         .onCopyCommand {
@@ -143,9 +146,8 @@ struct CaseIDCell: View {
             } else if row.needsAttention {
                 Emblem(kind: .info)
             }
-            Text(row.caseID).font(Style.monoSmall).textSelection(.enabled)
+            Text(row.caseID).font(Style.monoSmall)
         }
-        .help(row.flags.map(Export.describe).joined(separator: "\n"))
     }
 }
 
@@ -162,7 +164,6 @@ struct StatusCell: View {
             } icon: {
                 Image(systemName: "tray.full.fill").foregroundStyle(.teal)
             }
-            .help("Prepared in the batch, not yet in the control sheet")
         } else {
             Label {
                 Text(row.outcome?.kind == .project ? row.outcome!.displayLabel : row.status.title).lineLimit(1)
@@ -183,19 +184,19 @@ struct NoteCell: View {
             }
             Text(row.note).lineLimit(1)
         }
-        .help(row.note.isEmpty ? "" : "\(row.note)\n\(row.noteKind.title)")
     }
 }
 
 struct ProjectTags: View {
-    var model: AppModel
+    var definitions: [String: ProjectDefinition]
     var row: CaseRow
+    var showsHelp = false
 
     var body: some View {
         HStack(spacing: 3) {
             ForEach(Array(Set(row.projects + row.claimedBy)).sorted(), id: \.self) { id in
-                if let p = model.project(id) {
-                    ProjectTag(definition: p.definition, listed: row.projects.contains(id))
+                if let d = definitions[id] {
+                    ProjectTag(definition: d, listed: row.projects.contains(id), showsHelp: showsHelp)
                 }
             }
         }
@@ -235,7 +236,7 @@ struct CaseInspector: View {
                 Text(row.title).font(.headline).textSelection(.enabled)
                 StatusCell(row: row)
                 Button {
-                    openWindow(id: DecisionWindow.id, value: row.caseID)
+                    model.openDecision(row.caseID, with: openWindow)
                 } label: {
                     Label("Decision Support…", systemImage: "person.crop.rectangle.stack")
                 }

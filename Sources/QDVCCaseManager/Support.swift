@@ -307,6 +307,8 @@ struct HighlightedText: View {
 struct ProjectTag: View {
     var definition: ProjectDefinition
     var listed = true
+    /// Off in table cells, which must not carry tooltips.
+    var showsHelp = true
 
     var body: some View {
         let colour = Style.colour(definition.colour)
@@ -317,8 +319,8 @@ struct ProjectTag: View {
             .foregroundStyle(listed ? Color.white : colour)
             .background(Capsule().fill(listed ? colour : Color.clear))
             .overlay(Capsule().strokeBorder(colour, style: StrokeStyle(lineWidth: 1, dash: listed ? [] : [2, 2])))
-            .help(listed ? "On the \(definition.name) worksheet"
-                         : "Belongs to \(definition.name) (by outcome or note) but is missing from its worksheet")
+            .help(showsHelp ? (listed ? "On the \(definition.name) worksheet"
+                                      : "Belongs to \(definition.name) (by outcome or note) but is missing from its worksheet") : "")
     }
 }
 

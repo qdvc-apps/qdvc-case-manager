@@ -46,7 +46,8 @@ page, and (on case pages) an inspector. The layout is explained in
   row for the case, its project worksheet rows and every catalogue column.
 - Double-click a case (or ⌘D) for **Decision Support**.
 
-**Decision Support** (a window per case, to sit beside the paperwork)
+**Decision Support** (a window to sit beside the paperwork; double-click
+another case and it moves to that one)
 
 - Search the analysts' specialisation/expertise: words and "quoted
   phrases", all or any, ignoring case and accents; matches are highlighted.
@@ -112,6 +113,12 @@ list show which cases are on a worksheet (filled) or should be (outlined).
   checks; comparison and special-note settings. The foot of the sidebar
   always shows how fresh both exports are (orange when older than a week,
   adjustable in Settings).
+
+**Status bar**: along the foot of the main window, what the app is busy
+with (updating figures in the background, saving, importing), how many
+cases the table shows, and any moment the app stopped responding. Its
+Activity log lists recent work with timings, marks the work that held up
+the window, and can be copied as a report.
 
 ## Requirements
 

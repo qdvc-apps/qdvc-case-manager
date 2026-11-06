@@ -5,6 +5,16 @@ enum DecisionWindow {
     static let id = "decision"
 }
 
+/// The Decision Support window's content: the case the model says.
+struct DecisionWindowRoot: View {
+    @Environment(AppModel.self) private var model
+
+    var body: some View {
+        @Bindable var model = model
+        DecisionSupportView(caseID: $model.decisionCaseID)
+    }
+}
+
 /// How the candidate analysts are ordered.
 enum AnalystSort: String, CaseIterable, Identifiable {
     case relevance, lightMonth, lightYear, name
@@ -403,7 +413,9 @@ struct CaseSummaryHeader: View {
                 HStack(spacing: 14) {
                     Label(row.genre.isEmpty ? "No genre" : row.genre, systemImage: "tag")
                     Label("Registered \(row.registrationDate?.display ?? row.registrationText)", systemImage: "calendar")
-                    ProjectTags(model: model, row: row)
+                    ProjectTags(definitions: Dictionary(model.data.projects.map { ($0.id, $0.definition) },
+                                                        uniquingKeysWith: { a, _ in a }),
+                                row: row, showsHelp: true)
                 }
                 .font(.callout)
                 .foregroundStyle(.secondary)

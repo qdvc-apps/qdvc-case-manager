@@ -10,12 +10,15 @@
 - **Main window**: a standard NavigationSplitView (sidebar, page,
   inspector), toolbar and search field, so the app picks up Liquid Glass on
   macOS 26 without custom chrome.
-- **Decision Support**: a `WindowGroup` keyed by case ID. The supervisor
-  works with the case paperwork on another screen, so this is a window of
-  its own that can sit beside it, rather than a sheet over the case list.
-  Opening a case that already has a window brings that window forward.
-  "Add to Batch & Next Case" moves the same window on, so a batch is worked
-  through without opening a window per case.
+- **Decision Support**: one window of its own, to sit beside the case
+  paperwork on another screen, rather than a sheet over the case list.
+  Opening another case (double-click, ⌘D) moves the window to it, as "Add
+  to Batch & Next Case" does. It used to be a window per case; those
+  stayed open behind the main window all session, each redrawing with
+  every change, and the app slowed down the longer it ran.
+- **Status bar** along the foot of the main window: work in progress
+  (background figure updates, saves, imports), what the case table shows,
+  and moments the app stopped responding (see MAINTENANCE.md §2.3).
 
 ## Sidebar
 
