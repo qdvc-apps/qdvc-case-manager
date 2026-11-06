@@ -12,10 +12,10 @@ struct CaseListView: View {
             } else {
                 // Filtered and sorted by the model when the search, year,
                 // page or data change, not on every redraw.
-                CaseTable(rows: model.caseRows, sortOrder: $model.caseSort)
+                CaseTable(rows: model.caseRows, sortOrder: model.binding(\.caseSort))
             }
         }
-        .searchable(text: $model.searchText, placement: .toolbar, prompt: "ID, title, genre, analyst, note")
+        .searchable(text: model.binding(\.searchText), placement: .toolbar, prompt: "ID, title, genre, analyst, note")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 YearPicker(model: model)
@@ -36,7 +36,7 @@ struct CaseListView: View {
                 .help("Show or hide the case inspector")
             }
         }
-        .inspector(isPresented: $model.inspectorShown) {
+        .inspector(isPresented: model.binding(\.inspectorShown)) {
             CaseInspector(model: model)
                 .inspectorColumnWidth(min: 280, ideal: 340, max: 520)
         }
@@ -46,10 +46,10 @@ struct CaseListView: View {
 /// The global filter on the year cases were registered. There is no "all
 /// years": one year at a time keeps the tables manageable.
 struct YearPicker: View {
-    @Bindable var model: AppModel
+    var model: AppModel
 
     var body: some View {
-        Picker("Year", selection: $model.selectedYear) {
+        Picker("Year", selection: model.binding(\.selectedYear)) {
             ForEach(model.yearSummaries) { y in
                 Text(y.menuTitle).tag(y.year)
             }
@@ -87,7 +87,7 @@ struct CaseTable: View {
         // Cells are given plain values: none reads the model or carries a
         // tooltip (docs/MAINTENANCE.md §2.2).
         let projects = Dictionary(model.data.projects.map { ($0.id, $0.definition) }, uniquingKeysWith: { a, _ in a })
-        Table(rows, selection: $model.selectedCaseIDs, sortOrder: $sortOrder) {
+        Table(rows, selection: model.binding(\.selectedCaseIDs), sortOrder: $sortOrder) {
             TableColumn("Case ID", value: \.caseID) { row in CaseIDCell(row: row) }
                 .width(min: 110, ideal: 140)
             TableColumn("Title", value: \.title) { row in

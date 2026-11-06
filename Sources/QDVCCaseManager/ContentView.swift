@@ -12,8 +12,10 @@ struct ContentView: View {
             Sidebar()
                 .navigationSplitViewColumnWidth(min: 220, ideal: 250, max: 340)
         } detail: {
+            // Pages start at the top left: one that doesn't fill the window is
+            // never centred in it.
             DetailView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .safeAreaInset(edge: .bottom, spacing: 0) {
                     if model.isOpen { StatusBar(model: model) }
                 }
@@ -87,7 +89,8 @@ struct Sidebar: View {
     @Environment(AppModel.self) private var model
 
     var body: some View {
-        List(selection: Binding<Page?>(get: { model.page }, set: { if let p = $0 { model.page = p } })) {
+        // Ignores writes of the page already shown (see AppModel.binding).
+        List(selection: Binding<Page?>(get: { model.page }, set: { if let p = $0, p != model.page { model.page = p } })) {
             Section("Cases") {
                 ForEach(CaseScope.allCases) { scope in
                     Label(scope.title, systemImage: scope.symbol)

@@ -65,6 +65,11 @@ public struct WorkloadSnapshot: Sendable, Equatable {
     public var activeMean: Double
     public var balance: [BalancePoint]
     public var maxCell: Int
+    /// Cases in this period allocated to shorthands not on the Analysts
+    /// page (not shown), by shorthand.
+    public var unregistered: [String: Int] = [:]
+    /// Cases in this period allocated to inactive analysts left out.
+    public var inactiveHidden = 0
 
     public func analysts(_ sort: WorkloadSort) -> [String] { order[sort] ?? pivot.analysts }
 }
@@ -173,8 +178,12 @@ public struct Derived: Sendable {
                 let inView = p.analysts.filter { activeSet.contains($0) }
                 let mean = inView.isEmpty ? 0 : Double(inView.reduce(0) { $0 + totals[$1]! }) / Double(inView.count)
                 let balance = range.compactMap { m in p.balance(m, pool: active).map { BalancePoint(month: m, cv: $0) } }
-                d.workload[WorkloadKey(months: months, includeInactive: includeInactive)] =
-                    WorkloadSnapshot(pivot: p, order: order, activeMean: mean, balance: balance, maxCell: p.maxCell)
+                var snapshot = WorkloadSnapshot(pivot: p, order: order, activeMean: mean, balance: balance, maxCell: p.maxCell)
+                for (shorthand, n) in p.unlisted {
+                    if book.analyst(for: shorthand) == nil { snapshot.unregistered[shorthand, default: 0] += n }
+                    else { snapshot.inactiveHidden += n }
+                }
+                d.workload[WorkloadKey(months: months, includeInactive: includeInactive)] = snapshot
             }
         }
 

@@ -183,7 +183,7 @@ final class AppModel {
         didSet {
             guard page != oldValue else { return }
             lastAction = "Opened \(pageTitle)"
-            refreshCaseRows()
+            scheduleCaseRefresh()
         }
     }
     var selectedCaseIDs: Set<String> = []
@@ -200,7 +200,7 @@ final class AppModel {
     /// changes, not every time a view is drawn.
     private(set) var caseRows: [CaseRow] = []
     var caseSort: [KeyPathComparator<CaseRow>] = [KeyPathComparator(\CaseRow.registrationSort, order: .reverse)] {
-        didSet { refreshCaseRows() }
+        didSet { if caseSort != oldValue { scheduleCaseRefresh() } }
     }
     /// The case shown in the Decision Support window. There is one such
     /// window, which moves from case to case: a window per case, left
@@ -216,7 +216,12 @@ final class AppModel {
     private(set) var activityLog: [ActivityRecord] = []
     /// Moments the app stopped responding, newest first.
     private(set) var stalls: [Stall] = []
-    @ObservationIgnored private var lastAction = "Started"
+    /// What the user last did: shown with any freeze, and kept where the
+    /// stall monitor can write it out if the app hangs.
+    @ObservationIgnored private var lastAction = "Started" {
+        didSet { Breadcrumbs.shared.add(lastAction) }
+    }
+    @ObservationIgnored private var caseRefreshQueued = false
     @ObservationIgnored private var stallMonitor: StallMonitor?
     @ObservationIgnored private var filterTask: Task<Void, Never>?
     @ObservationIgnored private var rebuildActivity: UUID?
@@ -228,7 +233,7 @@ final class AppModel {
             guard selectedYear != oldValue else { return }
             lastAction = "Chose the year \(selectedYear == YearSummary.undated ? "No date" : String(selectedYear))"
             recount()
-            refreshCaseRows()
+            scheduleCaseRefresh()
         }
     }
     var inspectorShown: Bool = Prefs.inspectorShown {
@@ -409,7 +414,7 @@ final class AppModel {
         let snapshot = data
         let day = today
         if let then { afterRebuild.append(then) }
-        isUpdating = true
+        if !isUpdating { isUpdating = true }
         if rebuildActivity == nil { rebuildActivity = begin("Updating figures") }
         computeTask?.cancel()
         computeTask = Task { [weak self] in
@@ -423,7 +428,7 @@ final class AppModel {
 
     private func apply(_ result: Derived) {
         derived = result
-        isUpdating = false
+        if isUpdating { isUpdating = false }
         if let a = rebuildActivity {
             end(a)
             rebuildActivity = nil
@@ -443,7 +448,7 @@ final class AppModel {
         for r in book.rows where inSelectedYear(r) {
             for scope in CaseScope.allCases where scope.includes(r) { counts[scope, default: 0] += 1 }
         }
-        scopeCounts = counts
+        if counts != scopeCounts { scopeCounts = counts }
     }
 
     func inSelectedYear(_ row: CaseRow) -> Bool {
@@ -509,6 +514,31 @@ final class AppModel {
         }
     }
 
+    /// Refreshes the case rows on the next turn of the run loop, never in
+    /// the middle of a view update (see `binding(_:)`).
+    private func scheduleCaseRefresh() {
+        guard !caseRefreshQueued else { return }
+        caseRefreshQueued = true
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.caseRefreshQueued = false
+            self.refreshCaseRows()
+        }
+    }
+
+    /// A binding for a control (table selection and sort, search field,
+    /// pickers, sidebar) that ignores writes of the value already there.
+    /// `@Observable` tells every observer about every write, even of an
+    /// unchanged value, and AppKit-backed controls write back while they
+    /// update: together that can loop forever, which froze the app.
+    func binding<T: Equatable>(_ keyPath: ReferenceWritableKeyPath<AppModel, T>) -> Binding<T> {
+        Binding(
+            get: { [unowned self] in self[keyPath: keyPath] },
+            set: { [unowned self] value in
+                if self[keyPath: keyPath] != value { self[keyPath: keyPath] = value }
+            })
+    }
+
     /// Filters and sorts the case table's rows. The table is only given a
     /// new array when the rows really changed.
     func refreshCaseRows() {
@@ -542,6 +572,7 @@ final class AppModel {
     }
 
     func begin(_ title: String) -> UUID {
+        Breadcrumbs.shared.add("Started: \(title)")
         let a = Activity(title: title)
         activities.append(a)
         return a.id
@@ -550,12 +581,14 @@ final class AppModel {
     func end(_ id: UUID) {
         guard let i = activities.firstIndex(where: { $0.id == id }) else { return }
         let a = activities.remove(at: i)
+        Breadcrumbs.shared.add("Finished: \(a.title)")
         log(a.title, Date().timeIntervalSince(a.started), onMainThread: false)
     }
 
     /// Runs main-thread work, recording how long it took (always, or only
     /// when longer than `onlyIfOver` seconds).
     func measure<T>(_ title: String, onlyIfOver threshold: TimeInterval = 0, _ body: () throws -> T) rethrows -> T {
+        Breadcrumbs.shared.add("Main thread: \(title)")
         let start = Date()
         defer {
             let d = Date().timeIntervalSince(start)
@@ -578,12 +611,21 @@ final class AppModel {
     /// going on (docs/MAINTENANCE.md §2.3).
     private func startStallMonitor() {
         guard stallMonitor == nil else { return }
+        if let previous = HangFile.takePrevious() {
+            stalls.insert(Stall(at: previous.date, duration: previous.seconds,
+                                context: "In the previous session the app stopped responding and was closed (probably Force Quit). " + previous.summary),
+                          at: 0)
+            previousHang = previous.text
+        }
         let monitor = StallMonitor(threshold: 0.4) { [weak self] seconds in
             MainActor.assumeIsolated { self?.recordStall(seconds) }
         }
         monitor.start()
         stallMonitor = monitor
     }
+
+    /// The hang report left by the previous session, if it was force-quit.
+    @ObservationIgnored private var previousHang: String?
 
     private func recordStall(_ seconds: TimeInterval) {
         // A modal open panel or alert isn't a freeze.
@@ -609,6 +651,7 @@ final class AppModel {
                      "Workspace: \(book.rows.count) cases, \(data.analysts.count) analysts, \(data.projects.count) projects",
                      "", "Moments the app stopped responding:"]
         lines += stalls.isEmpty ? ["  none"] : stalls.map { "  \(time.string(from: $0.at))  \(Self.duration($0.duration))  \($0.context)" }
+        if let previousHang { lines += ["", "Previous session (closed while not responding):", previousHang] }
         lines += ["", "Recent work:"]
         lines += activityLog.map {
             "  \(time.string(from: $0.finished))  \(Self.duration($0.duration))  \($0.title)\($0.onMainThread ? "" : " (background)")"

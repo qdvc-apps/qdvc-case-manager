@@ -87,7 +87,9 @@ list show which cases are on a worksheet (filled) or should be (outlined).
 **Insights**
 
 - **Workload**: the familiar pivot, analysts by month, shaded as a heat
-  map, with totals, busiest first; click a cell for its cases. Plus this month's total
+  map, with totals, busiest first; click a cell for its cases. Only
+  analysts on the Analysts page are listed (inactive ones with Include
+  Inactive); cases against anyone else are noted below the dashboard. Plus this month's total
   and average, the busiest and lightest analysts, a balance index (how
   evenly the work is spread), cases per month, totals per analyst against
   the average, and the balance month by month. Export the pivot as CSV.
@@ -118,7 +120,8 @@ list show which cases are on a worksheet (filled) or should be (outlined).
 with (updating figures in the background, saving, importing), how many
 cases the table shows, and any moment the app stopped responding. Its
 Activity log lists recent work with timings, marks the work that held up
-the window, and can be copied as a report.
+the window, and can be copied as a report. If the app ever had to be
+force-quit while not responding, the next launch shows what it was doing.
 
 ## Requirements
 

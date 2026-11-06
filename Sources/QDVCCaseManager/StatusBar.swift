@@ -2,15 +2,82 @@ import AppKit
 import CaseCore
 import SwiftUI
 
+/// The last things the user and the app did, kept where a background
+/// thread can read them while the main thread is stuck.
+final class Breadcrumbs: @unchecked Sendable {
+    static let shared = Breadcrumbs()
+    private let lock = NSLock()
+    private var items: [(Date, String)] = []
+
+    func add(_ text: String) {
+        lock.lock()
+        items.append((Date(), text))
+        if items.count > 40 { items.removeFirst(items.count - 40) }
+        lock.unlock()
+    }
+
+    func recent() -> [(Date, String)] {
+        lock.lock()
+        defer { lock.unlock() }
+        return items
+    }
+}
+
+/// A hang that may never end is written to
+/// `~/Library/Logs/QDVC Case Manager/unresponsive.txt` while it is going on
+/// (from the monitor's thread), and removed if the app recovers. If the app
+/// had to be force-quit, the next launch finds it.
+enum HangFile {
+    struct Previous {
+        var date: Date
+        var seconds: TimeInterval
+        var summary: String
+        var text: String
+    }
+
+    static var url: URL {
+        FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/Logs/QDVC Case Manager/unresponsive.txt")
+    }
+
+    static func write(seconds: TimeInterval, started: Date) {
+        let time = ISO8601DateFormatter()
+        var lines = ["seconds: \(Int(seconds))", "started: \(time.string(from: started))", "Last actions (oldest first):"]
+        lines += Breadcrumbs.shared.recent().map { "  \(time.string(from: $0.0))  \($0.1)" }
+        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try? (lines.joined(separator: "\n") + "\n").write(to: url, atomically: true, encoding: .utf8)
+    }
+
+    static func remove() {
+        try? FileManager.default.removeItem(at: url)
+    }
+
+    /// The previous session's hang, if any; the file is then moved aside.
+    static func takePrevious() -> Previous? {
+        guard let text = try? String(contentsOf: url, encoding: .utf8) else { return nil }
+        let lines = text.split(separator: "\n").map(String.init)
+        let seconds = lines.first.flatMap { TimeInterval($0.replacingOccurrences(of: "seconds: ", with: "")) } ?? 0
+        let date = lines.dropFirst().first.flatMap { ISO8601DateFormatter().date(from: $0.replacingOccurrences(of: "started: ", with: "")) } ?? Date()
+        let actions = lines.filter { $0.hasPrefix("  ") }.suffix(4).map { $0.trimmingCharacters(in: .whitespaces) }
+        let previous = url.deletingLastPathComponent().appendingPathComponent("unresponsive-previous.txt")
+        try? FileManager.default.removeItem(at: previous)
+        try? FileManager.default.moveItem(at: url, to: previous)
+        return Previous(date: date, seconds: seconds,
+                        summary: "Last actions: " + actions.joined(separator: " → "), text: text)
+    }
+}
+
 /// Notices when the main thread stops responding: a background timer
 /// sends the main thread a tiny task every 0.2 s and measures how long it
 /// takes to run. Longer than `threshold` is reported (on the main thread,
-/// once it is free again).
+/// once it is free again); longer than 3 s is also written to `HangFile`
+/// at once, in case it never ends.
 final class StallMonitor: @unchecked Sendable {
     private let queue = DispatchQueue(label: "org.qdvc.case-manager.stall-monitor", qos: .utility)
     private var timer: DispatchSourceTimer?
-    /// Accessed only on `queue`.
-    private var waiting = false
+    // Accessed only on `queue`.
+    private var waitingSince: UInt64?
+    private var lastWritten: TimeInterval = 0
     private let threshold: TimeInterval
     private let report: @Sendable (TimeInterval) -> Void
 
@@ -28,15 +95,28 @@ final class StallMonitor: @unchecked Sendable {
     }
 
     private func tick() {
-        guard !waiting else { return }
-        waiting = true
-        let sent = DispatchTime.now().uptimeNanoseconds
+        let now = DispatchTime.now().uptimeNanoseconds
+        if let since = waitingSince {
+            // Still waiting: write the hang out at 3 s, then every 5 s.
+            let waited = TimeInterval(now - since) / 1_000_000_000
+            if waited >= 3 && waited - lastWritten >= (lastWritten == 0 ? 0 : 5) {
+                lastWritten = waited
+                HangFile.write(seconds: waited, started: Date().addingTimeInterval(-waited))
+            }
+            return
+        }
+        waitingSince = now
         let threshold = self.threshold
         let report = self.report
         DispatchQueue.main.async { [weak self] in
-            let lag = TimeInterval(DispatchTime.now().uptimeNanoseconds - sent) / 1_000_000_000
+            let lag = TimeInterval(DispatchTime.now().uptimeNanoseconds - now) / 1_000_000_000
             if lag >= threshold { report(lag) }
-            self?.queue.async { self?.waiting = false }
+            self?.queue.async {
+                guard let self else { return }
+                if self.lastWritten > 0 { HangFile.remove() }   // it recovered
+                self.lastWritten = 0
+                self.waitingSince = nil
+            }
         }
     }
 }

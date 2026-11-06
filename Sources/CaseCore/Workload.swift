@@ -15,6 +15,9 @@ public struct WorkloadPivot: Sendable, Equatable {
     public var analysts: [String]
     public var counts: [String: [MonthKey: Int]]
     public var cases: [String: [MonthKey: [String]]]
+    /// Cases in range against analysts not in the pool, by shorthand: not
+    /// listed, nor in any total.
+    public var unlisted: [String: Int] = [:]
 
     public func count(_ analyst: String, _ month: MonthKey) -> Int { counts[analyst]?[month] ?? 0 }
     public func cases(_ analyst: String, _ month: MonthKey) -> [String] { cases[analyst]?[month] ?? [] }
@@ -68,17 +71,21 @@ public enum Workload {
 
     public static func pivot(_ events: [WorkloadEvent], months: [MonthKey], analysts: [String]) -> WorkloadPivot {
         let wanted = Set(months)
+        let pool = Set(analysts)
         var counts: [String: [MonthKey: Int]] = [:]
         var cases: [String: [MonthKey: [String]]] = [:]
+        var unlisted: [String: Int] = [:]
         for e in events where wanted.contains(e.month) {
+            // Only the pool is listed: an analyst not on the Analysts page
+            // (or inactive, when they're left out) is counted aside.
+            guard pool.contains(e.analyst) else {
+                unlisted[e.analyst, default: 0] += 1
+                continue
+            }
             counts[e.analyst, default: [:]][e.month, default: 0] += 1
             cases[e.analyst, default: [:]][e.month, default: []].append(e.caseID)
         }
-        // Analysts in the pool first, then any others with cases in range.
-        var order = analysts
-        let extra = Set(counts.keys).subtracting(analysts).sorted()
-        order += extra
-        return WorkloadPivot(months: months, analysts: order, counts: counts, cases: cases)
+        return WorkloadPivot(months: months, analysts: analysts, counts: counts, cases: cases, unlisted: unlisted)
     }
 
     public static func metrics(_ events: [WorkloadEvent], today: LocalDate) -> [String: AnalystMetrics] {

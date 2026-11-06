@@ -81,6 +81,7 @@ struct WorkloadView: View {
                     }
                     .padding(4)
                 }
+                if !s.unregistered.isEmpty || s.inactiveHidden > 0 { notShown(s) }
                 let uncounted = model.derived.workloadSummary.uncounted
                 if uncounted > 0 {
                     Label("\(uncounted) allocated case\(uncounted == 1 ? " is" : "s are") not counted: no allocation date or no analyst in the control sheet.",
@@ -90,6 +91,28 @@ struct WorkloadView: View {
             }
             .padding(20)
         }
+    }
+
+    /// What the heat map leaves out: shorthands not on the Analysts page,
+    /// and inactive analysts when they are hidden.
+    private func notShown(_ s: WorkloadSnapshot) -> some View {
+        let unregistered = s.unregistered.values.reduce(0, +)
+        return HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Image(systemName: "info.circle").foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 2) {
+                if unregistered > 0 {
+                    Text("Not shown: \(unregistered) case\(unregistered == 1 ? "" : "s") in this period allocated to \(s.unregistered.keys.sorted().joined(separator: ", ")), not on the Analysts page.")
+                }
+                if s.inactiveHidden > 0 {
+                    Text("Not shown: \(s.inactiveHidden) case\(s.inactiveHidden == 1 ? "" : "s") allocated to inactive analysts (turn on Include Inactive to see them).")
+                }
+            }
+            if unregistered > 0 {
+                Button("Go to Analysts") { model.page = .analysts }.controlSize(.small)
+            }
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
     }
 
     private func summary(_ w: WorkloadSummary) -> some View {

@@ -256,10 +256,11 @@ final class WorkloadTests: XCTestCase {
         XCTAssertEqual(events.map(\.caseID).sorted(), ["C1", "C2", "C4", "C9"])
         let oct = MonthKey(year: 2026, month: 10), nov = MonthKey(year: 2026, month: 11)
         let p = Workload.pivot(events, months: [oct, nov], analysts: ["AJB", "KM"])
-        XCTAssertEqual(p.analysts, ["AJB", "KM", "ZZ"])
+        XCTAssertEqual(p.analysts, ["AJB", "KM"], "only the pool is listed")
         XCTAssertEqual(p.count("KM", oct), 1)
-        XCTAssertEqual(p.columnTotal(nov), 2)
-        XCTAssertEqual(p.grandTotal, 4)
+        XCTAssertEqual(p.columnTotal(nov), 1)
+        XCTAssertEqual(p.grandTotal, 3)
+        XCTAssertEqual(p.unlisted, ["ZZ": 1], "counted aside, in no total")
         XCTAssertEqual(p.cases("AJB", oct), ["C1"])
 
         let m = Workload.metrics(events, today: LocalDate(year: 2026, month: 11, day: 5)!)
@@ -441,6 +442,18 @@ final class HostingTests: XCTestCase {
                 if line.contains(".width(") { inColumn = false }
             }
         }
+        // Controls bind to the model through AppModel.binding(_:), which
+        // ignores writes of an unchanged value: a plain `$model.x` binding on
+        // a table, list, picker or search field could loop forever (every
+        // write notifies observers; AppKit controls write back as they update).
+        let allowed = ["$model.sheet", "$model.supervisorName", "$model.staleAfterDays"]
+        for (file, text) in zip(files, texts) {
+            for line in text.split(separator: "\n") where line.contains("$model.") {
+                let ok = allowed.contains { line.contains($0) }
+                XCTAssertTrue(ok, "\(file.lastPathComponent): use model.binding(\\.…) for controls: \(line.trimmingCharacters(in: .whitespaces))")
+            }
+        }
+
         // Views used as cells don't read the model or carry tooltips either.
         for cell in ["CaseIDCell", "StatusCell", "NoteCell", "ProjectTags", "ShorthandText"] {
             guard let text = texts.first(where: { $0.contains("struct \(cell): View") }) else {
@@ -465,8 +478,10 @@ final class DerivedTests: XCTestCase {
 
         let w = d.workload[WorkloadKey(months: 12, includeInactive: false)]!
         XCTAssertEqual(w.pivot.months.count, 12)
-        XCTAssertEqual(w.analysts(.total), ["KM", "AJB", "ZZ"], "busiest first")
-        XCTAssertEqual(w.analysts(.name), ["AJB", "KM", "ZZ"])
+        XCTAssertEqual(w.analysts(.total), ["KM", "AJB"], "busiest first; ZZ isn't on the Analysts page")
+        XCTAssertEqual(w.analysts(.name), ["AJB", "KM"])
+        XCTAssertEqual(w.unregistered, ["ZZ": 1])
+        XCTAssertEqual(w.inactiveHidden, 0)
         XCTAssertEqual(w.activeMean, 1.5)
 
         XCTAssertEqual(d.workloadSummary.total, 1, "KM's Waymaker case this month")

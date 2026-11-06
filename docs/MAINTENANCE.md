@@ -148,6 +148,17 @@ the last user action and the main-thread work that just finished. Modal
 panels and alerts aren't counted. "Copy Report" in the Activity popover
 puts it all on the clipboard: ask for it with any report of slowness.
 
+A stall that is still going after 3 s is written at once, from the
+monitor's own thread, to `~/Library/Logs/QDVC Case Manager/unresponsive.txt`
+with the last 40 breadcrumbs (user actions and the work the app started
+and finished; `Breadcrumbs` is lock-protected for this). It is rewritten
+every 5 s while the hang lasts and deleted if the app recovers. If the app
+had to be force-quit, the next launch moves it to
+`unresponsive-previous.txt` and lists it in the Activity log, and the
+report includes it. macOS also writes its own hang report (with the main
+thread's stack) when an unresponsive app is force-quit: Console.app ›
+Reports.
+
 ### 2.2 Layout notes
 
 - Table column builders take at most 10 columns; the case and batch
@@ -161,6 +172,16 @@ puts it all on the clipboard: ask for it with any report of slowness.
 - Don't attach a `.popover` or `.help` to every cell of a large grid:
   each brings AppKit machinery that has to be laid out and tracked. The
   heat map attaches its popover only to the open cell.
+- **Controls bind through `model.binding(\.x)`, never `$model.x`.**
+  `@Observable` tells every observer about every write, even of the
+  value already there, and AppKit-backed controls (`Table` selection and
+  sort order, the sidebar `List`, pickers, the search field) can write
+  back while they update. With plain bindings that can loop for ever:
+  sorting by a column and switching to the case list froze the app. The
+  helper ignores unchanged writes. Property observers in `AppModel` don't
+  do work in place either: they schedule it for the next turn of the run
+  loop (`scheduleCaseRefresh`), never in the middle of a view update.
+  `HostingTests` allows `$model.` only for the sheet and Settings fields.
 - **Table cells are plain values.** They don't read the model (each cell
   would observe it, and hundreds come and go as a filter is applied and
   removed) and carry no tooltips (each `.help` brings AppKit tracking

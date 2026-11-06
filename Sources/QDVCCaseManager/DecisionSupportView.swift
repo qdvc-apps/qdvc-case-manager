@@ -10,8 +10,7 @@ struct DecisionWindowRoot: View {
     @Environment(AppModel.self) private var model
 
     var body: some View {
-        @Bindable var model = model
-        DecisionSupportView(caseID: $model.decisionCaseID)
+        DecisionSupportView(caseID: model.binding(\.decisionCaseID))
     }
 }
 

@@ -34,7 +34,9 @@ struct BatchView: View {
                                 .padding(.horizontal, 12).padding(.vertical, 6)
                         }
                     }
-                    .frame(minHeight: 180)
+                    // Both panes may grow: a split view otherwise keeps
+                    // them at their minimum heights and centres them.
+                    .frame(minHeight: 180, maxHeight: .infinity, alignment: .top)
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
                             Text("As it will be pasted").font(.headline)
@@ -45,10 +47,12 @@ struct BatchView: View {
                         .padding(.horizontal, 12).padding(.vertical, 8)
                         SheetGrid(headers: model.batchHeaders, rows: rows.filter { $0.state == .pending }.map(\.values))
                     }
-                    .frame(minHeight: 140)
+                    .frame(minHeight: 140, maxHeight: .infinity, alignment: .top)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 Menu {
